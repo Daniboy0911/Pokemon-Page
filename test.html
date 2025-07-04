@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TCGdex API Test</title>
+</head>
+
+<body>
+    <h1>TCGdex API Test</h1>
+    <div id="result"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tcgdex/sdk@2/dist/tcgdex.browser.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const resultDiv = document.getElementById('result');
+            try {
+                resultDiv.innerHTML = 'Testing TCGdex SDK...';
+
+                // Test 1: Check if TCGdex is defined
+                if (typeof TCGdex === 'undefined') {
+                    throw new Error('TCGdex SDK is not loaded');
+                }
+                resultDiv.innerHTML += '<br>✅ SDK loaded successfully';
+
+                // Test 2: Create instance
+                const tcgdex = new TCGdex('es');
+                resultDiv.innerHTML += '<br>✅ TCGdex instance created';
+
+                // Test 3: Try direct API call
+                const response = await fetch('https://api.tcgdex.net/v2/es/cards');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                resultDiv.innerHTML += `<br>✅ Direct API call successful. Found ${data.length} cards`;
+
+                // Test 4: Try SDK call
+                const cards = await tcgdex.card.list();
+                resultDiv.innerHTML += `<br>✅ SDK call successful. Found ${cards.length} cards`;
+
+                // Test 5: Try getting a specific card
+                const card = await tcgdex.card.get('swsh3-136');
+                resultDiv.innerHTML += `<br>✅ Got specific card: ${card.name}`;
+
+                // Display card image if available
+                if (card.images?.small || card.images?.large) {
+                    const img = document.createElement('img');
+                    img.src = card.images.small || card.images.large;
+                    img.style.maxWidth = '200px';
+                    resultDiv.appendChild(img);
+                }
+
+            } catch (error) {
+                resultDiv.innerHTML += `<br>❌ Error: ${error.message}`;
+                console.error('Test error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

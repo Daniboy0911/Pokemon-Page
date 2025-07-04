@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pokémon Trading Card Game - Explora series, cartas y expansiones">
+    <title>Pokémon Trading Card Game</title>
+    <!-- Preload important assets -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" as="style">
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3">
+        <nav class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#" aria-label="Pokemon TCG Home">
+                <img src="https://placehold.co/150x50" alt="Pokemon TCG Logo" width="150" height="50">
+            </a>
+
+            <!-- Hamburger menu for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation items -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav me-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" aria-current="page">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cartas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Series</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Expansiones</a>
+                    </li>
+                </ul>
+                <!-- Profile Icon -->
+                <div class="profile-icon">
+                    <a href="#" class="text-dark" aria-label="Perfil de usuario">
+                        <i class="bi bi-person-circle fs-3"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Carousel -->
+        <section id="mainCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Destacados">
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+
+            <!-- Carousel Items -->
+            <div class="carousel-inner">
+                <!-- First Slide -->
+                <div class="carousel-item active">
+                    <div class="carousel-overlay"></div>
+                    <img src="https://assets.pokemon.com/assets/cms2/img/trading-card-game/_tiles/series/swsh/series-info/swsh-series-announcement-169-en.jpg"
+                        class="d-block w-100" alt="Series Pokemon TCG" width="1920" height="1080" loading="eager">
+                    <div class="carousel-caption">
+                        <h2>SERIES LANZADAS<br>HASTA LA FECHA</h2>
+                        <a href="#" class="btn btn-light">Ver más</a>
+                    </div>
+                </div>
+
+                <!-- Second Slide -->
+                <div class="carousel-item">
+                    <div class="carousel-overlay"></div>
+                    <img src="https://assets.pokemon.com/assets/cms2/img/trading-card-game/_tiles/swsh12/featured-cards/swsh12-featured-cards-169-en.jpg"
+                        class="d-block w-100" alt="Nuevas cartas Pokemon" width="1920" height="1080" loading="lazy">
+                    <div class="carousel-caption">
+                        <h2>NUEVAS CARTAS<br>DISPONIBLES</h2>
+                        <a href="#" class="btn btn-light">Ver más</a>
+                    </div>
+                </div>
+
+                <!-- Third Slide -->
+                <div class="carousel-item">
+                    <div class="carousel-overlay"></div>
+                    <img src="https://assets.pokemon.com/assets/cms2/img/trading-card-game/_tiles/swsh11/featured-cards/swsh11-featured-cards-169-en.jpg"
+                        class="d-block w-100" alt="Expansiones Pokemon TCG" width="1920" height="1080" loading="lazy">
+                    <div class="carousel-caption">
+                        <h2>EXPANSIONES<br>RECIENTES</h2>
+                        <a href="#" class="btn btn-light">Ver más</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                <div class="carousel-control-background">
+                    <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                </div>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                <div class="carousel-control-background">
+                    <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </div>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </section>
+
+        <!-- Card Expansions Section -->
+        <section class="expansions-section container py-5">
+            <h2 class="section-title mb-4">EXPANSIONES DE CARTAS</h2>
+            <div class="row g-4" id="expansions-container">
+                <!-- Cards will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Expansion Modal -->
+        <div class="modal fade" id="expansionModal" tabindex="-1" aria-labelledby="expansionModalLabel"
+            aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="expansionModalLabel">Detalles de la Expansión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img id="modalExpansionImage" src="" alt="" class="img-fluid mb-3">
+                            </div>
+                            <div class="col-md-6">
+                                <h3 id="modalExpansionName" class="mb-3"></h3>
+                                <p id="modalExpansionReleaseDate" class="text-muted"></p>
+                                <p id="modalExpansionCardCount" class="mb-3"></p>
+                                <p id="modalExpansionDescription" class="mb-4"></p>
+                                <div id="modalExpansionSymbol" class="mb-3"></div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4>Cartas Destacadas</h4>
+                            <div id="modalFeaturedCards" class="row g-3 mt-2">
+                                <!-- Featured cards will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <a href="#" id="modalViewAllCards" class="btn btn-primary">Ver todas las cartas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Summary Section -->
+        <section class="game-summary py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <img src="https://assets.pokemon.com/assets/cms2/img/trading-card-game/_tiles/pokemon-trading-card-game-logo.png"
+                            alt="Pokemon Trading Card Game" class="tcg-logo">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="summary-content">
+                            <h2>RESUMEN DE JUEGO</h2>
+                            <p>Obtén toda la información necesaria para jugar al Juego de Cartas Coleccionables</p>
+                            <a href="#" class="btn btn-dark">Más información</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Games Section -->
+        <section class="videogames-section py-5">
+            <div class="container">
+                <div class="videogames-hero mb-5">
+                    <img src="https://assets.pokemon.com/assets/cms2/img/video-games/_tiles/pokemon-presents/2024/pokemon-presents-169.jpg"
+                        alt="Pokemon Games Hero" class="hero-image">
+                    <h2 class="text-center my-4">VIDEOJUEGOS</h2>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="game-card">
+                            <img src="https://assets.pokemon.com/assets/cms2/img/video-games/_tiles/pokemon-scarlet-violet/launch/scarlet-violet-169.jpg"
+                                alt="Pokemon Scarlet & Violet" class="game-image">
+                            <div class="game-content">
+                                <p>Las revolucionarias novedades de estos juegos marcan el comienzo de una nueva era de
+                                    juegos de Pokémon. ¡Explora, atrapa y entrena Pokémon en la región de Paldea!</p>
+                                <a href="#" class="btn btn-dark">Más información</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="game-card">
+                            <img src="https://assets.pokemon.com/assets/cms2/img/video-games/_tiles/pokemon-sleep/launch/sleep-169.jpg"
+                                alt="Pokemon Sleep" class="game-image">
+                            <div class="game-content">
+                                <p>¡Dormir ahora es parte de tu aventura! Descubre una nueva forma de jugar Pokémon
+                                    mientras duermes y haz que tus sueños sean más divertidos.</p>
+                                <a href="#" class="btn btn-dark">Más información</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="game-card">
+                            <img src="https://assets.pokemon.com/assets/cms2/img/video-games/_tiles/pokemon-go/2024/go-169.jpg"
+                                alt="Pokemon GO" class="game-image">
+                            <div class="game-content">
+                                <p>La aventura nunca se acaba cuando juegas Pokémon GO. ¡Sal y explora el mundo para
+                                    encontrar Pokémon en tu propia aventura!</p>
+                                <a href="#" class="btn btn-dark">Más información</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learn to Play Section -->
+        <section class="learn-to-play-section py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 learn-content">
+                        <h2>APRENDE A JUGAR</h2>
+                        <p>Aquí encontrarás todo lo que necesitas saber para empezar a jugar al Juego de Cartas
+                            Coleccionables Pokémon.</p>
+                        <a href="#" class="btn btn-dark">Más información</a>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="https://assets.pokemon.com/assets/cms2/img/trading-card-game/_tiles/strategy/basics/learn-to-play/learn-to-play-169.jpg"
+                            alt="Aprende a jugar Pokemon TCG" class="learn-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Cards Section -->
+        <section class="featured-cards-section py-5">
+            <div class="container">
+                <div class="featured-section-header mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="section-title m-0">CARTAS DESTACADAS</h2>
+                        <button id="randomCardsBtn" class="btn btn-dark">
+                            <i class="bi bi-shuffle me-2"></i>Random
+                        </button>
+                    </div>
+                </div>
+                <div id="featured-cards-container">
+                    <!-- Cards will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Card Detail Modal -->
+        <div class="modal fade" id="cardDetailModal" tabindex="-1" aria-labelledby="cardDetailModalLabel"
+            aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Type background will be injected here -->
+                    <div class="type-bg"></div>
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cardDetailModalLabel">Detalles de la Carta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-image-container">
+                                    <img id="modalCardImage" src="" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-info-container">
+                                    <h3 id="modalCardName"></h3>
+                                    <div id="modalCardTypes" class="mb-3"></div>
+                                    <div class="mb-2">
+                                        <span class="info-label">Rareza:</span>
+                                        <span id="modalCardRarity"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="info-label">Set:</span>
+                                        <span id="modalCardSet"></span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="info-label">Número:</span>
+                                        <span id="modalCardNumber"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <span class="info-label">Artista:</span>
+                                        <span id="modalCardArtist"></span>
+                                    </div>
+
+                                    <!-- Pokemon-specific stats -->
+                                    <div id="pokemonStats">
+                                        <div class="mb-2">
+                                            <span class="info-label">PS:</span>
+                                            <span id="modalCardHP"></span>
+                                        </div>
+                                        <div id="modalCardEvolution"></div>
+                                        <div id="modalCardAttacks" class="mb-3"></div>
+                                        <div class="mb-2">
+                                            <span class="info-label">Debilidades:</span>
+                                            <div id="modalCardWeaknesses"></div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="info-label">Resistencias:</span>
+                                            <div id="modalCardResistances"></div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="info-label">Coste de Retirada:</span>
+                                            <span id="modalCardRetreatCost"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Card Description -->
+                                    <div id="modalCardDescription"></div>
+
+                                    <!-- Legal Status -->
+                                    <div id="modalCardLegal"></div>
+
+                                    <!-- Trainer/Energy specific info -->
+                                    <div id="modalCardRules"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
