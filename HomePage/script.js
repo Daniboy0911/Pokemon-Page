@@ -1,134 +1,141 @@
 // Base URL for the TCGdex API
 const API_BASE_URL = 'https://api.tcgdex.net/v2/es';
 
-// Variables globales para el manejo de cartas
-let currentPage = 1;
-let cardsPerPage = 12;
-let currentCards = [];
-let searchTerm = '';
-let sortOrder = 'number';
+// Global state management
+const state = {
+    currentPage: 1,
+    cardsPerPage: 12,
+    currentCards: [],
+    searchTerm: '',
+    sortOrder: 'number'
+};
 
-// Helper function to build image URLs
-function buildImageUrl(baseUrl, quality = 'high', extension = 'webp') {
-    if (!baseUrl) return null;
+// Image handling utilities
+const imageUtils = {
+    buildUrl: (baseUrl, quality = 'high', extension = 'webp') => {
+        if (!baseUrl) return null;
+        baseUrl = baseUrl.replace(/\/$/, '');
+        return baseUrl.includes('symbol') || baseUrl.includes('logo') 
+            ? `${baseUrl}.${extension}`
+            : `${baseUrl}/${quality}.${extension}`;
+    },
     
-    baseUrl = baseUrl.replace(/\/$/, '');
-    
-    // Para símbolos y logos, solo añadimos la extensión
-    if (baseUrl.includes('symbol') || baseUrl.includes('logo')) {
-        return `${baseUrl}.${extension}`;
+    createPicture: (imageUrl, name, options = {}) => {
+        const {
+            previewUrl = null,
+            fallbackUrl = null,
+            loadingType = 'lazy',
+            cssClass = ''
+        } = options;
+
+        return `
+            <picture class="${cssClass}">
+                ${previewUrl ? `<source srcset="${previewUrl}" type="image/webp" media="(max-width: 600px)">` : ''}
+                <source srcset="${imageUrl}" type="image/webp">
+                <img src="${fallbackUrl || imageUrl}" 
+                    alt="${name}"
+                    loading="${loadingType}"
+                    onerror="this.src='https://placehold.co/245x337/png?text=Imagen+no+disponible'">
+            </picture>
+        `;
+    },
+
+    getFallbackImage: (imageUrl, quality = 'high') => {
+        return imageUrl ? imageUtils.buildUrl(imageUrl, quality, 'png') : 'https://placehold.co/245x337/png?text=Imagen+no+disponible';
     }
-    
-    // Para cartas, añadimos calidad y extensión
-    return `${baseUrl}/${quality}.${extension}`;
-}
+};
 
-// Helper function to create picture element
-function createPictureElement(imageUrl, name, options = {}) {
-    const {
-        previewUrl = null,
-        fallbackUrl = null,
-        loadingType = 'lazy',
-        cssClass = ''
-    } = options;
+// UI utilities
+const uiUtils = {
+    formatDate: (dateString) => {
+        return new Date(dateString).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    },
 
-    return `
-        <picture class="${cssClass}">
-            ${previewUrl ? `<source srcset="${previewUrl}" type="image/webp" media="(max-width: 600px)">` : ''}
-            <source srcset="${imageUrl}" type="image/webp">
-            <img src="${fallbackUrl || imageUrl}" 
-                alt="${name}"
-                loading="${loadingType}"
-                onerror="this.src='https://placehold.co/245x337/png?text=Imagen+no+disponible'">
-        </picture>
-    `;
-}
-
-// Helper function to format date
-function formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-}
-
-// Helper function to show loading state
-function showLoading(element) {
-    element.innerHTML = `
-        <div class="loading">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Cargando...</span>
+    showLoading: (element) => {
+        element.innerHTML = `
+            <div class="loading">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
             </div>
-        </div>
-    `;
-}
+        `;
+    },
 
-// Helper function to show error state
-function showError(element, message) {
-    element.innerHTML = `
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Error</h4>
-            <p>${message}</p>
-            <hr>
-            <p class="mb-0">
-                <button class="btn btn-outline-danger btn-sm" onclick="retryLoading(this)">
-                    Intentar de nuevo
-                </button>
-            </p>
-        </div>
-    `;
-}
+    showError: (element, message) => {
+        element.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Error</h4>
+                <p>${message}</p>
+                <hr>
+                <p class="mb-0">
+                    <button class="btn btn-outline-danger btn-sm" onclick="retryLoading(this)">
+                        Intentar de nuevo
+                    </button>
+                </p>
+            </div>
+        `;
+    },
+
+    debounce: (func, wait) => {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+};
 
 // Helper function to create featured card HTML
 function createFeaturedCardHtml(card) {
     if (!card.image) {
-        return `
-            <div class="featured-card" data-card-id="${card.id}">
-                <div class="card-image-wrapper no-image">
-                    <div class="sparkle"></div>
-                    <div class="sparkle"></div>
-                    <div class="sparkle"></div>
-                    <div class="sparkle"></div>
-                    <div class="no-image-content">
-                        <div class="pokeball-placeholder"></div>
-                    </div>
-                    <div class="card-info-overlay">
-                        <h3>${card.name || 'Carta desconocida'}</h3>
-                        <p>${card.set?.name || 'Expansión desconocida'}</p>
-                        <p class="no-image-badge">Sin imagen</p>
-                    </div>
-                </div>
-            </div>
-        `;
+        return createNoImageCard(card);
     }
 
-    const imageUrlPreview = buildImageUrl(card.image, 'low', 'webp');
-    const imageUrlHigh = buildImageUrl(card.image, 'high', 'webp');
-    const imageUrlFallback = buildImageUrl(card.image, 'high', 'png');
+    const imageUrlPreview = imageUtils.buildUrl(card.image, 'low', 'webp');
+    const imageUrlHigh = imageUtils.buildUrl(card.image, 'high', 'webp');
+    const imageUrlFallback = imageUtils.getFallbackImage(card.image);
 
     return `
         <div class="featured-card" data-card-id="${card.id}">
             <div class="card-image-wrapper">
-                <picture>
-                    <source srcset="${imageUrlPreview}" type="image/webp" media="(max-width: 600px)">
-                    <source srcset="${imageUrlHigh}" type="image/webp">
-                    <img src="${imageUrlFallback}" 
-                        alt="${card.name}" 
-                        loading="lazy"
-                        onerror="
-                            if (this.src === '${imageUrlHigh}') {
-                                console.log('Fallback to PNG');
-                                this.src = '${imageUrlFallback}';
-                            } else {
-                                this.src = 'https://placehold.co/245x337/png?text=Imagen+no+disponible';
-                            }">
-                </picture>
+                ${imageUtils.createPicture(imageUrlHigh, card.name, {
+                    previewUrl: imageUrlPreview,
+                    fallbackUrl: imageUrlFallback
+                })}
                 <div class="card-info-overlay">
                     <h3>${card.name || 'Carta desconocida'}</h3>
                     <p>${card.set?.name || 'Expansión desconocida'}</p>
+                </div>
             </div>
         </div>
+    `;
+}
+
+function createNoImageCard(card) {
+    return `
+        <div class="featured-card" data-card-id="${card.id}">
+            <div class="card-image-wrapper no-image">
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="sparkle"></div>
+                <div class="no-image-content">
+                    <div class="pokeball-placeholder"></div>
+                </div>
+                <div class="card-info-overlay">
+                    <h3>${card.name || 'Carta desconocida'}</h3>
+                    <p>${card.set?.name || 'Expansión desconocida'}</p>
+                    <p class="no-image-badge">Sin imagen</p>
+                </div>
+            </div>
         </div>
     `;
 }
@@ -166,7 +173,7 @@ function createExpansionHtml(set) {
                 </div>
                 <div class="expansion-content">
                     <h3>${set.name || 'Expansión sin nombre'}</h3>
-                    <p class="release-date">Fecha de lanzamiento: ${formatDate(set.releaseDate)}</p>
+                    <p class="release-date">Fecha de lanzamiento: ${uiUtils.formatDate(set.releaseDate)}</p>
                     <button class="btn btn-dark">Más información</button>
                 </div>
             </div>
@@ -189,25 +196,35 @@ async function updateCardModalContent(cardId) {
             throw new Error('No se pudo cargar la información de la carta');
         }
 
+        // Get the primary type of the card
+        const primaryType = card.types && card.types.length > 0 ? card.types[0] : 'Colorless';
+        
+        // Update info container background color based on type
+        const infoContainer = document.querySelector('.info-container');
+        if (infoContainer) {
+            // Remove any previous type classes
+            infoContainer.classList.forEach(className => {
+                if (className.startsWith('type-bg-')) {
+                    infoContainer.classList.remove(className);
+                }
+            });
+            // Add new type class
+            infoContainer.classList.add(`type-bg-${primaryType}`);
+        }
+
         // Update card ID
         const cardIdElement = document.getElementById('modalCardId');
         if (cardIdElement) cardIdElement.textContent = card.id;
 
         // Update card image
-        const imageUrlHigh = buildImageUrl(card.image, 'high', 'webp');
-        const imageUrlFallback = buildImageUrl(card.image, 'high', 'png');
+        const imageUrlHigh = imageUtils.buildUrl(card.image, 'high', 'webp');
+        const imageUrlFallback = imageUtils.getFallbackImage(card.image);
 
         const modalCardImage = document.getElementById('modalCardImage');
         if (modalCardImage) {
-            modalCardImage.innerHTML = `
-                <picture>
-                    <source srcset="${imageUrlHigh}" type="image/webp">
-                    <img src="${imageUrlFallback}" 
-                        alt="${card.name}"
-                        loading="eager"
-                        onerror="this.src='https://placehold.co/245x337/png?text=Imagen+no+disponible'">
-                </picture>
-            `;
+            modalCardImage.innerHTML = imageUtils.createPicture(imageUrlHigh, card.name, {
+                fallbackUrl: imageUrlFallback
+            });
         }
 
         // Update card name
@@ -352,8 +369,8 @@ async function loadRelatedCards(cardId) {
             cardElement.className = 'related-card';
 
             // Crear la imagen con manejo de errores
-            const imageUrlHigh = buildImageUrl(relatedCard.image, 'high', 'webp');
-            const imageUrlFallback = buildImageUrl(relatedCard.image, 'high', 'png');
+            const imageUrlHigh = imageUtils.buildUrl(relatedCard.image, 'high', 'webp');
+            const imageUrlFallback = imageUtils.getFallbackImage(relatedCard.image);
 
             const img = new Image();
             img.src = imageUrlHigh;
@@ -487,7 +504,7 @@ async function updateModalContent(setId) {
             </div>
         `;
 
-        document.getElementById('modalExpansionReleaseDate').textContent = `Fecha de lanzamiento: ${formatDate(set.releaseDate)}`;
+        document.getElementById('modalExpansionReleaseDate').textContent = `Fecha de lanzamiento: ${uiUtils.formatDate(set.releaseDate)}`;
         document.getElementById('modalExpansionCardCount').textContent = `Número de cartas: ${set.cardCount.official} (Total: ${set.cardCount.total})`;
         
         // Get random cards from this set
@@ -506,28 +523,17 @@ async function updateModalContent(setId) {
                 .slice(0, 6);
 
             featuredCardsContainer.innerHTML = randomCards.map(card => {
-                const imageUrlPreview = buildImageUrl(card.image, 'low', 'webp');
-                const imageUrlHigh = buildImageUrl(card.image, 'high', 'webp');
-                const imageUrlFallback = buildImageUrl(card.image, 'high', 'png');
+                const imageUrlPreview = imageUtils.buildUrl(card.image, 'low', 'webp');
+                const imageUrlHigh = imageUtils.buildUrl(card.image, 'high', 'webp');
+                const imageUrlFallback = imageUtils.getFallbackImage(card.image);
 
                 return `
                     <div class="col-md-4 col-sm-6">
                         <div class="card">
-                            <picture>
-                                <source srcset="${imageUrlPreview}" type="image/webp" media="(max-width: 600px)">
-                                <source srcset="${imageUrlHigh}" type="image/webp">
-                                <img src="${imageUrlFallback}" 
-                                    class="card-img-top" 
-                                    alt="${card.name}"
-                                    loading="lazy"
-                                    onerror="
-                                        if (this.src === '${imageUrlHigh}') {
-                                            console.log('Fallback to PNG');
-                                            this.src = '${imageUrlFallback}';
-                                        } else {
-                                            this.src = 'https://placehold.co/245x337/png?text=Imagen+no+disponible';
-                                        }">
-                            </picture>
+                            ${imageUtils.createPicture(imageUrlHigh, card.name, {
+                                previewUrl: imageUrlPreview,
+                                fallbackUrl: imageUrlFallback
+                            })}
                         </div>
                     </div>
                 `;
@@ -537,7 +543,7 @@ async function updateModalContent(setId) {
         }
     } catch (error) {
         console.error('Error loading set details:', error);
-        showError(document.getElementById('modalFeaturedCards'), 
+        uiUtils.showError(document.getElementById('modalFeaturedCards'), 
             `Error al cargar los detalles de la expansión: ${error.message}`);
     }
 }
@@ -549,7 +555,7 @@ async function loadFeaturedCards(shouldShowLoading = true) {
 
     try {
         if (shouldShowLoading) {
-            showLoading(container);
+            uiUtils.showLoading(container);
             
             // Disable random button while loading
             const randomBtn = document.getElementById('randomCardsBtn');
@@ -597,7 +603,7 @@ async function loadFeaturedCards(shouldShowLoading = true) {
 
     } catch (error) {
         console.error('Error en loadFeaturedCards:', error);
-        showError(container, `Error al cargar las cartas destacadas: ${error.message}`);
+        uiUtils.showError(container, `Error al cargar las cartas destacadas: ${error.message}`);
     } finally {
         // Re-enable random button
         const randomBtn = document.getElementById('randomCardsBtn');
@@ -613,7 +619,7 @@ async function displaySetInModal(set) {
     console.log('Set data for modal:', set);
     
     if (!set) {
-        showError(document.getElementById('modalExpansionImage'), 'No se pudo cargar la expansión');
+        uiUtils.showError(document.getElementById('modalExpansionImage'), 'No se pudo cargar la expansión');
         return;
     }
 
@@ -630,7 +636,7 @@ async function displaySetInModal(set) {
     // Actualizar la fecha
     const dateElement = document.getElementById('modalExpansionReleaseDate');
     if (dateElement) {
-        dateElement.textContent = set.releaseDate ? formatDate(set.releaseDate) : 'Fecha no disponible';
+        dateElement.textContent = set.releaseDate ? uiUtils.formatDate(set.releaseDate) : 'Fecha no disponible';
     }
 
     // Actualizar los contadores de cartas
@@ -712,9 +718,9 @@ async function displaySetInModal(set) {
     }
 
     // Resetear variables de paginación y filtrado
-    currentPage = 1;
-    searchTerm = '';
-    sortOrder = 'number';
+    state.currentPage = 1;
+    state.searchTerm = '';
+    state.sortOrder = 'number';
     
     // Obtener y mostrar las cartas
     await loadSetCards(set.id);
@@ -755,7 +761,7 @@ async function loadSetCards(setId) {
         }
 
         // Guardar las cartas en la variable global
-        currentCards = setData.cards;
+        state.currentCards = setData.cards;
 
         // Aplicar filtros y ordenamiento
         const filteredCards = filterAndSortCards();
@@ -782,11 +788,11 @@ async function loadSetCards(setId) {
 
 // Función para filtrar y ordenar las cartas
 function filterAndSortCards() {
-    let filtered = [...currentCards];
+    let filtered = [...state.currentCards];
 
     // Aplicar filtro de búsqueda
-    if (searchTerm) {
-        const term = searchTerm.toLowerCase();
+    if (state.searchTerm) {
+        const term = state.searchTerm.toLowerCase();
         filtered = filtered.filter(card => 
             card.name.toLowerCase().includes(term) ||
             card.id.toLowerCase().includes(term)
@@ -795,7 +801,7 @@ function filterAndSortCards() {
 
     // Aplicar ordenamiento
     filtered.sort((a, b) => {
-        switch (sortOrder) {
+        switch (state.sortOrder) {
             case 'number':
                 return (a.localId || 0) - (b.localId || 0);
             case 'name':
@@ -837,24 +843,20 @@ function displayCards(cards) {
     if (!container) return;
 
     const start = 0;
-    const end = currentPage * cardsPerPage;
+    const end = state.currentPage * state.cardsPerPage;
     const cardsToShow = cards.slice(start, end);
 
     container.innerHTML = cardsToShow.map(card => {
-        const imageUrlPreview = buildImageUrl(card.image, 'low', 'webp');
-        const imageUrlHigh = buildImageUrl(card.image, 'high', 'webp');
-        const imageUrlFallback = buildImageUrl(card.image, 'high', 'png');
+        const imageUrlPreview = imageUtils.buildUrl(card.image, 'low', 'webp');
+        const imageUrlHigh = imageUtils.buildUrl(card.image, 'high', 'webp');
+        const imageUrlFallback = imageUtils.getFallbackImage(card.image);
 
         return `
             <div class="card" data-card-id="${card.id}">
-                <picture>
-                    <source srcset="${imageUrlPreview}" type="image/webp" media="(max-width: 600px)">
-                    <source srcset="${imageUrlHigh}" type="image/webp">
-                    <img src="${imageUrlFallback}" 
-                            alt="${card.name}"
-                        loading="lazy"
-                        onerror="this.src='https://placehold.co/245x337/png?text=Imagen+no+disponible'">
-                </picture>
+                ${imageUtils.createPicture(imageUrlHigh, card.name, {
+                    previewUrl: imageUrlPreview,
+                    fallbackUrl: imageUrlFallback
+                })}
                 <div class="card-info">
                     <div class="card-name">${card.name}</div>
                     <div class="card-number">${card.localId || '?'}</div>
@@ -877,7 +879,7 @@ function updateLoadMoreButton(filteredCards) {
     const button = document.getElementById('loadMoreCards');
     if (!button) return;
 
-    const hasMoreCards = currentPage * cardsPerPage < filteredCards.length;
+    const hasMoreCards = state.currentPage * state.cardsPerPage < filteredCards.length;
     button.style.display = hasMoreCards ? 'inline-block' : 'none';
 }
 
@@ -886,10 +888,10 @@ function setupCardFilters(setId) {
     // Event listener para búsqueda
     const searchInput = document.getElementById('cardSearchInput');
     if (searchInput) {
-        searchInput.value = searchTerm;
-        searchInput.addEventListener('input', debounce(function() {
-            searchTerm = this.value;
-            currentPage = 1;
+        searchInput.value = state.searchTerm;
+        searchInput.addEventListener('input', uiUtils.debounce(function() {
+            state.searchTerm = this.value;
+            state.currentPage = 1;
             const filteredCards = filterAndSortCards();
             displayCards(filteredCards);
             updateLoadMoreButton(filteredCards);
@@ -899,10 +901,10 @@ function setupCardFilters(setId) {
     // Event listener para ordenamiento
     const sortSelect = document.getElementById('cardSortSelect');
     if (sortSelect) {
-        sortSelect.value = sortOrder;
+        sortSelect.value = state.sortOrder;
         sortSelect.addEventListener('change', function() {
-            sortOrder = this.value;
-            currentPage = 1;
+            state.sortOrder = this.value;
+            state.currentPage = 1;
             const filteredCards = filterAndSortCards();
             displayCards(filteredCards);
             updateLoadMoreButton(filteredCards);
@@ -913,25 +915,12 @@ function setupCardFilters(setId) {
     const loadMoreBtn = document.getElementById('loadMoreCards');
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', function() {
-            currentPage++;
+            state.currentPage++;
             const filteredCards = filterAndSortCards();
             displayCards(filteredCards);
             updateLoadMoreButton(filteredCards);
         });
     }
-}
-
-// Helper function para debounce
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func.apply(this, args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
 }
 
 // Load expansions
@@ -940,7 +929,7 @@ async function loadExpansions() {
     if (!container) return;
 
     try {
-        showLoading(container);
+        uiUtils.showLoading(container);
         
         // Disable refresh button while loading
         const refreshBtn = document.getElementById('refreshExpansionsBtn');
@@ -1021,7 +1010,7 @@ async function loadExpansions() {
                         <h3 class="expansion-name">${set.name}</h3>
                         <div class="expansion-details">
                             ${set.releaseDate ? `
-                                <div>Lanzamiento: ${formatDate(set.releaseDate)}</div>
+                                <div>Lanzamiento: ${uiUtils.formatDate(set.releaseDate)}</div>
                             ` : ''}
                             ${set.cardCount ? `
                                 <div>Cartas: ${set.cardCount.official} oficiales</div>
@@ -1084,13 +1073,13 @@ async function loadExpansions() {
 
     } catch (error) {
         console.error('Error loading sets:', error);
-        showError(container, `Error al cargar las expansiones: ${error.message}`);
+        uiUtils.showError(container, `Error al cargar las expansiones: ${error.message}`);
     } finally {
         // Re-enable refresh button
         const refreshBtn = document.getElementById('refreshExpansionsBtn');
         if (refreshBtn) {
             refreshBtn.disabled = false;
-            refreshBtn.innerHTML = `<i class="bi bi-arrow-clockwise me-2"></i>Actualizar`;
+            refreshBtn.innerHTML = `<i class="bi bi-shuffle me-2"></i>Cambiar Expansiones`;
         }
     }
 }
@@ -1142,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Initialization error:', error);
         const container = document.getElementById('featured-cards-container');
         if (container) {
-            showError(container, `Error al inicializar la aplicación: ${error.message}`);
+            uiUtils.showError(container, `Error al inicializar la aplicación: ${error.message}`);
         }
     }
 });
@@ -1156,9 +1145,9 @@ function displayCard(card, container) {
         return;
     }
 
-    const imageUrlPreview = buildImageUrl(card.image, 'low', 'webp');
-    const imageUrlHigh = buildImageUrl(card.image, 'high', 'webp');
-    const imageUrlFallback = buildImageUrl(card.image, 'high', 'png');
+    const imageUrlPreview = imageUtils.buildUrl(card.image, 'low', 'webp');
+    const imageUrlHigh = imageUtils.buildUrl(card.image, 'high', 'webp');
+    const imageUrlFallback = imageUtils.getFallbackImage(card.image);
 
     let typesHtml = '';
     if (card.types && Array.isArray(card.types)) {
@@ -1183,20 +1172,9 @@ function displayCard(card, container) {
 
     const cardHtml = `
         <div class="card">
-            <picture>
-                <source srcset="${imageUrlPreview}" type="image/webp" media="(max-width: 600px)">
-                <source srcset="${imageUrlHigh}" type="image/webp">
-                <img src="${imageUrlFallback}" 
-                     alt="${card.name}"
-                     loading="lazy"
-                     onerror="
-                        if (this.src === '${imageUrlHigh}') {
-                            console.log('Fallback to PNG');
-                            this.src = '${imageUrlFallback}';
-                        } else {
-                            this.src = 'https://placehold.co/245x337/png?text=Imagen+no+disponible';
-                        }">
-            </picture>
+            ${imageUtils.createPicture(imageUrlHigh, card.name, {
+                fallbackUrl: imageUrlFallback
+            })}
             <div class="card-details">
                 <h3>${card.name}</h3>
                 ${typesHtml}
@@ -1338,3 +1316,93 @@ async function getRandomSet() {
         throw error;
     }
 }
+
+// Función para mostrar los juegos aleatorios
+function displayRandomGames(games) {
+    const container = document.getElementById('random-games-container');
+    container.innerHTML = '';
+    
+    games.forEach(game => {
+        const gameCard = document.createElement('div');
+        gameCard.className = 'col-md-4 mb-4';
+        gameCard.innerHTML = `
+            <div class="random-game-card">
+                <img src="${game.image}" class="random-game-image" 
+                     alt="Portada de ${game.name}" 
+                     onerror="this.src='../games_sinapi/images/placeholder.svg'">
+                <div class="random-game-body">
+                    <h3 class="random-game-title">${game.name}</h3>
+                    <div class="random-game-info">${game.generation} Generación - ${game.year}</div>
+                    <div class="random-game-region">${game.region}</div>
+                </div>
+            </div>
+        `;
+        container.appendChild(gameCard);
+    });
+}
+
+// Generic function to handle random loading
+async function handleRandomLoad(type, count = 3) {
+    const loaders = {
+        'cards': getRandomCards,
+        'expansions': getRandomSet,
+        'games': async () => {
+            const response = await fetch('../games_sinapi/data/games.json');
+            const data = await response.json();
+            const games = data.mainGames;
+            const randomGames = [];
+            const usedIndexes = new Set();
+            
+            while (randomGames.length < count && usedIndexes.size < games.length) {
+                const randomIndex = Math.floor(Math.random() * games.length);
+                if (!usedIndexes.has(randomIndex)) {
+                    usedIndexes.add(randomIndex);
+                    randomGames.push(games[randomIndex]);
+                }
+            }
+            return randomGames;
+        }
+    };
+
+    const displayers = {
+        'cards': (items) => {
+            const container = document.getElementById('featured-cards-container');
+            container.innerHTML = items.map(card => createFeaturedCardHtml(card)).join('');
+        },
+        'expansions': (items) => {
+            const container = document.getElementById('expansions-container');
+            container.innerHTML = items.map(set => createExpansionHtml(set)).join('');
+        },
+        'games': displayRandomGames
+    };
+
+    try {
+        const items = await loaders[type](count);
+        displayers[type](items);
+    } catch (error) {
+        console.error(`Error loading random ${type}:`, error);
+        const containerId = type === 'cards' ? 'featured-cards-container' : 
+                          type === 'expansions' ? 'expansions-container' : 
+                          'random-games-container';
+        document.getElementById(containerId).innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                    Error al cargar los ${type}. Por favor, intenta de nuevo.
+                </div>
+            </div>
+        `;
+    }
+}
+
+// Event listeners for random loading buttons
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize random content
+    handleRandomLoad('cards', 4);
+    handleRandomLoad('expansions');
+    handleRandomLoad('games', 3);
+
+    // Add click event listeners
+    document.getElementById('randomCardsBtn')?.addEventListener('click', () => handleRandomLoad('cards', 4));
+    document.getElementById('refreshExpansionsBtn')?.addEventListener('click', () => handleRandomLoad('expansions'));
+    document.getElementById('refreshGamesBtn')?.addEventListener('click', () => handleRandomLoad('games', 3));
+});

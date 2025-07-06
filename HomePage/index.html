@@ -126,12 +126,27 @@
             <div class="container">
                 <div class="section-header d-flex justify-content-between align-items-center mb-4">
                     <h2 class="section-title m-0">EXPANSIONES DE CARTAS</h2>
-                    <button id="refreshExpansionsBtn" class="btn btn-dark">
-                        <i class="bi bi-arrow-clockwise me-2"></i>Actualizar
+                    <button id="refreshExpansionsBtn" class="btn btn-dark btn-refresh">
+                        <i class="bi bi-shuffle me-2"></i>Cambiar Expansiones
                     </button>
                 </div>
                 <div id="expansions-container" class="grid">
                     <!-- Expansions will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Random Games Section -->
+        <section id="random-games" class="random-games-section py-5">
+            <div class="container">
+                <div class="section-header d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="section-title m-0">JUEGOS DESTACADOS</h2>
+                    <button id="refreshGamesBtn" class="btn btn-dark btn-refresh">
+                        <i class="bi bi-shuffle me-2"></i>Cambiar Juegos
+                    </button>
+                </div>
+                <div id="random-games-container" class="row">
+                    <!-- Random games will be loaded here -->
                 </div>
             </div>
         </section>
@@ -179,7 +194,7 @@
                 <div class="featured-section-header mb-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <h2 class="section-title m-0">CARTAS DESTACADAS</h2>
-                        <button id="randomCardsBtn" class="btn btn-dark">
+                        <button id="randomCardsBtn" class="btn btn-dark btn-refresh">
                             <i class="bi bi-shuffle me-2"></i>Random
                         </button>
                     </div>

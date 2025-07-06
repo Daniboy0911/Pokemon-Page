@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos de Pokémon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="games.css">
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="error" class="alert alert-danger" role="alert" style="display: none;"></div>
+
+    <!-- Debug Container -->
+    <div id="debug" class="alert alert-info" role="alert" style="display: none;"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-3 filters-sidebar">
+                <div class="filters-container">
+                    <h3>Filtros</h3>
+
+                    <!-- Reload Button -->
+                    <div class="filter-group">
+                        <button id="reloadButton" class="btn btn-primary w-100 mb-3">
+                            <i class="bi bi-arrow-clockwise"></i> Recargar Juegos
+                        </button>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="filter-group">
+                        <label for="searchInput" class="form-label">Buscar</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Buscar juegos...">
+                        </div>
+                    </div>
+
+                    <!-- Platform Filter -->
+                    <div class="filter-group">
+                        <label for="platformFilter" class="form-label">Plataforma</label>
+                        <select class="form-select" id="platformFilter">
+                            <option value="">Todas las plataformas</option>
+                        </select>
+                    </div>
+
+                    <!-- Developer Filter -->
+                    <div class="filter-group">
+                        <label for="developerFilter" class="form-label">Desarrollador</label>
+                        <select class="form-select" id="developerFilter">
+                            <option value="">Todos los desarrolladores</option>
+                        </select>
+                    </div>
+
+                    <!-- Year Filter -->
+                    <div class="filter-group">
+                        <label for="yearFilter" class="form-label">Año</label>
+                        <select class="form-select" id="yearFilter">
+                            <option value="">Todos los años</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="col-lg-9">
+                <div class="games-container">
+                    <h1>Juegos de Pokémon</h1>
+                    <div id="gamesGrid" class="games-grid">
+                        <!-- Games will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Details Modal -->
+    <div class="modal fade" id="gameDetailsModal" tabindex="-1" aria-labelledby="gameDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gameTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="gameImage" class="img-fluid rounded mb-3" alt="Game cover">
+                            <div class="game-info">
+                                <div class="info-group">
+                                    <label>Fecha de lanzamiento:</label>
+                                    <span id="gameReleaseDate"></span>
+                                </div>
+                                <div class="info-group">
+                                    <label>Plataformas:</label>
+                                    <span id="gamePlatforms"></span>
+                                </div>
+                                <div class="info-group">
+                                    <label>Desarrolladores:</label>
+                                    <span id="gameDevelopers"></span>
+                                </div>
+                                <div class="info-group">
+                                    <label>Publicadores:</label>
+                                    <span id="gamePublishers"></span>
+                                </div>
+                                <div class="info-group">
+                                    <label>Puntuación Metacritic:</label>
+                                    <span id="gameMetacritic"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Descripción</h6>
+                            <p id="gameDescription" class="game-description"></p>
+                            <div id="gameScreenshots" class="screenshots-container mt-4">
+                                <h6>Capturas de pantalla</h6>
+                                <div class="screenshots-grid">
+                                    <!-- Screenshots will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Image Modal -->
+    <div class="modal fade" id="fullscreenImageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="fullscreenImage" class="img-fluid" alt="Fullscreen screenshot">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="games.js"></script>
+</body>
+
+</html>

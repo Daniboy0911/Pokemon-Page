@@ -1,0 +1,565 @@
+{
+    "mainGames": [
+        {
+            "id": "red",
+            "name": "Pokémon Rojo",
+            "year": "1996",
+            "region": "Kanto",
+            "generation": "Primera",
+            "image": "images/PokemonRojoFuego.webp",
+            "description": "Uno de los juegos originales que inició el fenómeno mundial Pokémon. Lanzado inicialmente en Japón, el juego está ambientado en Kanto, una región inspirada en la región de Kantō de Japón. Estableció los elementos fundamentales de la serie: la captura de Pokémon salvajes, el sistema de combate por turnos, la colección de medallas de gimnasio, y la Liga Pokémon. El jugador comienza su aventura en Pueblo Paleta, eligiendo entre Bulbasaur, Charmander o Squirtle como su primer Pokémon, mientras compite con su rival y se enfrenta al malvado Team Rocket.",
+            "features": [
+                "151 Pokémon originales",
+                "Sistema de combate por turnos con 15 tipos diferentes",
+                "8 gimnasios y la Liga Pokémon",
+                "Sistema de evolución de Pokémon",
+                "Intercambio mediante cable Link",
+                "Pokémon exclusivos de la versión Roja"
+            ],
+            "innovations": "Estableció las mecánicas fundamentales de la serie, incluyendo el sistema de captura, combate, evolución e intercambio de Pokémon."
+        },
+        {
+            "id": "green",
+            "name": "Pokémon Verde",
+            "year": "1996",
+            "region": "Kanto",
+            "generation": "Primera",
+            "image": "images/PokemonVerdeHoja.webp",
+            "description": "La versión complementaria de Pokémon Rojo, lanzada exclusivamente en Japón. Comparte la misma historia y mecánicas básicas que la versión Roja, pero con diferentes Pokémon exclusivos. El juego estableció el concepto de versiones paralelas con Pokémon exclusivos para fomentar el intercambio entre jugadores. Esta versión nunca fue lanzada internacionalmente, siendo reemplazada por Pokémon Azul en los lanzamientos globales.",
+            "features": [
+                "151 Pokémon originales",
+                "Sistema de combate por turnos con 15 tipos diferentes",
+                "8 gimnasios y la Liga Pokémon",
+                "Sistema de evolución de Pokémon",
+                "Intercambio mediante cable Link",
+                "Pokémon exclusivos de la versión Verde"
+            ],
+            "innovations": "Junto con Pokémon Rojo, estableció el concepto de versiones paralelas con Pokémon exclusivos."
+        },
+        {
+            "id": "blue",
+            "name": "Pokémon Azul",
+            "year": "1996",
+            "region": "Kanto",
+            "generation": "Primera",
+            "image": "images/PokemonAzul.webp",
+            "description": "Una versión mejorada de los juegos originales que sirvió como base para el lanzamiento internacional. Incorporó mejoras gráficas y correcciones de errores respecto a las versiones Rojo y Verde japonesas. En los lanzamientos internacionales, Pokémon Azul se emparejó con Pokémon Rojo, estableciendo el formato de lanzamiento dual que caracterizaría a la serie. El juego mantiene la misma aventura en la región de Kanto, pero con su propia selección de Pokémon exclusivos.",
+            "features": [
+                "151 Pokémon originales",
+                "Sistema de combate por turnos con 15 tipos diferentes",
+                "8 gimnasios y la Liga Pokémon",
+                "Sistema de evolución de Pokémon",
+                "Intercambio mediante cable Link",
+                "Pokémon exclusivos de la versión Azul",
+                "Sprites mejorados respecto a Rojo y Verde"
+            ],
+            "innovations": "Refinó y pulió las mecánicas establecidas en Rojo y Verde, sirviendo como base para el lanzamiento internacional de la serie."
+        },
+        {
+            "id": "yellow",
+            "name": "Pokémon Amarillo: Edición Especial Pikachu",
+            "year": "1998",
+            "region": "Kanto",
+            "generation": "Primera",
+            "image": "images/PokemonAmarillo.webp",
+            "description": "Una versión especial que adapta elementos del anime de Pokémon. A diferencia de las versiones anteriores, el jugador recibe un Pikachu como Pokémon inicial (después de que el rival se lleve el Eevee destinado al jugador), que se niega a evolucionar y sigue al entrenador fuera de su Poké Ball, reflejando la relación entre Ash y su Pikachu en la serie. El juego incluye numerosas referencias al anime, como la aparición de Jessie y James del Team Rocket, y la posibilidad de obtener los tres Pokémon iniciales de Kanto durante la aventura. Pikachu tiene un sistema único de amistad que afecta su comportamiento, y su voz está doblada por Ikue Otani, la misma actriz del anime. Los sprites de los Pokémon fueron actualizados para parecerse más a sus diseños del anime, y se añadieron minijuegos especiales como el 'Surfing Pikachu'.",
+            "features": [
+                "Pikachu como compañero que sigue al jugador",
+                "Sistema de amistad con Pikachu",
+                "Voces digitalizadas de Pikachu",
+                "Apariciones de personajes del anime",
+                "Sprites actualizados basados en el anime",
+                "Minijuegos especiales",
+                "Posibilidad de obtener los tres iniciales de Kanto"
+            ],
+            "innovations": "Primera vez que un Pokémon sigue al jugador fuera de su Poké Ball, introducción del sistema de amistad que luego se expandiría en la segunda generación, y primera vez que se incluyen elementos directos del anime en un juego principal de la serie."
+        },
+        {
+            "id": "gold",
+            "name": "Pokémon Oro",
+            "year": "2000",
+            "region": "Johto",
+            "generation": "Segunda",
+            "image": "images/PokemonOro.webp",
+            "description": "Una revolucionaria secuela que expandió enormemente el mundo Pokémon. Ambientado en Johto, una región inspirada en la región de Kansai de Japón, el juego introdujo numerosas innovaciones: el ciclo día/noche en tiempo real que afecta a qué Pokémon aparecen, el sistema de cría Pokémon, los Pokémon con género, objetos equipables, dos nuevos tipos (Siniestro y Acero), y los Pokémon brillantes. La historia sigue al jugador mientras explora Johto, enfrenta a un resurgido Team Rocket, y eventualmente viaja a la región de Kanto.",
+            "features": [
+                "251 Pokémon en total",
+                "Sistema día/noche en tiempo real",
+                "Cría Pokémon",
+                "Pokémon brillantes",
+                "Dos regiones explorables",
+                "Nuevos tipos: Siniestro y Acero",
+                "Sistema de amistad con Pokémon",
+                "PokeGear con radio y teléfono",
+                "Pokémon exclusivos de la versión Oro"
+            ],
+            "innovations": "Revolucionó la serie con mecánicas que se volverían estándar como el ciclo día/noche, la cría Pokémon, y los Pokémon brillantes."
+        },
+        {
+            "id": "silver",
+            "name": "Pokémon Plata",
+            "year": "2000",
+            "region": "Johto",
+            "generation": "Segunda",
+            "image": "images/PokemonPlata.webp",
+            "description": "La versión complementaria de Pokémon Oro que comparte las mismas innovaciones revolucionarias. Ambientado en Johto, el juego presenta una experiencia similar pero con diferentes Pokémon exclusivos y pequeñas variaciones en los encuentros. La aventura culmina en un legendario encuentro con Red, el protagonista de la primera generación, en la cima del Monte Plateado, después de explorar tanto Johto como Kanto.",
+            "features": [
+                "251 Pokémon en total",
+                "Sistema día/noche en tiempo real",
+                "Cría Pokémon",
+                "Pokémon brillantes",
+                "Dos regiones explorables",
+                "Nuevos tipos: Siniestro y Acero",
+                "Sistema de amistad con Pokémon",
+                "PokeGear con radio y teléfono",
+                "Pokémon exclusivos de la versión Plata"
+            ],
+            "innovations": "Junto con Pokémon Oro, estableció numerosas mecánicas fundamentales y fue el primer juego que permitió explorar una región previa en el postgame."
+        },
+        {
+            "id": "crystal",
+            "name": "Pokémon Crystal",
+            "year": "2000",
+            "region": "Johto",
+            "generation": "Segunda",
+            "image": "images/Pokemon_Edición_Cristal.jpg",
+            "description": "Un hito revolucionario que marcó el final de una era. Crystal fue el primer juego Pokémon exclusivo para Game Boy Color y el primero en permitir jugar como una entrenadora mujer, Kris, un cambio que sentaría precedente para toda la serie. El juego refina y mejora Gold y Silver con animaciones de batalla para todos los Pokémon, una historia expandida centrada en el legendario Suicune y el misterioso Unown, y la introducción de la Torre Batalla, un desafío post-juego que se volvería un elemento básico de la serie. En Japón, el juego fue pionero en características online a través del Mobile Adapter GB, permitiendo batallas y intercambios por internet, así como eventos especiales. La aventura transcurre en las regiones de Johto y Kanto, con gráficos mejorados, nuevas ubicaciones, y una trama más profunda que incluye al carismático personaje Eusine en su búsqueda de Suicune. Crystal representa la culminación de la visión original de Pokémon, refinando cada aspecto de la experiencia con detalles como señales al entrar en nuevas áreas, sprites más detallados y una jugabilidad pulida.",
+            "features": [
+                "Primera protagonista femenina jugable en la serie",
+                "Animaciones de batalla para todos los Pokémon",
+                "Torre Batalla para desafíos post-juego",
+                "Historia expandida centrada en Suicune",
+                "Funcionalidad online en Japón mediante Mobile Adapter GB",
+                "Gráficos y presentación mejorados",
+                "Nuevas características en las Ruinas Unown",
+                "Señalización de áreas y mejoras en la interfaz"
+            ],
+            "innovations": "Estableció estándares que se volverían fundamentales en la serie como la selección de género del protagonista, la Torre Batalla, y una narrativa más elaborada centrada en Pokémon legendarios. En Japón, fue pionero en funcionalidad online para la serie."
+        },
+        {
+            "id": "ruby",
+            "name": "Pokémon Rubí",
+            "year": "2002",
+            "region": "Hoenn",
+            "generation": "Tercera",
+            "image": "images/PokemonRubí.png",
+            "description": "Bienvenido a Hoenn, una región inspirada en la isla japonesa de Kyushu, donde la tierra y el mar coexisten en perfecto equilibrio. El juego revolucionó la serie con la introducción de habilidades Pokémon, naturalezas, batallas dobles y un sistema climático dinámico. En Rubí, te enfrentarás al Team Magma, que busca despertar a Groudon para expandir la tierra. La región presenta una diversidad única de climas y ecosistemas, desde ciudades en los árboles como Fortree City hasta la ciudad submarina de Sootopolis, construida en un antiguo cráter.",
+            "features": [
+                "Introducción de habilidades Pokémon y naturalezas",
+                "Sistema de batallas dobles",
+                "Concursos Pokémon con nuevas mecánicas",
+                "Bases Secretas personalizables",
+                "Sistema climático que afecta las batallas",
+                "PokéNav para rastrear entrenadores y Pokémon",
+                "Pokémon exclusivos de la versión Rubí",
+                "Team Magma como equipo antagonista"
+            ],
+            "innovations": "Revolucionó la mecánica de combate con habilidades y naturalezas.",
+            "legendary": "Groudon - el Pokémon Continental"
+        },
+        {
+            "id": "sapphire",
+            "name": "Pokémon Zafiro",
+            "year": "2002",
+            "region": "Hoenn",
+            "generation": "Tercera",
+            "image": "images/PokemonZafiro.webp",
+            "description": "La versión complementaria de Pokémon Rubí, ambientada en la región tropical de Hoenn. En esta versión, el Team Aqua busca despertar a Kyogre para expandir los océanos. El juego comparte las revolucionarias mecánicas de habilidades Pokémon, naturalezas y batallas dobles, mientras ofrece una perspectiva única sobre el conflicto entre la tierra y el mar que define a la región de Hoenn.",
+            "features": [
+                "Introducción de habilidades Pokémon y naturalezas",
+                "Sistema de batallas dobles",
+                "Concursos Pokémon con nuevas mecánicas",
+                "Bases Secretas personalizables",
+                "Sistema climático que afecta las batallas",
+                "PokéNav para rastrear entrenadores y Pokémon",
+                "Pokémon exclusivos de la versión Zafiro",
+                "Team Aqua como equipo antagonista"
+            ],
+            "innovations": "Junto con Pokémon Rubí, estableció las bases para el sistema moderno de combate Pokémon.",
+            "legendary": "Kyogre - el Pokémon Marino"
+        },
+        {
+            "id": "emerald",
+            "name": "Pokémon Esmeralda",
+            "year": "2004",
+            "region": "Hoenn",
+            "generation": "Tercera",
+            "image": "images/PokemonEsmeralda.jpg",
+            "description": "La versión definitiva de la región de Hoenn que expande y mejora la historia original. En esta versión, tanto el Team Magma como el Team Aqua son antagonistas, despertando a Groudon y Kyogre simultáneamente, lo que lleva a una crisis climática que solo puede ser resuelta por el legendario Rayquaza. El juego introduce el Frente Batalla, un complejo de instalaciones de combate que ofrece desafíos únicos y recompensas especiales. Los líderes de gimnasio ahora pueden ser retados a revancha, y sus equipos utilizan estrategias más sofisticadas. La región ha sido ajustada para ofrecer una mayor variedad de Pokémon salvajes y el juego presenta una dificultad general más elevada, especialmente en las batallas contra entrenadores clave.",
+            "features": [
+                "Frente Batalla con múltiples instalaciones",
+                "Historia expandida con ambos equipos villanos",
+                "Sistema de revancha contra líderes de gimnasio",
+                "Acceso a los tres Pokémon legendarios principales",
+                "Mejoras en la Inteligencia Artificial de los entrenadores",
+                "Nuevas áreas y desafíos post-juego"
+            ],
+            "innovations": "Estableció el estándar para las 'terceras versiones' con contenido expandido y mayor desafío."
+        },
+        {
+            "id": "diamond",
+            "name": "Pokémon Diamante",
+            "year": "2006",
+            "region": "Sinnoh",
+            "generation": "Cuarta",
+            "image": "images/PokemonDiamante.png",
+            "description": "Bienvenido a la región de Sinnoh, una vasta región montañosa y templada inspirada en la isla japonesa de Hokkaidō. El juego introduce por primera vez rutas nevadas y un extenso sistema subterráneo explorable. La historia sigue al jugador desde el pequeño Pueblo Hojaverde mientras se enfrenta al Team Galactic, una organización que busca crear un nuevo universo usando el poder del Pokémon legendario Dialga. El juego revoluciona la serie con la división física/especial de los movimientos y el modo multijugador en línea.",
+            "features": [
+                "Sistema subterráneo explorable con minijuegos y bases secretas",
+                "División física/especial de movimientos",
+                "Intercambio global a través de GTS",
+                "107 nuevos Pokémon",
+                "Batallas dobles y de rotación",
+                "Concursos Pokémon Super",
+                "Pokétch con múltiples aplicaciones",
+                "Clima dinámico incluyendo nieve",
+                "Pokémon exclusivos de la versión Diamante"
+            ],
+            "innovations": "Revolucionó el sistema de combate con la división física/especial y introdujo el comercio global en línea.",
+            "legendary": "Dialga"
+        },
+        {
+            "id": "pearl",
+            "name": "Pokémon Perla",
+            "year": "2006",
+            "region": "Sinnoh",
+            "generation": "Cuarta",
+            "image": "images/PokemonPerla.webp",
+            "description": "La versión complementaria de Pokémon Diamante, ambientada en la región nevada de Sinnoh. El juego comparte las mismas innovaciones revolucionarias pero se centra en el Pokémon legendario Palkia y su control sobre el espacio. Los jugadores exploran la región desde Pueblo Hojaverde, enfrentándose al Team Galactic mientras descubren los secretos del espacio y el tiempo.",
+            "features": [
+                "Sistema subterráneo explorable con minijuegos y bases secretas",
+                "División física/especial de movimientos",
+                "Intercambio global a través de GTS",
+                "107 nuevos Pokémon",
+                "Batallas dobles y de rotación",
+                "Concursos Pokémon Super",
+                "Pokétch con múltiples aplicaciones",
+                "Clima dinámico incluyendo nieve",
+                "Pokémon exclusivos de la versión Perla"
+            ],
+            "innovations": "Junto con Pokémon Diamante, estableció el estándar para el juego en línea y revolucionó el sistema de combate.",
+            "legendary": "Palkia"
+        },
+        {
+            "id": "platinum",
+            "name": "Pokémon Platino",
+            "year": "2008",
+            "region": "Sinnoh",
+            "generation": "Cuarta",
+            "image": "images/PokemonPlatino.png",
+            "description": "Una versión mejorada de Diamante y Perla que expande significativamente la historia y el mundo de Sinnoh. El juego introduce el Mundo Distorsión, un reino paralelo donde habita Giratina, y profundiza en la mitología de Sinnoh con una historia más oscura sobre el Team Galactic. La Villa Batalla ofrece nuevos desafíos post-juego, mientras que la región ha sido rediseñada con nuevas áreas y una paleta de colores más fría que refleja mejor su clima templado. El juego también mejora los gráficos, añade nuevas formas para ciertos Pokémon como Giratina y Shaymin, y expande las opciones de personalización en el Subsuelo de Sinnoh.",
+            "features": [
+                "Mundo Distorsión y forma alternativa de Giratina",
+                "Villa Batalla con nuevas instalaciones",
+                "Mejoras gráficas y animaciones",
+                "Nuevas formas para Shaymin y Giratina",
+                "Wi-Fi Plaza para minijuegos en línea",
+                "Zona Lucha expandida",
+                "Más opciones en el Subsuelo",
+                "Historia expandida del Team Galactic",
+                "Acceso a los tres dragones legendarios",
+                "Nuevas áreas y rutas rediseñadas"
+            ],
+            "innovations": "Introdujo el concepto de dimensiones alternativas con el Mundo Distorsión y estableció el estándar para las versiones mejoradas con contenido expandido significativo.",
+            "legendary": "Giratina - el Pokémon Renegado (con forma Origen en el Mundo Distorsión)"
+        },
+        {
+            "id": "black",
+            "name": "Pokémon Negro",
+            "year": "2011",
+            "region": "Unova",
+            "generation": "Quinta",
+            "image": "images/PokemonNegro.png",
+            "description": "Un revolucionario capítulo en la serie que reinventa la fórmula Pokémon. Ambientado en la región de Unova, inspirada en la ciudad de Nueva York, el juego presenta una historia más madura que explora temas como la verdad y los ideales. Se centra en Zekrom, el dragón de los ideales, y su relación con N, un misterioso entrenador que puede hablar con los Pokémon. Por primera vez en la serie, solo se pueden capturar nuevos Pokémon durante la aventura principal, con 156 criaturas completamente nuevas.",
+            "features": [
+                "156 Pokémon completamente nuevos",
+                "Batallas dobles, triples y de rotación",
+                "Sistema de estaciones que afecta al mundo y los Pokémon",
+                "Historia más profunda y madura",
+                "Gráficos mejorados con sprites animados",
+                "C-Gear para funciones en línea mejoradas",
+                "Pokémon Musicals como nuevo minijuego",
+                "Batallas en línea con rankings mundiales",
+                "Pokémon exclusivos de la versión Negra"
+            ],
+            "innovations": "Reinventó la fórmula de la serie al presentar solo nuevos Pokémon durante la historia principal.",
+            "legendary": "Zekrom - el Dragón de los Ideales"
+        },
+        {
+            "id": "white",
+            "name": "Pokémon Blanco",
+            "year": "2011",
+            "region": "Unova",
+            "generation": "Quinta",
+            "image": "images/PokemonBlaca.webp",
+            "description": "La versión complementaria de Pokémon Negro que explora el tema de la verdad a través de Reshiram. Ambientado en Unova, una región urbana y moderna, el juego presenta una narrativa única sobre el conflicto entre la verdad y los ideales, con N como un personaje central que cuestiona la relación entre humanos y Pokémon. La versión Blanca presenta Ciudad Blanca, una metrópolis futurista que contrasta con Ciudad Negra de la versión Negro.",
+            "features": [
+                "156 Pokémon completamente nuevos",
+                "Batallas dobles, triples y de rotación",
+                "Sistema de estaciones que afecta al mundo y los Pokémon",
+                "Historia más profunda y madura",
+                "Gráficos mejorados con sprites animados",
+                "C-Gear para funciones en línea mejoradas",
+                "Pokémon Musicals como nuevo minijuego",
+                "Batallas en línea con rankings mundiales",
+                "Pokémon exclusivos de la versión Blanca"
+            ],
+            "innovations": "Junto con Pokémon Negro, presentó una narrativa más compleja y madura en la serie.",
+            "legendary": "Reshiram - el Dragón de la Verdad"
+        },
+        {
+            "id": "black2",
+            "name": "Pokémon Negro 2",
+            "year": "2012",
+            "region": "Unova",
+            "generation": "Quinta",
+            "image": "images/PokémonNegro2.png",
+            "description": "La primera secuela directa en la historia de la serie principal, ambientada dos años después de Pokémon Negro. La aventura comienza en Ciudad Aspertia, una nueva área en el suroeste de Unova, donde el jugador recibe su primer Pokémon de Bianca. La región ha cambiado drásticamente, con nuevas ciudades y el Equipo Plasma dividido en dos facciones. En esta versión, Kyurem se fusiona con Zekrom para obtener su forma Kyurem Negro. La historia culmina cuando N regresa con Zekrom, que luego es fusionado forzosamente con Kyurem por Ghetsis.",
+            "features": [
+                "Primera secuela directa en la serie principal",
+                "Torneo Mundial Pokémon con líderes y campeones del pasado",
+                "Estudios Pokéstar para crear películas",
+                "Sistema de Medallas para logros",
+                "Modo Desafío y Modo Fácil desbloqueables",
+                "Kyurem Negro (fusión con Zekrom)",
+                "Grottos Ocultas con Pokémon de habilidades ocultas",
+                "Función Memory Link para conectar con la historia de Negro",
+                "Pokémon exclusivos de la versión Negro 2"
+            ],
+            "innovations": "Primera secuela directa en la serie principal, introducción del Torneo Mundial Pokémon.",
+            "legendary": "Kyurem Negro (fusión con Zekrom)"
+        },
+        {
+            "id": "white2",
+            "name": "Pokémon Blanco 2",
+            "year": "2012",
+            "region": "Unova",
+            "generation": "Quinta",
+            "image": "images/PokemonBlanco2.webp",
+            "description": "La secuela directa de Pokémon Blanco, que continúa la historia dos años después. La región de Unova ha evolucionado con nuevas ciudades y rutas, y el conflicto con el Equipo Plasma toma un nuevo giro. En esta versión, Kyurem se fusiona con Reshiram para obtener su forma Kyurem Blanco. La historia se desarrolla cuando N regresa con Reshiram, llevando a una dramática fusión forzada con Kyurem por parte de Ghetsis.",
+            "features": [
+                "Primera secuela directa en la serie principal",
+                "Torneo Mundial Pokémon con líderes y campeones del pasado",
+                "Estudios Pokéstar para crear películas",
+                "Sistema de Medallas para logros",
+                "Modo Desafío y Modo Fácil desbloqueables",
+                "Kyurem Blanco (fusión con Reshiram)",
+                "Grottos Ocultas con Pokémon de habilidades ocultas",
+                "Función Memory Link para conectar con la historia de Blanco",
+                "Pokémon exclusivos de la versión Blanco 2"
+            ],
+            "innovations": "Junto con Negro 2, estableció el precedente para secuelas directas en la serie principal.",
+            "legendary": "Kyurem Blanco (fusión con Reshiram)"
+        },
+        {
+            "id": "x",
+            "name": "Pokémon X",
+            "year": "2013",
+            "region": "Kalos",
+            "generation": "Sexta",
+            "image": "images/PokemonX.webp",
+            "description": "Un salto revolucionario a los gráficos 3D completos en la serie principal. Ambientado en Kalos, una región inspirada en Francia, el juego introduce la Mega Evolución, una transformación temporal que permite a ciertos Pokémon alcanzar un nivel de poder más allá de su evolución final. Los jugadores exploran una región rica en historia y cultura, desde las bulliciosas calles de Ciudad Luminalia (inspirada en París) hasta los misteriosos bosques y montañas. El juego se centra en el legendario Xerneas, el Pokémon de la Vida, mientras el jugador se enfrenta al Team Flare y su carismático líder Lysson.",
+            "features": [
+                "Gráficos 3D completos por primera vez en la serie principal",
+                "Mega Evolución",
+                "Introducción del tipo Hada",
+                "Personalización del personaje",
+                "Batallas aéreas",
+                "Pokémon-Amie para interactuar con tus Pokémon",
+                "Super Training para el entrenamiento de EVs",
+                "Pokémon exclusivos de la versión X"
+            ],
+            "innovations": "Primera entrega completamente en 3D, introducción de la Mega Evolución y el tipo Hada.",
+            "legendary": "Xerneas - el Pokémon de la Vida"
+        },
+        {
+            "id": "y",
+            "name": "Pokémon Y",
+            "year": "2013",
+            "region": "Kalos",
+            "generation": "Sexta",
+            "image": "images/PokemonY.webp",
+            "description": "La versión complementaria de Pokémon X que comparte el revolucionario salto a los gráficos 3D. Ambientado en la región de Kalos, el juego se centra en el legendario Yveltal, el Pokémon de la Destrucción. Los jugadores exploran la región francesa mientras descubren los secretos de la Mega Evolución y se enfrentan a los planes del Team Flare para crear un mundo más 'hermoso' a costa de la vida misma.",
+            "features": [
+                "Gráficos 3D completos por primera vez en la serie principal",
+                "Mega Evolución",
+                "Introducción del tipo Hada",
+                "Personalización del personaje",
+                "Batallas aéreas",
+                "Pokémon-Amie para interactuar con tus Pokémon",
+                "Super Training para el entrenamiento de EVs",
+                "Pokémon exclusivos de la versión Y"
+            ],
+            "innovations": "Junto con Pokémon X, revolucionó la serie con gráficos 3D completos y la Mega Evolución.",
+            "legendary": "Yveltal - el Pokémon de la Destrucción"
+        },
+        {
+            "id": "sun",
+            "name": "Pokémon Sol",
+            "year": "2016",
+            "region": "Alola",
+            "generation": "Séptima",
+            "image": "images/PokémonSol.png",
+            "description": "Una aventura tropical que revoluciona la serie tradicional de Pokémon. Ambientado en Alola, un archipiélago inspirado en Hawái, el juego elimina el sistema de gimnasios tradicional y lo reemplaza con el Recorrido Insular. Se centra en Solgaleo, el legendario Pokémon que representa al sol, y su conexión con las misteriosas Ultracriaturas. El juego transcurre principalmente durante el día, afectando a qué Pokémon pueden encontrarse.",
+            "features": [
+                "Recorrido Insular en lugar de gimnasios",
+                "Movimientos Z",
+                "Formas Regionales de Alola",
+                "Ultracriaturas",
+                "Sistema de montura Pokémon",
+                "SOS Battles con Pokémon aliados",
+                "Poké Pelago para entrenar Pokémon pasivamente",
+                "Pokémon exclusivos de la versión Sol",
+                "Diferencia de 12 horas en el ciclo día/noche"
+            ],
+            "innovations": "Reinvención del sistema de progresión tradicional con el Recorrido Insular.",
+            "legendary": "Solgaleo - el Pokémon del Sol"
+        },
+        {
+            "id": "moon",
+            "name": "Pokémon Luna",
+            "year": "2016",
+            "region": "Alola",
+            "generation": "Séptima",
+            "image": "images/PokemonLuna.png",
+            "description": "La versión complementaria de Pokémon Sol que ofrece una perspectiva nocturna de la región de Alola. El juego se centra en Lunala, el legendario Pokémon que representa a la luna, y su relación con las Ultracriaturas. El ciclo día/noche está invertido respecto al tiempo real, ofreciendo una experiencia única de exploración nocturna del archipiélago tropical.",
+            "features": [
+                "Recorrido Insular en lugar de gimnasios",
+                "Movimientos Z",
+                "Formas Regionales de Alola",
+                "Ultracriaturas",
+                "Sistema de montura Pokémon",
+                "SOS Battles con Pokémon aliados",
+                "Poké Pelago para entrenar Pokémon pasivamente",
+                "Pokémon exclusivos de la versión Luna",
+                "Ciclo día/noche invertido"
+            ],
+            "innovations": "Junto con Pokémon Sol, revolucionó la serie con el Recorrido Insular y los Movimientos Z.",
+            "legendary": "Lunala - el Pokémon de la Luna"
+        },
+        {
+            "id": "ultra-sun",
+            "name": "Pokémon Ultra Sol",
+            "year": "2017",
+            "region": "Alola",
+            "generation": "Séptima",
+            "image": "images/PokemonUltrasol.png",
+            "description": "Una versión expandida y reimaginada de Sol que presenta una historia alternativa centrada en Necrozma. El juego introduce el Ultra Espacio Wilds, donde los jugadores pueden viajar a través de Ultra Wormholes para encontrar Pokémon Legendarios de generaciones anteriores y nuevos Ultra Entes. La historia toma un giro dramático cuando el Team Rainbow Rocket, liderado por Giovanni, invade Alola. Esta versión presenta a Necrozma Melena Crepuscular, fusionado con Solgaleo.",
+            "features": [
+                "Ultra Espacio Wilds con Pokémon Legendarios",
+                "Team Rainbow Rocket Episode",
+                "Necrozma Melena Crepuscular",
+                "Valle Pikachu y Surf Mantine",
+                "Nuevos Ultra Entes",
+                "Rotom Dex mejorado con pegatinas",
+                "Más Pokémon disponibles en la Pokédex de Alola",
+                "Pruebas de capitanes modificadas",
+                "Pokémon exclusivos de Ultra Sol"
+            ],
+            "innovations": "Expandió significativamente el concepto de dimensiones alternativas y reunió a villanos de toda la serie.",
+            "legendary": "Necrozma Melena Crepuscular (fusión con Solgaleo)"
+        },
+        {
+            "id": "ultra-moon",
+            "name": "Pokémon Ultra Luna",
+            "year": "2017",
+            "region": "Alola",
+            "generation": "Séptima",
+            "image": "images/PokemonUltraluna.jpg",
+            "description": "La versión complementaria de Ultra Sol que ofrece una perspectiva alternativa de la historia de Necrozma. El juego mantiene el ciclo día/noche invertido de la versión Luna original, y presenta a Necrozma Alas del Alba, fusionado con Lunala. Los jugadores pueden explorar el Ultra Espacio y enfrentarse al Team Rainbow Rocket mientras descubren los secretos detrás de los Ultra Entes y Necrozma.",
+            "features": [
+                "Ultra Espacio Wilds con Pokémon Legendarios",
+                "Team Rainbow Rocket Episode",
+                "Necrozma Alas del Alba",
+                "Valle Pikachu y Surf Mantine",
+                "Nuevos Ultra Entes",
+                "Rotom Dex mejorado con pegatinas",
+                "Más Pokémon disponibles en la Pokédex de Alola",
+                "Pruebas de capitanes modificadas",
+                "Pokémon exclusivos de Ultra Luna"
+            ],
+            "innovations": "Junto con Ultra Sol, expandió la narrativa de los Ultra Entes y las dimensiones alternativas.",
+            "legendary": "Necrozma Alas del Alba (fusión con Lunala)"
+        },
+        {
+            "id": "sword",
+            "name": "Pokémon Espada",
+            "year": "2019",
+            "region": "Galar",
+            "generation": "Octava",
+            "image": "images/PokemonEspada.png",
+            "description": "Una revolución en la serie que introduce el Área Silvestre, una vasta zona de mundo abierto donde los Pokémon deambulan libremente. La región de Galar, inspirada en el Reino Unido, presenta el fenómeno Dynamax que permite a los Pokémon alcanzar tamaños gigantescos en batalla, y el Gigantamax que además cambia su forma. Los combates de gimnasio se convierten en grandes eventos deportivos en estadios, con uniformes oficiales y multitudes animando. El juego se centra en el legendario Zacian, un Pokémon guerrero que empuña una espada. La Liga Pokémon de Galar funciona como un torneo profesional, con el invicto Campeón Leon como la figura a vencer.",
+            "features": [
+                "Área Silvestre con clima dinámico y Pokémon visibles",
+                "Fenómeno Dynamax y Gigantamax",
+                "Incursiones Dinamax cooperativas",
+                "Sistema de gimnasios con estadios y uniformes",
+                "Nuevas formas regionales de Galar",
+                "Campamento Pokémon para interactuar con tu equipo",
+                "Pokémon exclusivos de la versión Espada"
+            ],
+            "innovations": "Primer juego principal con una zona de mundo abierto (Área Silvestre) y sistema de incursiones cooperativas.",
+            "legendary": "Zacian - el Pokémon Heroico con Espada"
+        },
+        {
+            "id": "shield",
+            "name": "Pokémon Escudo",
+            "year": "2019",
+            "region": "Galar",
+            "generation": "Octava",
+            "image": "images/PokemonEscudo.png",
+            "description": "La versión complementaria de Pokémon Espada que comparte la revolucionaria Área Silvestre y el sistema Dynamax. Ambientado en la región de Galar, el juego se centra en el legendario Zamazenta, un Pokémon guerrero que porta un escudo. Los jugadores participan en la Liga Pokémon de Galar, que funciona como un torneo deportivo profesional, mientras descubren los misterios detrás de la Crisis Dynamax y se enfrentan a la conspiración de Rose.",
+            "features": [
+                "Área Silvestre con clima dinámico y Pokémon visibles",
+                "Fenómeno Dynamax y Gigantamax",
+                "Incursiones Dinamax cooperativas",
+                "Sistema de gimnasios con estadios y uniformes",
+                "Nuevas formas regionales de Galar",
+                "Campamento Pokémon para interactuar con tu equipo",
+                "Pokémon exclusivos de la versión Escudo"
+            ],
+            "innovations": "Junto con Pokémon Espada, revolucionó la serie con el Área Silvestre y el sistema Dynamax.",
+            "legendary": "Zamazenta - el Pokémon Heroico con Escudo"
+        },
+        {
+            "id": "scarlet",
+            "name": "Pokémon Escarlata",
+            "year": "2022",
+            "region": "Paldea",
+            "generation": "Novena",
+            "image": "images/PokémonEscarlata.png",
+            "description": "Bienvenido a la región de Paldea, una vasta tierra de espacios abiertos salpicada de lagos, picos imponentes, páramos y cordilleras peligrosas. Los jugadores pueden explorar libremente este mundo abierto a su propio ritmo y atravesar tierra, agua y aire montando en Koraidon, un Pokémon Legendario con aspecto primitivo que representa el pasado. El juego introduce el fenómeno Terastal, que hace que los Pokémon brillen como gemas y pueden cambiar su tipo en batalla. Los jugadores asisten a una prestigiosa academia donde emprenderán una 'Búsqueda del Tesoro' como parte de sus estudios.",
+            "features": [
+                "Mundo completamente abierto por primera vez en la serie",
+                "Modo multijugador cooperativo para hasta 4 jugadores",
+                "Fenómeno Terastal que permite cambiar el tipo de los Pokémon",
+                "Tres historias principales que se pueden completar en cualquier orden",
+                "Koraidon como compañero de viaje y medio de transporte",
+                "Batallas Teraraid cooperativas",
+                "Pokémon exclusivos de la versión Escarlata"
+            ],
+            "innovations": "Primer juego de Pokémon con verdadero mundo abierto y cooperativo multijugador.",
+            "legendary": "Koraidon - el Pokémon Legendario del Pasado"
+        },
+        {
+            "id": "violet",
+            "name": "Pokémon Púrpura",
+            "year": "2022",
+            "region": "Paldea",
+            "generation": "Novena",
+            "image": "images/PokemonPurpura.jpg",
+            "description": "La versión complementaria de Pokémon Escarlata que comparte el revolucionario mundo abierto de Paldea. Los jugadores exploran la región montando en Miraidon, un Pokémon Legendario de aspecto futurista que representa el futuro. El juego mantiene el fenómeno Terastal y la libertad de exploración, permitiendo a los jugadores abordar las tres historias principales en el orden que prefieran mientras asisten a la academia y descubren los secretos del Área Zero.",
+            "features": [
+                "Mundo completamente abierto por primera vez en la serie",
+                "Modo multijugador cooperativo para hasta 4 jugadores",
+                "Fenómeno Terastal que permite cambiar el tipo de los Pokémon",
+                "Tres historias principales que se pueden completar en cualquier orden",
+                "Miraidon como compañero de viaje y medio de transporte",
+                "Batallas Teraraid cooperativas",
+                "Pokémon exclusivos de la versión Púrpura"
+            ],
+            "innovations": "Junto con Pokémon Escarlata, estableció un nuevo estándar para los juegos de mundo abierto en la serie.",
+            "legendary": "Miraidon - el Pokémon Legendario del Futuro"
+        }
+    ]
+} 

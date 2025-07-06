@@ -1,35 +1,66 @@
 /* Variables */
 :root {
+    /* Colors */
     --primary-dark: #000000;
     --primary-gray: rgba(128, 128, 128, 0.75);
     --primary-white: #ffffff;
     --overlay-dark: rgba(0, 0, 0, 0.9);
     --overlay-light: rgba(0, 0, 0, 0.3);
-    --transition-speed: 0.3s;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 2rem;
+    --spacing-xl: 4rem;
+    
+    /* Borders & Shadows */
     --card-radius: 12px;
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --type-Colorless: #A8A878;
-    --type-Darkness: #705848;
-    --type-Dragon: #7038F8;
-    --type-Fairy: #EE99AC;
-    --type-Fighting: #C03028;
-    --type-Fire: #F08030;
-    --type-Grass: #78C850;
-    --type-Lightning: #F8D030;
-    --type-Metal: #B8B8D0;
-    --type-Psychic: #F85888;
-    --type-Water: #6890F0;
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    
+    /* Animations */
+    --transition-speed: 0.3s;
+    --transition-timing: ease;
 }
 
 /* Reset and Base Styles */
-body {
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    color: var(--primary-dark);
+}
+
+/* Common Components */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--card-radius);
+    font-weight: 600;
+    transition: all var(--transition-speed) var(--transition-timing);
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.btn-dark {
+    background-color: var(--primary-dark);
+    color: var(--primary-white);
+}
+
+.btn-dark:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background-color: #333;
 }
 
 /* Header Styles */
@@ -462,7 +493,8 @@ body {
     color: #666;
 }
 
-#refreshExpansionsBtn {
+/* Refresh Button Styles */
+.btn-refresh {
     padding: 0.5rem 1.5rem;
     font-weight: 500;
     transition: all 0.3s ease;
@@ -472,21 +504,21 @@ body {
     color: white;
 }
 
-#refreshExpansionsBtn:hover {
+.btn-refresh:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     background: #333;
 }
 
-#refreshExpansionsBtn:active {
+.btn-refresh:active {
     transform: translateY(0);
 }
 
-#refreshExpansionsBtn i {
+.btn-refresh i {
     transition: transform 0.3s ease;
 }
 
-#refreshExpansionsBtn:hover i {
+.btn-refresh:hover i {
     transform: rotate(180deg);
 }
 
@@ -784,30 +816,7 @@ body {
 }
 
 /* Random Button Styles */
-#randomCardsBtn {
-    padding: 0.5rem 1.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    border-radius: 25px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
 
-#randomCardsBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-#randomCardsBtn:active {
-    transform: translateY(0);
-}
-
-#randomCardsBtn i {
-    transition: transform 0.3s ease;
-}
-
-#randomCardsBtn:hover i {
-    transform: rotate(180deg);
-}
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
@@ -839,9 +848,9 @@ body {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
         padding: 0.5rem;
-    }
+}
 
-    .featured-card {
+.featured-card {
         width: 100%;
         aspect-ratio: 3/4;
     }
@@ -2330,7 +2339,7 @@ body {
 .cards-grid .card picture {
     width: 100%;
     height: 100%;
-    display: block;
+        display: block;
 }
 
 .cards-grid .card img {
@@ -2841,6 +2850,53 @@ body {
     }
 }
 
+/* Random Games Section */
+.random-games-section {
+    background-color: #f8f9fa;
+}
 
+.random-game-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
 
+.random-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
+.random-game-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.random-game-body {
+    padding: 1.5rem;
+}
+
+.random-game-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.random-game-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.random-game-region {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #e63946;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
