@@ -1,114 +1,574 @@
-Uso basico
-<script src="https://cdn.jsdelivr.net/npm/@tcgdex/sdk@2/dist/tcgdex.browser.js"></script>
-<script>
-  // Instantiate the SDK
-  const tcgdex = new TCGdex('en');
+api = <script src="https://cdn.jsdelivr.net/npm/@tcgdex/sdk@2/dist/tcgdex.browser.js"></script>
 
-  // Use in an async context
-  (async () => {
-    // Retrieve Furret from the Darkness Ablaze Set
-    const card = await tcgdex.card.get('swsh3-136');
-    console.log(card.name); // "Furret"
-  })();
-</script>
+Información
+La API REST devuelve objetos predecibles definidos en cada solicitud.
+Sólo está disponible en HTTPS (las solicitudes HTTP se redirigen a HTTPS)
+Cada solicitud DEBE ser una solicitud GET.
+La API devuelve respuestas JSON en el cuerpo
+Utilizamos códigos de respuesta HTTP estándar y todas las respuestas posibles se indican en cada página.
 
-Obteniendo datos
-El SDK proporciona puntos finales dedicados para tipos de datos comunes:
-// Get a specific card
+Obtener una sola tarjeta
 const card = await tcgdex.card.get('swsh3-136');
+Respuesta
+Respuesta 200
+La solicitud devuelve un objeto Tarjeta
 
-// Get a specific set
-const set = await tcgdex.set.get('swsh3');
+{
+  "category": "Pokemon",
+  "id": "swsh3-136",
+  "illustrator": "tetsuya koizumi",
+  "image": "https://assets.tcgdex.net/en/swsh/swsh3/136",
+  "localId": "136",
+  "name": "Furret",
+  "rarity": "Uncommon",
+  "set": {
+    "cardCount": {
+      "official": 189,
+      "total": 201
+    },
+    "id": "swsh3",
+    "logo": "https://assets.tcgdex.net/en/swsh/swsh3/logo",
+    "name": "Darkness Ablaze",
+    "symbol": "https://assets.tcgdex.net/univ/swsh/swsh3/symbol"
+  },
+  "variants": {
+    "firstEdition": false,
+    "holo": false,
+    "normal": true,
+    "reverse": true,
+    "wPromo": false
+  },
+  "hp": 110,
+  "types": [
+    "Colorless"
+  ],
+  "evolveFrom": "Sentret",
+  "description": "It makes a nest to suit its long and skinny body. The nest is impossible for other Pokémon to enter.",
+  "stage": "Stage1",
+  "attacks": [
+    {
+    "cost": [
+      "Colorless"
+    ],
+    "name": "Feelin' Fine",
+    "effect": "Draw 3 cards."
+    },
+    {
+    "cost": [
+      "Colorless"
+    ],
+    "name": "Tail Smash",
+    "effect": "Flip a coin. If tails, this attack does nothing.",
+    "damage": 90
+    }
+  ],
+  "weaknesses": [
+    {
+      "type": "Fighting",
+      "value": "×2"
+    }
+  ],
+  "retreat": 1,
+  "regulationMark": "D",
+  "legal": {
+    "standard": true,
+    "expanded": true
+  }
+}
 
-// Get a specific serie
-const serie = await tcgdex.serie.get('swsh');
+Respuesta 404
+No se encontró la tarjeta :( devolverá un mensaje de error global (no traducido)
 
-// Get a list of all cards
-const allCards = await tcgdex.card.list();
+{
+  "error": "Endpoint or id not found"
+}
 
-Obtención de datos aleatorios
-También puedes recuperar cartas, conjuntos o series aleatorias:
-// Get a random card
-const randomCard = await tcgdex.random.card();
+Buscando tarjetas
+Pedido
+const card = await tcgdex.card.list();
 
-// Get a random set
-const randomSet = await tcgdex.random.set();
+// filter, sort & paginate the result (ex: find card where name is equal to furret)
+const cards = await tcgdex.card.list(new Query().equal('name', 'furret'));
 
-// Get a random serie
-const randomSerie = await tcgdex.random.serie();
+Respuesta de muestra
+Respuesta 200
+La solicitud devuelve una matriz de CardBriefobjetos.
 
-Consultas avanzadas
-El SDK proporciona un potente sistema de consulta para filtrar datos:
-import TCGdex, { Query } from '@tcgdex/sdk';
+[
+  {
+    "id": "base4-1",
+    "localId": "1",
+    "name": "Alakazam",
+    "image": "https://assets.tcgdex.net/en/base/base4/1"
+  },
+  // ...
+  {
+    "id": "xyp-XY99",
+    "localId": "XY99",
+    "name": "Aerodactyl Spirit Link",
+    "image": "https://assets.tcgdex.net/en/xy/xyp/XY99"
+  }
+]
 
-const tcgdex = new TCGdex('en');
+Conseguir un conjunto
+Pedido
+const set = await tcgdex.fetch('sets', 'swsh3');
+Respuesta de muestra
+{
+  "cardCount": {
+    "firstEd": 0,
+    "holo": 64,
+    "normal": 137,
+    "official": 189,
+    "reverse": 155,
+    "total": 201
+  },
+  "cards": [
+    {
+      "id": "swsh3-1",
+      "image": "https://assets.tcgdex.net/en/swsh/swsh3/1",
+      "localId": "1",
+      "name": "Butterfree V"
+    },
+    // ...
+    {
+      "id": "swsh3-136",
+      "image": "https://assets.tcgdex.net/en/swsh/swsh3/136",
+      "localId": "136",
+      "name": "Furret"
+    },
+    // ...
+    {
+      "id": "swsh3-201",
+      "image": "https://assets.tcgdex.net/en/swsh/swsh3/201",
+      "localId": "201",
+      "name": "Capture Energy"
+    }
+  ],
+  "id": "swsh3",
+  "legal": {
+    "expanded": true,
+    "standard": false
+  },
+  "logo": "https://assets.tcgdex.net/en/swsh/swsh3/logo",
+  "name": "Darkness Ablaze",
+  "releaseDate": "2020-08-14",
+  "serie": {
+    "id": "swsh",
+    "name": "Sword & Shield"
+  },
+  "symbol": "https://assets.tcgdex.net/univ/swsh/swsh3/symbol"
+}
+Búsqueda de conjuntos
+Pedido
+// Fetch the cards !
+const sets = await tcgdex.fetch('sets');
+Respuesta de muestra
+[
+  {
+    "id": "base1",
+    "name": "Base Set",
+    "logo": "https://assets.tcgdex.net/en/base/base1/logo",
+    "cardCount": {
+      "total": 102,
+      "official": 102
+    }
+  },
+  // ...
+  {
+    "id": "swsh3",
+    "name": "Darkness Ablaze",
+    "logo": "https://assets.tcgdex.net/en/swsh/swsh3/logo",
+    "symbol": "https://assets.tcgdex.net/univ/swsh/swsh3/symbol",
+    "cardCount": {
+      "total": 201,
+      "official": 189
+    }
+  },
+  // ...
+  {
+    "id": "sv06",
+    "name": "Twilight Masquerade",
+    "logo": "https://assets.tcgdex.net/en/sv/sv06/logo",
+    "symbol": "https://assets.tcgdex.net/univ/sv/sv06/symbol",
+    "cardCount": {
+      "total": 226,
+      "official": 167
+    }
+  }
+]
+Obtener una tarjeta con su ID local y su ID establecido
+Pedido
+const set = await tcgdex.fetch('sets', 'swsh3', '136');
+Respuesta
+Respuesta 200
+La solicitud devuelve un objeto Tarjeta
 
-// Create a query to find Pikachu cards with HP between 60 and 70
-const pikachuCards = await tcgdex.card.list(
-  Query.create()
-    .equal('name', 'Pikachu')  // Match exact name
-    .greaterOrEqualThan('hp', 60)  // HP >= 60
-    .lesserThan('hp', 70)  // HP < 70
-    .sort('localId', 'ASC')  // Sort by ID ascending
-);
+{
+  "category": "Pokemon",
+  "id": "swsh3-136",
+  "illustrator": "tetsuya koizumi",
+  "image": "https://assets.tcgdex.net/en/swsh/swsh3/136",
+  "localId": "136",
+  "name": "Furret",
+  "rarity": "Uncommon",
+  "set": {
+    "cardCount": {
+      "official": 189,
+      "total": 201
+    },
+    "id": "swsh3",
+    "logo": "https://assets.tcgdex.net/en/swsh/swsh3/logo",
+    "name": "Darkness Ablaze",
+    "symbol": "https://assets.tcgdex.net/univ/swsh/swsh3/symbol"
+  },
+  "variants": {
+    "firstEdition": false,
+    "holo": false,
+    "normal": true,
+    "reverse": true,
+    "wPromo": false
+  },
+  "hp": 110,
+  "types": [
+    "Colorless"
+  ],
+  "evolveFrom": "Sentret",
+  "description": "It makes a nest to suit its long and skinny body. The nest is impossible for other Pokémon to enter.",
+  "stage": "Stage1",
+  "attacks": [
+    {
+    "cost": [
+      "Colorless"
+    ],
+    "name": "Feelin' Fine",
+    "effect": "Draw 3 cards."
+    },
+    {
+    "cost": [
+      "Colorless"
+    ],
+    "name": "Tail Smash",
+    "effect": "Flip a coin. If tails, this attack does nothing.",
+    "damage": 90
+    }
+  ],
+  "weaknesses": [
+    {
+      "type": "Fighting",
+      "value": "×2"
+    }
+  ],
+  "retreat": 1,
+  "regulationMark": "D",
+  "legal": {
+    "standard": true,
+    "expanded": true
+  }
+}
 
-// Find cards containing "5" in their ID but not "tg"
-const filteredCards = await tcgdex.card.list(
-  Query.create()
-    .contains('localId', '5')  // ID contains "5"
-    .not.contains('localId', 'tg')  // ID doesn't contain "tg"
-);
+Respuesta 404
+No se encontró la tarjeta :( devolverá un mensaje de error global (no traducido)
 
-// Pagination example - get page 3 with 2 items per page
-const paginatedCards = await tcgdex.card.list(
-  Query.create()
-    .paginate(3, 2)
-);
+{
+  "error": "Endpoint or id not found"
+}
+Conseguir una sola Serie
+Pedido
+const serie = await tcgdex.fetch('series', 'swsh');
+Respuesta de muestra
+Respuesta 200
+La solicitud devuelve un objeto Serie
 
-Relaciones de objeto
-El SDK facilita la navegación por las relaciones entre objetos:
-// Get a card then retrieve its set
-const card = await tcgdex.card.get('swsh3-136');
-const set = await card.getSet();
+{
+  "id": "swsh",
+  "logo": "https://assets.tcgdex.net/en/swsh/swshp/logo",
+  "name": "Sword & Shield",
+  "sets": [
+    {
+      "cardCount": {
+        "official": 107,
+        "total": 166
+      },
+      "id": "swshp",
+      "logo": "https://assets.tcgdex.net/en/swsh/swshp/logo",
+      "name": "SWSH Black Star Promos",
+      "symbol": "https://assets.tcgdex.net/univ/swsh/swshp/symbol"
+    },
+    // ...
+    {
+      "cardCount": {
+        "official": 159,
+        "total": 230
+      },
+      "id": "swsh12.5",
+      "logo": "https://assets.tcgdex.net/en/swsh/swsh12.5/logo",
+      "name": "Crown Zenith"
+    }
+  ]
+}
 
-// Get a set then retrieve its serie
-const set = await tcgdex.set.get('swsh3');
-const serie = await set.getSerie();
+Respuesta 404
+No se encontró la serie :( devolverá un mensaje de error global (no traducido)
 
-// Get a card from a set's card list
-const set = await tcgdex.set.get('swsh3');
-const firstCardResume = set.cards[0];
-const fullCard = await firstCardResume.getCard();
+{
+  "error": "Endpoint or id not found"
+}
+Serie de búsqueda
+Pedido
+const series = await tcgdex.fetch('series');
+Respuesta de muestra
+La solicitud devuelve una matriz de SerieBriefobjetos.
 
-Filtrado por atributos
-Buscar tarjetas por atributos específicos:
-// Get all fire type cards
-const fireType = await tcgdex.type.get('fire');
+[
+  {
+    "id": "base",
+    "name": "Base",
+    "logo": "https://assets.tcgdex.net/en/base/base1/logo"
+  },
+  // ...
+  {
+    "id": "xy",
+    "name": "XY",
+    "logo": "https://assets.tcgdex.net/en/xy/xyp/logo"
+  }
+]
+Otros puntos finales
+los puntos finales restantes de las aplicaciones principalmente para fines de listado.
 
-// Get all cards with specific HP
-const hp90Cards = await tcgdex.hp.get('90');
+categories:Las diferentes categorías de tarjetas que están disponibles
+hps:Los diferentes HP que están disponibles
+illustrators:Los diferentes ilustradores de tarjetas
+rarities:Las diferentes rarezas de las cartas
+retreats:El costo de retirada de los diferentes Pokémon
+types:Los diferentes tipos de Pokémon
+Pedido
+// List cards types
+const res = await tcgdex.fetch('types')
+// List cards retreat costs
+const res = await tcgdex.fetch('retreats')
+// List cards rarities
+const res = await tcgdex.fetch('rarities')
+// List cards illustrators
+const res = await tcgdex.fetch('illustrators')
+// List cards HPs
+const res = await tcgdex.fetch('hp')
+// List cards categories
+const res = await tcgdex.fetch('categories')
+// list the different pokedex ids are in the DB
+const res = await tcgdex.fetch('dexids')
+// list the different energy types
+const res = await tcgdex.fetch('energytypes')
+// list the different regulation marks
+const res = await tcgdex.fetch('regulationmarks')
+// list the different pokemon stages
+const res = await tcgdex.fetch('stages')
+// list the different suffixes
+const res = await tcgdex.fetch('suffixes')
+// list the different trainer types
+const res = await tcgdex.fetch('trainertypes')
+// list the different variants
+const res = await tcgdex.fetch('variants')
+Respuesta de muestra
+nota: respuesta para HP
 
-// Get all cards by a specific illustrator
-const illustratorCards = await tcgdex.illustrator.get('TOKIYA');
+[
+  10,
+  30,
+  40,
+  ...,
+  320,
+  330,
+  340
+]
 
-// Get all cards with a specific rarity
-const rareCards = await tcgdex.rarity.get('rare');
+Filtrado, ordenación y paginación
+La mayoría de los puntos finales que devuelven matrices pueden tener filtros, ordenamiento e información de paginación agregados en la consulta para ayudarlo a desarrollarlos.
 
-Opciones de configuración
-El SDK proporciona varias opciones de configuración:
-// Create SDK with a specific language
-const tcgdex = new TCGdex('fr');  // French
-// Change the language after initialization
-tcgdex.setLang('en');  // Switch to English
-// Set a custom API endpoint
-tcgdex.setEndpoint('https://custom-api.example.com/v2');
-// Configure caching
-tcgdex.setCacheTTL(3600);  // Set cache duration to 1 hour
+Filtración
+Puede agregar filtros a la solicitud que está realizando, verificará si el campo que está verificando contiene el elemento de cadena o número definido.
 
-Imágenes de tarjetas
-Acceda fácilmente a las imágenes de las tarjetas:
-const card = await tcgdex.card.get('swsh3-136');
-// Get high-quality PNG image URL
-const highQualityPng = card.getImageURL('high', 'png');
-// Get low-quality WEBP image URL for performance
-const lowQualityWebp = card.getImageURL('low', 'webp');
+Se construye así: object.key=valueej:name=pikachu
+
+Ejemplo
+Pedido:
+
+https://api.tcgdex.net/v2/en/cards?name=pikachu
+
+Respuesta:
+
+[
+  {
+    "id": "basep-1",
+    "localId": "1",
+    "name": "Pikachu",
+    "image": "https://assets.tcgdex.net/en/base/basep/1"
+  },
+  // ...
+  {
+    "id": "xyp-XY95",
+    "localId": "XY95",
+    "name": "Pikachu",
+    "image": "https://assets.tcgdex.net/en/xy/xyp/XY95"
+  }
+]
+
+Prefijos
+Para permitir una forma más flexible de utilizar la API, puede agregar diferentes prefijos a los filtros para cambiar cómo funcionan.
+
+TL:DR: la tabla a continuación resume cómo funciona
+
+Nombre	Prefijo	Ejemplo	Resultados esperados
+Filtro de igualdad laxista	,like:	name=fu, name=like:fu,name=fu*	Elementos que contienen el valor
+Filtro laxo no igualitario	not:, notlike:	name=not:fu	elementos que no contienen el valor
+Filtro de igualdad estricta	eq:	name=eq:Furret	elementos con el valor exacto
+Filtro estricto diferente	neq:	name=neq:Furret	Elementos sin el valor exacto
+Mayor o igual	gte:	hp=gte:50	Elementos con mayor o igual que el valor
+Menor o igual	lte:	hp=lte:50	Elementos con menor o igual que el valor
+Más que	gt:	hp=gt:50	Elementos con más del valor
+Menor que	lt:	hp=lt:50	Elementos con valor menor
+Es nulo	null:	effect=null:	Elementos sin valor
+No es nulo	notnull:	effect=notnull:	Elementos con un valor
+Filtro de igualdad laxista ,like:
+Este es el filtro predeterminado cuando se hace una solicitud, hace una búsqueda laxa en el campo especificado, lo que significa que busca si la entrada es parte del elemento buscado, también lo hace sin distinguir entre mayúsculas y minúsculas.
+
+ej: name=aboo name=like:aboel nameestá compuesto de aboalgún lugar (puede coincidir con Abomasnowo Pumpkaboo)
+
+Si agrega un asterisco al inicio y/o al final, por ejemplo name=*chu, se verificará con el inicio/final del texto como *chues igual a Pikachupero no Pikachu on the Ballasimismo fu*es igual a Furretpero noStufful
+
+not:Filtro laxo no igualdadnotlike:
+Puede revertir el filtro anterior cambiando el prefijo a not:o notlike:encontrará cosas que no sean iguales a él de la misma manera que arriba.
+
+Filtro de igualdad estrictaeq:
+Agregar un secundario igual =a la solicitud buscará el valor exacto en lugar de la coincidencia laxista predeterminada
+
+?name=eq:abo
+
+Advertencia
+
+¡Con este método no emparejarás Charizardcartas usando charizard!
+
+Filtro estricto de no igualdadneq:
+realizar una comprobación de igualdad estricta y eliminar los que coincidan.
+
+ej: NO DEBEname=neq:abo ser igual aname abo
+
+Mayor o igualgte:
+solo para números
+
+Permite obtener valores mayores o iguales a la entrada
+
+ex:hp=gte:10
+
+Menor o iguallte:
+solo para números
+
+Permite obtener valores menores o iguales a la entrada
+
+hp=lte:10
+
+Más quegt:
+solo para números
+
+Permite obtener valores mayores o iguales a la entrada
+
+ex:hp=gt:10
+
+Menor quelt:
+solo para números
+
+Permite obtener valores menores o iguales a la entrada
+
+hp=lt:10
+
+es nulonull:
+ej: effect=null:la carta no tiene efecto
+
+¡Asegúrese de que :esté configurado!
+
+no es nulonotnull:
+ej: effect=notnull:la carta tiene un efecto
+
+¡Asegúrese de que :esté configurado!
+
+Múltiples valores|
+Para algunos campos puedes agregar múltiples valores para comparar.
+
+ej: name=eq:Furret|Pikachu, coincidirá con PikachuambosFurret
+
+Clasificación
+La ordenación se realiza de forma predeterminada en la API dependiendo de la matriz devuelta.releaseDate > localId > id
+
+Puede anular el algoritmo de clasificación predeterminado agregando parámetros a su solicitud:
+
+parámetro de consulta	valor predeterminado	valores posibles	descripción
+sort:field	fecha de lanzamiento > ID local > id	clave del objeto	cambiar el campo que se utiliza para ordenar ( DEBE ser el nombre de uno de los campos del objeto)
+sort:order	ASC	ASC,DESC	cambiar el orden realizado en el campo
+Ejemplo
+Pedido:
+
+https://api.tcgdex.net/v2/en/sets?sort:field=name&sort:order=DESC
+
+Respuesta:
+
+[
+  {
+    "id": "sma",
+    "name": "Yellow A Alternate",
+    "symbol": "https://assets.tcgdex.net/univ/sm/sma/symbol",
+    "cardCount": {
+      "total": 94,
+      "official": 94
+    }
+  },
+  // ...
+  {
+    "id": "sv03.5",
+    "name": "151",
+    "logo": "https://assets.tcgdex.net/en/sv/sv03.5/logo",
+    "symbol": "https://assets.tcgdex.net/univ/sv/sv03.5/symbol",
+    "cardCount": {
+      "total": 207,
+      "official": 165
+    }
+  }
+]
+
+Paginación
+La paginación no se realiza automáticamente para agilizar las solicitudes de su parte.
+
+Aún puedes agregarlo nuevamente usando los siguientes parámetros de consulta:
+
+parámetro de consulta	valor predeterminado	valores posibles	descripción
+pagination:page	1	Número	Indica en qué página estás
+pagination:itemsPerPage	100(cuando pagination:pagese establece)	Número	Indica el número de elementos que se muestran en cada página
+Ejemplo
+Pedido:
+
+https://api.tcgdex.net/v2/en/sets?pagination:page=3&pagination:itemsPerPage=2
+
+Respuesta:
+
+[
+  {
+    "id": "base3",
+    "name": "Fossil",
+    "logo": "https://assets.tcgdex.net/en/base/base3/logo",
+    "symbol": "https://assets.tcgdex.net/univ/base/base3/symbol",
+    "cardCount": {
+      "total": 62,
+      "official": 62
+    }
+  },
+  {
+    "id": "jumbo",
+    "name": "Jumbo cards",
+    "cardCount": {
+      "total": 160,
+      "official": 160
+    }
+  }
+]
+
+
+

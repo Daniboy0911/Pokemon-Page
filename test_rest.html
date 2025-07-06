@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <title>Explorador de Cartas Pokémon TCG</title>
+    <!-- Preload important resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .json-viewer {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+        }
+
+        .json-viewer pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            aspect-ratio: 3/4;
+        }
+
+        .card-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card-item:hover .card-wrapper {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.85) 0%,
+                    rgba(0, 0, 0, 0.75) 50%,
+                    rgba(0, 0, 0, 0.4) 100%);
+            padding: 2rem 1.5rem 1.2rem;
+            transform: translateY(100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-item:hover .card-info {
+            transform: translateY(0);
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.9) 0%,
+                    rgba(0, 0, 0, 0.85) 40%,
+                    rgba(0, 0, 0, 0.6) 100%);
+            box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-info h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0 0 0.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+            position: relative;
+            padding-bottom: 0.8rem;
+            letter-spacing: 0.5px;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.3s ease 0.1s;
+        }
+
+        .card-item:hover .card-info h3 {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .card-info p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.9rem;
+            margin: 0;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.3s ease 0.2s;
+        }
+
+        .card-item:hover .card-info p {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Efecto de brillo en el borde superior */
+        .card-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0.15) 0%,
+                    transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-item:hover .card-wrapper::after {
+            opacity: 1;
+        }
+
+        /* Mejoras para cartas sin imagen */
+        .no-image-badge {
+            background: linear-gradient(135deg, #ff4b4b 0%, #ff0000 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-item:hover .card-wrapper.no-image .no-image-badge {
+            opacity: 0;
+        }
+
+        /* Ajustes responsive */
+        @media (max-width: 768px) {
+            .card-info {
+                padding: 1.5rem 1rem 1rem;
+            }
+
+            .card-info h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.6rem;
+                padding-bottom: 0.6rem;
+            }
+
+            .card-info p {
+                font-size: 0.85rem;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .filters {
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-button {
+            margin: 0 8px 8px 0;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #e0e0e0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .filter-button.active {
+            background: #2196F3;
+            color: white;
+        }
+
+        .filter-button:hover {
+            background: #bdbdbd;
+        }
+
+        .filter-button.active:hover {
+            background: #1976D2;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-button {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .card-item:hover {
+                transform: none;
+            }
+
+            .modal-content {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            margin: 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .stat-card p {
+            margin: 0.5rem 0 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+        }
+
+        /* Estilos para el selector de idioma */
+        .language-selector {
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .language-button {
+            margin: 0 8px 8px 0;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #e0e0e0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .language-button.active {
+            background: #2196F3;
+            color: white;
+        }
+
+        .language-button:hover {
+            background: #bdbdbd;
+        }
+
+        .language-button.active:hover {
+            background: #1976D2;
+        }
+
+        .cards-section {
+            margin-bottom: 2rem;
+        }
+
+        .cards-section h3 {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card-wrapper.no-image {
+            background: linear-gradient(135deg, #2B3990 0%, #1B1464 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-wrapper.no-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .card-wrapper.no-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .no-image-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .pokeball-placeholder {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff1a1a 50%, #f0f0f0 50%);
+            border-radius: 50%;
+            position: relative;
+            margin: 20px auto;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .pokeball-placeholder::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: #333;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .pokeball-placeholder::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border: 4px solid #333;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .missing-image-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 15px 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .no-image-badge {
+            background: linear-gradient(135deg, #ff4b4b 0%, #ff0000 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-item:hover .card-wrapper.no-image .no-image-badge {
+            opacity: 0;
+        }
+
+        .question-mark {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: white;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        .sparkle:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            top: 30%;
+            right: 20%;
+            animation-delay: 0.3s;
+        }
+
+        .sparkle:nth-child(3) {
+            bottom: 20%;
+            left: 30%;
+            animation-delay: 0.6s;
+        }
+
+        .sparkle:nth-child(4) {
+            bottom: 30%;
+            right: 30%;
+            animation-delay: 0.9s;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(2);
+                opacity: 1;
+            }
+        }
+
+        /* Actualizar los estilos de la sección de cartas sin imagen */
+        #cardsWithoutImage .cards-section h3 {
+            background: linear-gradient(135deg, #2B3990 0%, #1B1464 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #cardsWithoutImage .cards-section h3::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.1) 25%,
+                    transparent 25%,
+                    transparent 50%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    rgba(255, 255, 255, 0.1) 75%,
+                    transparent 75%,
+                    transparent);
+            background-size: 30px 30px;
+            animation: slide 30s linear infinite;
+            opacity: 0.2;
+        }
+
+        @keyframes slide {
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: 60px 60px;
+            }
+        }
+
+        .card-wrapper.no-image .card-info h3 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+        }
+
+        #loadMoreButton {
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, #2B3990 0%, #1B1464 100%);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #loadMoreButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #1B1464 0%, #2B3990 100%);
+        }
+
+        #loadMoreButton:active {
+            transform: translateY(0);
+        }
+
+        #loadMoreButton:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .card-item:hover .missing-image-text {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .card-item:hover .question-mark {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .card-item:hover .pokeball-placeholder {
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Search bar styles */
+        .search-container {
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+        }
+
+        /* Enhanced modal styles */
+        .card-details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .card-image-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .card-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-group {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .info-group h3 {
+            margin: 0 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            width: 140px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: #333;
+            flex-grow: 1;
+        }
+
+        .info-value.empty {
+            color: #999;
+            font-style: italic;
+        }
+
+        .attacks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .attack-item {
+            background: #fff;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .attack-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .attack-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .attack-damage {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .attack-cost {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .attack-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .card-details-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* JSON Viewer styles */
+        .json-viewer-modal {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: none;
+        }
+
+        .json-viewer-modal pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .json-viewer-modal .string {
+            color: #ce9178;
+        }
+
+        .json-viewer-modal .number {
+            color: #b5cea8;
+        }
+
+        .json-viewer-modal .boolean {
+            color: #569cd6;
+        }
+
+        .json-viewer-modal .null {
+            color: #569cd6;
+        }
+
+        .json-viewer-modal .key {
+            color: #9cdcfe;
+        }
+
+        .json-section {
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            margin: auto;
+        }
+
+        .card-details-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .json-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #2d2d2d;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .json-header h3 {
+            margin: 0;
+            color: white;
+        }
+
+        .copy-button {
+            background: #444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-button:hover {
+            background: #555;
+        }
+
+        .copy-button i {
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                max-width: 100vw;
+                margin: 0;
+                min-height: 100vh;
+            }
+
+            .json-viewer-modal {
+                font-size: 12px;
+            }
+        }
+    </style>
+    <!-- Añadir iconos de Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tcgdex/sdk@2/dist/tcgdex.browser.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mb-4">Explorador de Cartas Pokémon TCG</h1>
+
+        <!-- Search bar -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar cartas por nombre...">
+        </div>
+
+        <!-- Selector de idioma -->
+        <div class="language-selector">
+            <h2>Idioma</h2>
+            <button class="language-button active" data-lang="es">Español</button>
+            <button class="language-button" data-lang="en">English</button>
+            <button class="language-button" data-lang="fr">Français</button>
+            <button class="language-button" data-lang="it">Italiano</button>
+            <button class="language-button" data-lang="de">Deutsch</button>
+            <button class="language-button" data-lang="pt">Português</button>
+        </div>
+
+        <div class="mb-4">
+            <h2>Estructura JSON de una Carta</h2>
+            <div id="jsonViewer" class="json-viewer">
+                <pre>Cargando estructura JSON...</pre>
+            </div>
+        </div>
+
+        <div class="filters">
+            <h2>Filtros</h2>
+            <button class="filter-button active" data-filter="all">Todas</button>
+            <button class="filter-button" data-filter="pokemon">Pokémon</button>
+            <button class="filter-button" data-filter="trainer">Entrenador</button>
+            <button class="filter-button" data-filter="energy">Energía</button>
+            <button class="filter-button" data-filter="special">Especial</button>
+        </div>
+
+        <div id="categoryStats" class="mb-4">
+            <h3>Estadísticas de Categorías</h3>
+            <div id="categoryCount" class="stats-container">
+                Cargando estadísticas...
+            </div>
+        </div>
+
+        <div id="gallery" class="gallery">
+            <div class="loading">Cargando cartas...</div>
+        </div>
+    </div>
+
+    <!-- Modal para detalles de la carta -->
+    <div id="cardModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="cardDetails"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de idiomas
+        const languageConfig = {
+            es: {
+                all: 'Todas',
+                pokemon: 'Pokémon',
+                trainer: 'Entrenador',
+                energy: 'Energía',
+                loading: 'Cargando cartas...',
+                error: 'Error al cargar las cartas: ',
+                filters: 'Filtros',
+                categories: 'Estadísticas de Categorías',
+                unknown: 'Desconocido'
+            },
+            en: {
+                all: 'All',
+                pokemon: 'Pokémon',
+                trainer: 'Trainer',
+                energy: 'Energy',
+                loading: 'Loading cards...',
+                error: 'Error loading cards: ',
+                filters: 'Filters',
+                categories: 'Category Statistics',
+                unknown: 'Unknown'
+            },
+            fr: {
+                all: 'Toutes',
+                pokemon: 'Pokémon',
+                trainer: 'Dresseur',
+                energy: 'Énergie',
+                loading: 'Chargement des cartes...',
+                error: 'Erreur de chargement des cartes: ',
+                filters: 'Filtres',
+                categories: 'Statistiques des catégories',
+                unknown: 'Inconnu'
+            },
+            it: {
+                all: 'Tutte',
+                pokemon: 'Pokémon',
+                trainer: 'Allenatore',
+                energy: 'Energia',
+                loading: 'Caricamento carte...',
+                error: 'Errore nel caricamento delle carte: ',
+                filters: 'Filtri',
+                categories: 'Statistiche delle categorie',
+                unknown: 'Sconosciuto'
+            },
+            de: {
+                all: 'Alle',
+                pokemon: 'Pokémon',
+                trainer: 'Trainer',
+                energy: 'Energie',
+                loading: 'Karten werden geladen...',
+                error: 'Fehler beim Laden der Karten: ',
+                filters: 'Filter',
+                categories: 'Kategorie-Statistiken',
+                unknown: 'Unbekannt'
+            },
+            pt: {
+                all: 'Todas',
+                pokemon: 'Pokémon',
+                trainer: 'Treinador',
+                energy: 'Energia',
+                loading: 'Carregando cartas...',
+                error: 'Erro ao carregar cartas: ',
+                filters: 'Filtros',
+                categories: 'Estatísticas das categorias',
+                unknown: 'Desconhecido'
+            }
+        };
+
+        let currentLang = 'es';
+        let API_BASE_URL = 'https://api.tcgdex.net/v2/es';
+        let allCards = [];
+        let currentPage = 0;
+        const cardsPerPage = 20;
+        let currentFilter = 'all';
+
+        // Función para cambiar el idioma
+        function changeLanguage(lang) {
+            currentLang = lang;
+            API_BASE_URL = `https://api.tcgdex.net/v2/${lang}`;
+
+            // Actualizar botones de idioma
+            document.querySelectorAll('.language-button').forEach(button => {
+                button.classList.toggle('active', button.dataset.lang === lang);
+            });
+
+            // Reinicializar la página con el nuevo idioma
+            initialize();
+        }
+
+        // Función para formatear el JSON
+        function syntaxHighlight(json) {
+            if (typeof json !== 'string') {
+                json = JSON.stringify(json, undefined, 2);
+            }
+            return json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // Función para mostrar una carta en el modal
+        function showCardDetails(card) {
+            const modal = document.getElementById('cardModal');
+            const detailsContainer = document.getElementById('cardDetails');
+
+            // Crear el contenido del modal
+            detailsContainer.innerHTML = `
+                <div class="card-details-container">
+                    <div class="json-section">
+                        <div class="json-header">
+                            <h3>Datos Completos de la Carta</h3>
+                            <button class="copy-button" onclick="copyJsonToClipboard(${JSON.stringify(card)})">
+                                <i class="bi bi-clipboard"></i>
+                                Copiar JSON
+                            </button>
+                        </div>
+                        <div class="json-viewer-modal">
+                            <pre>${syntaxHighlight(JSON.stringify(card, null, 4))}</pre>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        // Función para copiar el JSON al portapapeles
+        function copyJsonToClipboard(jsonData) {
+            const jsonString = JSON.stringify(jsonData, null, 2);
+            navigator.clipboard.writeText(jsonString).then(() => {
+                const copyButton = document.querySelector('.copy-button');
+                const originalText = copyButton.innerHTML;
+                copyButton.innerHTML = '<i class="bi bi-check"></i>Copiado!';
+                setTimeout(() => {
+                    copyButton.innerHTML = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+                alert('No se pudo copiar el JSON al portapapeles');
+            });
+        }
+
+        // Función para filtrar cartas por nombre
+        function filterCardsByName(searchTerm) {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '';
+            currentPage = 0;
+
+            const filteredCards = allCards.filter(card => {
+                const matchesFilter = currentFilter === 'all' || card.category === currentFilter;
+                const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filteredCards.length === 0) {
+                gallery.innerHTML = '<div class="error">No se encontraron cartas que coincidan con la búsqueda.</div>';
+                document.getElementById('loadMoreButton').style.display = 'none';
+                return;
+            }
+
+            const cardsToShow = filteredCards.slice(0, cardsPerPage);
+            cardsToShow.forEach(card => {
+                gallery.appendChild(createCardElement(card));
+            });
+
+            const loadMoreButton = document.getElementById('loadMoreButton');
+            loadMoreButton.style.display = filteredCards.length > cardsPerPage ? 'block' : 'none';
+        }
+
+        // Función para contar las cartas por categoría
+        function countCardsByCategory(cards) {
+            const categories = {};
+            let cardsWithoutImage = 0;
+
+            cards.forEach(card => {
+                let category = card.category || languageConfig[currentLang].unknown;
+                categories[category] = (categories[category] || 0) + 1;
+
+                // Contar cartas sin imagen
+                if (!card.image) {
+                    cardsWithoutImage++;
+                }
+            });
+
+            // Añadir contador de cartas sin imagen
+            categories['Sin imagen'] = cardsWithoutImage;
+            categories['Con imagen'] = cards.length - cardsWithoutImage;
+
+            return categories;
+        }
+
+        // Función para mostrar las estadísticas
+        function displayCategoryStats(categories) {
+            const statsContainer = document.getElementById('categoryCount');
+            const html = Object.entries(categories)
+                .map(([category, count]) => `
+                    <div class="stat-card">
+                        <h4>${category}</h4>
+                        <p>${count}</p>
+                    </div>
+                `)
+                .join('');
+            statsContainer.innerHTML = html;
+        }
+
+        // Función para crear el elemento de carta
+        function createCardElement(card) {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card-item';
+            cardElement.dataset.category = card.category || 'unknown';
+            cardElement.dataset.hasImage = card.image ? 'true' : 'false';
+
+            if (card.image) {
+                cardElement.innerHTML = `
+                    <div class="card-wrapper">
+                        <img src="${card.image}/high.webp" 
+                             alt="${card.name}"
+                             loading="lazy">
+                        <div class="card-info">
+                            <h3>${card.name}</h3>
+                            <p>${card.category || languageConfig[currentLang].unknown}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                cardElement.innerHTML = `
+                    <div class="card-wrapper no-image">
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="no-image-content">
+                            <div class="pokeball-placeholder"></div>
+                            <div class="missing-image-text">¿Quién es este Pokémon?</div>
+                            <div class="question-mark">?</div>
+                        </div>
+                        <div class="card-info">
+                            <h3>${card.name}</h3>
+                            <p>${card.category || languageConfig[currentLang].unknown}</p>
+                            <p class="no-image-badge">Sin imagen</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            cardElement.addEventListener('click', () => showCardDetails(card));
+            return cardElement;
+        }
+
+        // Función para cargar más cartas
+        function loadMoreCards() {
+            const start = currentPage * cardsPerPage;
+            const end = start + cardsPerPage;
+            const filteredCards = allCards.filter(card => {
+                if (currentFilter === 'all') return true;
+                return card.category === currentFilter;
+            });
+
+            const cardsToShow = filteredCards.slice(start, end);
+            const gallery = document.getElementById('gallery');
+
+            cardsToShow.forEach(card => {
+                gallery.appendChild(createCardElement(card));
+            });
+
+            currentPage++;
+
+            // Ocultar el botón si no hay más cartas
+            const loadMoreButton = document.getElementById('loadMoreButton');
+            if (end >= filteredCards.length) {
+                loadMoreButton.style.display = 'none';
+            } else {
+                loadMoreButton.style.display = 'block';
+            }
+        }
+
+        // Función mejorada para mostrar detalles de la carta
+        async function showCardDetails(card) {
+            try {
+                const modal = document.getElementById('cardModal');
+                const detailsContainer = document.getElementById('cardDetails');
+
+                // Mostrar loading
+                detailsContainer.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                `;
+
+                // Hacer la llamada a la API para obtener los detalles completos
+                const response = await fetch(`https://api.tcgdex.net/v2/es/cards/${card.id}`);
+                if (!response.ok) {
+                    throw new Error(`Error al cargar los detalles de la carta: ${response.status}`);
+                }
+                const cardDetails = await response.json();
+
+                console.log('Detalles completos de la carta:', cardDetails);
+
+                // Crear el contenido del modal con los detalles completos
+                detailsContainer.innerHTML = `
+                    <div class="card-details-container">
+                        <div class="json-section">
+                            <div class="json-header">
+                                <h3>Datos Completos de la Carta</h3>
+                                <button class="copy-button" onclick="copyJsonToClipboard(${JSON.stringify(cardDetails)})">
+                                    <i class="bi bi-clipboard"></i>
+                                    Copiar JSON
+                                </button>
+                            </div>
+                            <div class="json-viewer-modal">
+                                <pre>${syntaxHighlight(JSON.stringify(cardDetails, null, 4))}</pre>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                modal.style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                detailsContainer.innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Función para alternar la visibilidad del JSON
+        function toggleJsonView(button) {
+            const jsonSection = button.nextElementSibling;
+            const isVisible = jsonSection.classList.contains('visible');
+
+            jsonSection.classList.toggle('visible');
+            button.textContent = isVisible ? 'Mostrar JSON Completo' : 'Ocultar JSON Completo';
+        }
+
+        // Modificar la función initialize
+        async function initialize() {
+            try {
+                const gallery = document.getElementById('gallery');
+                gallery.innerHTML = `
+                    <div class="loading">${languageConfig[currentLang].loading}</div>
+                `;
+
+                const response = await fetch(API_BASE_URL + '/cards');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                allCards = await response.json();
+
+                const categories = countCardsByCategory(allCards);
+                displayCategoryStats(categories);
+
+                // Limpiar la galería
+                gallery.innerHTML = '';
+
+                // Añadir el botón "Cargar más"
+                gallery.insertAdjacentHTML('afterend', `
+                    <div class="text-center mt-4 mb-4">
+                        <button id="loadMoreButton" class="btn btn-primary">
+                            Cargar más cartas
+                        </button>
+                    </div>
+                `);
+
+                // Cargar la primera página
+                loadMoreCards();
+
+                // Añadir evento al botón
+                document.getElementById('loadMoreButton').addEventListener('click', loadMoreCards);
+
+                // Actualizar los filtros
+                const filtersContainer = document.querySelector('.filters');
+                filtersContainer.innerHTML = `
+                    <h2>${languageConfig[currentLang].filters}</h2>
+                    <button class="filter-button active" data-filter="all">${languageConfig[currentLang].all}</button>
+                    <button class="filter-button" data-filter="pokemon">${languageConfig[currentLang].pokemon}</button>
+                    <button class="filter-button" data-filter="trainer">${languageConfig[currentLang].trainer}</button>
+                    <button class="filter-button" data-filter="energy">${languageConfig[currentLang].energy}</button>
+                `;
+
+                // Añadir eventos a los filtros
+                document.querySelectorAll('.filter-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        // Actualizar botones
+                        document.querySelectorAll('.filter-button').forEach(btn =>
+                            btn.classList.remove('active'));
+                        e.target.classList.add('active');
+
+                        // Actualizar filtro actual
+                        currentFilter = e.target.dataset.filter;
+                        currentPage = 0;
+                        gallery.innerHTML = '';
+                        loadMoreCards();
+                    });
+                });
+
+                // Añadir evento para la búsqueda
+                const searchInput = document.getElementById('searchInput');
+                let searchTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        filterCardsByName(e.target.value);
+                    }, 300);
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                gallery.innerHTML = `
+                    <div class="error">
+                        ${languageConfig[currentLang].error} ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Configurar cierre del modal
+        document.querySelector('.close-button').addEventListener('click', () => {
+            document.getElementById('cardModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('cardModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Agregar event listeners para los botones de idioma
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.language-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    changeLanguage(button.dataset.lang);
+                });
+            });
+
+            // Inicializar la página
+            initialize();
+        });
+    </script>
+</body>
+
+</html>
