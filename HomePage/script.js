@@ -1,4 +1,4 @@
-// Base URL for the TCGdex API
+// Constants
 const API_BASE_URL = 'https://api.tcgdex.net/v2/es';
 
 // Global state management
@@ -28,6 +28,8 @@ const imageUtils = {
             cssClass = ''
         } = options;
 
+        const classes = ['img-fluid', cssClass].filter(Boolean).join(' ');
+
         return `
             <picture class="${cssClass}">
                 ${previewUrl ? `<source srcset="${previewUrl}" type="image/webp" media="(max-width: 600px)">` : ''}
@@ -35,6 +37,7 @@ const imageUtils = {
                 <img src="${fallbackUrl || imageUrl}" 
                     alt="${name}"
                     loading="${loadingType}"
+                    class="${classes}"
                     onerror="this.src='https://placehold.co/245x337/png?text=Imagen+no+disponible'">
             </picture>
         `;
@@ -104,11 +107,12 @@ function createFeaturedCardHtml(card) {
     const imageUrlFallback = imageUtils.getFallbackImage(card.image);
 
     return `
-        <div class="featured-card" data-card-id="${card.id}">
-            <div class="card-image-wrapper">
+        <div class="featured-card hover-slide-up" data-card-id="${card.id}">
+            <div class="card-image-wrapper img-container">
                 ${imageUtils.createPicture(imageUrlHigh, card.name, {
                     previewUrl: imageUrlPreview,
-                    fallbackUrl: imageUrlFallback
+                    fallbackUrl: imageUrlFallback,
+                    cssClass: 'hover-scale'
                 })}
                 <div class="card-info-overlay">
                     <h3>${card.name || 'Carta desconocida'}</h3>
@@ -121,14 +125,14 @@ function createFeaturedCardHtml(card) {
 
 function createNoImageCard(card) {
     return `
-        <div class="featured-card" data-card-id="${card.id}">
-            <div class="card-image-wrapper no-image">
+        <div class="featured-card hover-slide-up" data-card-id="${card.id}">
+            <div class="card-image-wrapper img-container no-image">
                 <div class="sparkle"></div>
                 <div class="sparkle"></div>
                 <div class="sparkle"></div>
                 <div class="sparkle"></div>
                 <div class="no-image-content">
-                    <div class="pokeball-placeholder"></div>
+                    <div class="pokeball-placeholder hover-rotate"></div>
                 </div>
                 <div class="card-info-overlay">
                     <h3>${card.name || 'Carta desconocida'}</h3>
@@ -149,14 +153,15 @@ function createExpansionHtml(set) {
 
     return `
         <div class="col-md-6">
-            <div class="expansion-card" data-set-id="${set.id}">
-                <div class="set-images">
+            <div class="expansion-card hover-lift" data-set-id="${set.id}">
+                <div class="set-images img-container">
                     ${logoUrlWebp ? `
                         <picture class="logo-image">
                             <source srcset="${logoUrlWebp}" type="image/webp">
                             <img src="${logoUrlPng}" 
                                 alt="Logo de ${set.name}"
                                 loading="lazy"
+                                class="img-fluid hover-brightness shadow-sm"
                                 onerror="this.src='https://placehold.co/300x100/png?text=Logo+no+disponible'">
                         </picture>
                     ` : ''}
@@ -167,6 +172,7 @@ function createExpansionHtml(set) {
                             <img src="${symbolUrlPng}" 
                                 alt="Símbolo de ${set.name}"
                                 loading="lazy"
+                                class="img-contain hover-rotate shadow-sm"
                                 onerror="this.src='https://placehold.co/50x50/png?text=Símbolo+no+disponible'">
                         </picture>
                     ` : ''}
@@ -174,7 +180,7 @@ function createExpansionHtml(set) {
                 <div class="expansion-content">
                     <h3>${set.name || 'Expansión sin nombre'}</h3>
                     <p class="release-date">Fecha de lanzamiento: ${uiUtils.formatDate(set.releaseDate)}</p>
-                    <button class="btn btn-dark">Más información</button>
+                    <button class="btn btn-dark hover-grow">Más información</button>
                 </div>
             </div>
         </div>
@@ -942,7 +948,7 @@ async function loadExpansions() {
         }
 
         // Obtener todos los sets
-        const response = await fetch('https://api.tcgdex.net/v2/es/sets');
+        const response = await fetch(`${API_BASE_URL}/sets`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -951,11 +957,11 @@ async function loadExpansions() {
         // Seleccionar 3 sets aleatorios
         const randomSets = sets
             .sort(() => Math.random() - 0.5) // Mezclar el array
-            .slice(0, 3); // Tomar los primeros 3
+            .slice(0, 3);
 
         const setsHtml = await Promise.all(randomSets.map(async (setPreview) => {
             // Obtener detalles completos del set
-            const setResponse = await fetch(`https://api.tcgdex.net/v2/es/sets/${setPreview.id}`);
+            const setResponse = await fetch(`${API_BASE_URL}/sets/${setPreview.id}`);
             const set = await setResponse.json();
 
             const hasLogo = !!set.logo;
@@ -1115,16 +1121,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        // Add click handler for random button
-        const randomBtn = document.getElementById('randomCardsBtn');
-        if (randomBtn) {
-            randomBtn.addEventListener('click', () => loadFeaturedCards(true));
+        // Add click handlers for random buttons
+        const randomCardsBtn = document.getElementById('randomCardsBtn');
+        if (randomCardsBtn) {
+            randomCardsBtn.addEventListener('click', () => loadFeaturedCards(true));
         }
 
-        // Load featured cards and expansions
+        const refreshExpansionsBtn = document.getElementById('refreshExpansionsBtn');
+        if (refreshExpansionsBtn) {
+            refreshExpansionsBtn.addEventListener('click', () => loadExpansions());
+        }
+
+        const refreshGamesBtn = document.getElementById('refreshGamesBtn');
+        if (refreshGamesBtn) {
+            refreshGamesBtn.addEventListener('click', () => handleRandomLoad('games', 3));
+        }
+
+        // Load initial content
         await Promise.all([
             loadFeaturedCards(true),
-            loadExpansions()
+            loadExpansions(),
+            handleRandomLoad('games', 3)
         ]);
 
     } catch (error) {
@@ -1225,36 +1242,31 @@ function displaySet(set) {
 
 // Helper function to get set description
 function getSetDescription(set) {
-    // Aquí podemos agregar descripciones personalizadas basadas en el nombre del set
-    const descriptions = {
-        'Scarlet & Violet—Paradox Rift': 'El rugido feroz de los Pokémon tipo Dragón resuena en toda la nueva expansión.',
-        'Scarlet & Violet': 'Eevee y su gama de evoluciones brillan en cartas raras con ilustraciones especiales.',
-        'Crown Zenith': 'Una colección especial que celebra el final de la era Sword & Shield.',
-        'Astral Radiance': 'Explora la región de Hisui con nuevos Pokémon y mecánicas.',
-        'Brilliant Stars': 'Las estrellas brillan con la introducción de los Pokémon VSTAR.',
-        'Fusion Strike': 'Nuevas estrategias emergen con el estilo de combate Fusion Strike.',
-        'Evolving Skies': 'Los dragones dominan los cielos en esta expansión épica.',
-        'Chilling Reign': 'El frío poder de los Pokémon legendarios se desata.',
-        'Battle Styles': 'Domina los estilos de combate Single Strike y Rapid Strike.',
-        'Shining Fates': 'Descubre versiones brillantes de tus Pokémon favoritos.',
-        'Vivid Voltage': 'La electricidad cobra vida con Pikachu VMAX.',
-        'Champions Path': 'Sigue el camino de los campeones en esta colección especial.',
-        'Rebel Clash': 'La rebelión comienza con nuevos Pokémon V y VMAX.',
-        'Sword & Shield': 'La nueva era comienza con los Pokémon V.',
-        'Hidden Fates': 'Encuentra tesoros ocultos y Pokémon brillantes.',
-        'Team Up': 'Une fuerzas con tus Pokémon favoritos.',
-        'Lost Origin': 'Explora el misterioso origen de los Pokémon perdidos.',
-        'Paldea Evolved': 'La región de Paldea evoluciona con nuevas cartas y estrategias.',
-        '151': 'Celebra los 151 Pokémon originales en esta colección especial.',
-        'Temporal Forces': 'Las fuerzas del tiempo y el espacio convergen.',
-        'Obsidian Flames': 'El poder del fuego oscuro emerge en esta expansión.',
-        'Pokemon GO': 'La experiencia de Pokemon GO llega al juego de cartas.',
-        'Silver Tempest': 'Una tormenta plateada trae nuevos desafíos.',
-        // Añade más descripciones según sea necesario
-    };
-
-    return descriptions[set.name] || 
-           `Descubre las nuevas cartas y estrategias en ${set.name}, una emocionante expansión con ${set.cardCount?.official || '?'} cartas oficiales.`;
+    let description = '';
+    
+    if (set.name) {
+        description += `La expansión ${set.name}`;
+    }
+    
+    if (set.serie?.name) {
+        description += ` forma parte de la serie ${set.serie.name}`;
+    }
+    
+    if (set.releaseDate) {
+        description += ` y fue lanzada el ${uiUtils.formatDate(set.releaseDate)}`;
+    }
+    
+    if (set.cardCount?.official) {
+        description += `. Contiene ${set.cardCount.official} cartas oficiales`;
+        
+        if (set.cardCount.total && set.cardCount.total > set.cardCount.official) {
+            description += ` y un total de ${set.cardCount.total} cartas incluyendo variantes`;
+        }
+    }
+    
+    description += '.';
+    
+    return description || 'No hay información disponible para esta expansión.';
 }
 
 // Function to get random cards
@@ -1327,13 +1339,12 @@ function displayRandomGames(games) {
         gameCard.className = 'col-md-4 mb-4';
         gameCard.innerHTML = `
             <div class="random-game-card">
-                <img src="${game.image}" class="random-game-image" 
+                <img src="../games_sinapi/${game.image}" class="random-game-image" 
                      alt="Portada de ${game.name}" 
                      onerror="this.src='../games_sinapi/images/placeholder.svg'">
                 <div class="random-game-body">
                     <h3 class="random-game-title">${game.name}</h3>
                     <div class="random-game-info">${game.generation} Generación - ${game.year}</div>
-                    <div class="random-game-region">${game.region}</div>
                 </div>
             </div>
         `;
@@ -1345,21 +1356,41 @@ function displayRandomGames(games) {
 async function handleRandomLoad(type, count = 3) {
     const loaders = {
         'cards': getRandomCards,
-        'expansions': getRandomSet,
-        'games': async () => {
-            const response = await fetch('../games_sinapi/data/games.json');
-            const data = await response.json();
-            const games = data.mainGames;
-            const randomGames = [];
-            const usedIndexes = new Set();
-            
-            while (randomGames.length < count && usedIndexes.size < games.length) {
-                const randomIndex = Math.floor(Math.random() * games.length);
-                if (!usedIndexes.has(randomIndex)) {
-                    usedIndexes.add(randomIndex);
-                    randomGames.push(games[randomIndex]);
-                }
+        'expansions': async () => {
+            const response = await fetch(`${API_BASE_URL}/sets`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const sets = await response.json();
+            
+            // Seleccionar sets aleatorios
+            const randomSets = sets
+                .sort(() => Math.random() - 0.5)
+                .slice(0, count);
+
+            // Obtener detalles completos de cada set
+            return await Promise.all(randomSets.map(async (setPreview) => {
+                const setResponse = await fetch(`${API_BASE_URL}/sets/${setPreview.id}`);
+                if (!setResponse.ok) {
+                    throw new Error(`HTTP error! status: ${setResponse.status}`);
+                }
+                return await setResponse.json();
+            }));
+        },
+        'games': async () => {
+        const response = await fetch('../games_sinapi/data/games.json');
+        const data = await response.json();
+        const games = data.mainGames;
+        const randomGames = [];
+        const usedIndexes = new Set();
+        
+            while (randomGames.length < count && usedIndexes.size < games.length) {
+            const randomIndex = Math.floor(Math.random() * games.length);
+            if (!usedIndexes.has(randomIndex)) {
+                usedIndexes.add(randomIndex);
+                randomGames.push(games[randomIndex]);
+            }
+        }
             return randomGames;
         }
     };
@@ -1371,26 +1402,146 @@ async function handleRandomLoad(type, count = 3) {
         },
         'expansions': (items) => {
             const container = document.getElementById('expansions-container');
-            container.innerHTML = items.map(set => createExpansionHtml(set)).join('');
+            container.innerHTML = items.map(set => {
+                const hasLogo = !!set.logo;
+                const hasSymbol = !!set.symbol;
+                
+                let visualElement;
+                
+                if (hasLogo) {
+                    visualElement = `
+                        <picture>
+                            <source srcset="${set.logo}.webp" type="image/webp">
+                            <img class="logo-image" 
+                                 src="${set.logo}.png" 
+                                 alt="Logo de ${set.name}"
+                                 loading="lazy"
+                                 onerror="this.src='https://placehold.co/300x100/png?text=${encodeURIComponent(set.name)}'">
+                        </picture>`;
+                } else if (hasSymbol) {
+                    visualElement = `
+                        <div class="symbol-container">
+                            <div class="symbol-decoration top"></div>
+                            <div class="symbol-wrapper">
+                                <picture>
+                                    <source srcset="${set.symbol}.webp" type="image/webp">
+                                    <img class="symbol-image" 
+                                         src="${set.symbol}.png" 
+                                         alt="Símbolo de ${set.name}"
+                                         loading="lazy"
+                                         onerror="this.src='https://placehold.co/80x80/png?text=${encodeURIComponent(set.name[0])}'">
+                                </picture>
+                </div>
+                            <div class="symbol-decoration bottom"></div>
+                        </div>`;
+                } else {
+                    visualElement = `
+                        <div class="generated-banner">
+                            <div class="banner-pokeball top-left"></div>
+                            <div class="banner-pokeball bottom-right"></div>
+                            <div class="banner-content">
+                                <h3 class="banner-title">${set.name}</h3>
+                                <div class="banner-decoration"></div>
+            </div>
+                        </div>`;
+                }
+
+                return `
+                    <div class="expansion-card" data-set-id="${set.id}">
+                        <div class="image-container">
+                            ${visualElement}
+                        </div>
+                        <div class="expansion-info">
+                            <h3 class="expansion-name">${set.name}</h3>
+                            <div class="expansion-details">
+                                ${set.releaseDate ? `
+                                    <div>Lanzamiento: ${uiUtils.formatDate(set.releaseDate)}</div>
+                                ` : ''}
+                                ${set.cardCount ? `
+                                    <div>Cartas: ${set.cardCount.official} oficiales</div>
+                                ` : ''}
+                            </div>
+                </div>
+            </div>
+        `;
+            }).join('');
+
+            // Add click event listeners to the expansion cards
+            const cards = container.querySelectorAll('.expansion-card');
+            cards.forEach(card => {
+                card.addEventListener('click', async () => {
+                    try {
+                        const setId = card.dataset.setId;
+                        console.log('Clicked set ID:', setId);
+                        
+                        const setResponse = await fetch(`${API_BASE_URL}/sets/${setId}`);
+                        if (!setResponse.ok) {
+                            throw new Error(`HTTP error! status: ${setResponse.status}`);
+                        }
+                        const setData = await setResponse.json();
+                        
+                        // Mostrar modal
+                        const expansionModal = new bootstrap.Modal(document.getElementById('expansionModal'));
+                        expansionModal.show();
+                        
+                        // Luego cargar los datos
+                        await displaySetInModal(setData);
+                        
+                    } catch (error) {
+                        console.error('Error loading set details:', error);
+                        alert(`Error al cargar los detalles de la expansión: ${error.message}`);
+                    }
+                });
+            });
         },
         'games': displayRandomGames
     };
 
+    const containerId = type === 'cards' ? 'featured-cards-container' : 
+                       type === 'expansions' ? 'expansions-container' : 
+                       'random-games-container';
+    const container = document.getElementById(containerId);
+    
     try {
+        // Show loading state
+        uiUtils.showLoading(container);
+        
+        // Disable refresh button while loading
+        const refreshBtn = document.getElementById(
+            type === 'cards' ? 'randomCardsBtn' : 
+            type === 'expansions' ? 'refreshExpansionsBtn' : 
+            'refreshGamesBtn'
+        );
+        if (refreshBtn) {
+            refreshBtn.disabled = true;
+            refreshBtn.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Cargando...
+            `;
+        }
+
+        // Load and display items
         const items = await loaders[type](count);
         displayers[type](items);
+
     } catch (error) {
         console.error(`Error loading random ${type}:`, error);
-        const containerId = type === 'cards' ? 'featured-cards-container' : 
-                          type === 'expansions' ? 'expansions-container' : 
-                          'random-games-container';
-        document.getElementById(containerId).innerHTML = `
-            <div class="col-12">
-                <div class="alert alert-danger" role="alert">
-                    Error al cargar los ${type}. Por favor, intenta de nuevo.
-                </div>
-            </div>
-        `;
+        uiUtils.showError(container, `Error al cargar los ${type}. Por favor, intenta de nuevo.`);
+    } finally {
+        // Re-enable refresh button
+        const refreshBtn = document.getElementById(
+            type === 'cards' ? 'randomCardsBtn' : 
+            type === 'expansions' ? 'refreshExpansionsBtn' : 
+            'refreshGamesBtn'
+        );
+        if (refreshBtn) {
+            refreshBtn.disabled = false;
+            refreshBtn.innerHTML = `<i class="bi bi-shuffle me-2"></i>${
+                type === 'cards' ? 'Random' : 
+                type === 'expansions' ? 'Cambiar Expansiones' : 
+                'Cambiar Juegos'
+            }`;
+        }
     }
 }
 

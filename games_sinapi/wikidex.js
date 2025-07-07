@@ -35,14 +35,14 @@ const applyFilters = (game) => {
 const createGameCard = (game) => {
     const card = createNode('div', 'col-md-4 col-lg-3 mb-4');
         card.innerHTML = `
-        <div class="game-card card h-100" role="button" onclick="showGameDetails('${game.id}')">
-            <img src="${game.image}" class="card-img-top game-cover" 
+        <div class="game-card hover-lift" role="button" onclick="showGameDetails('${game.id}')">
+            <img src="${game.image}" class="card-img-top game-cover hover-scale" 
                  alt="Portada de ${game.name}" 
                  onerror="this.src='images/placeholder.svg'">
                 <div class="card-body">
                     <h5 class="card-title">${game.name}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${game.generation} Generación - ${game.year}</h6>
-                <div class="region-badge">${game.region}</div>
+                <div class="region-badge hover-brightness">${game.region}</div>
             </div>
         </div>
     `;
@@ -55,17 +55,19 @@ const createGameModal = (game) => {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">${game.name}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close hover-rotate" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="${game.image}" class="game-details-image" 
-                         alt="Portada de ${game.name}" 
-                         onerror="this.src='images/placeholder.svg'">
+                    <div class="modal-game-image-container hover-shadow">
+                        <img src="${game.image}" class="modal-game-image hover-scale" 
+                             alt="Portada de ${game.name}" 
+                             onerror="this.src='images/placeholder.svg'">
+                    </div>
                     <div class="game-info">
                         <div class="badges mb-3">
-                            <span class="badge badge-generation">${game.generation} Generación</span>
-                            <span class="badge badge-version">${game.year}</span>
-                            <span class="region-badge">Región: ${game.region}</span>
+                            <span class="badge badge-generation hover-grow">${game.generation} Generación</span>
+                            <span class="badge badge-version hover-grow">${game.year}</span>
+                            <span class="region-badge hover-brightness">Región: ${game.region}</span>
                         </div>
                         <p class="game-description">${game.description}</p>
                     </div>
@@ -78,14 +80,14 @@ const createGameModal = (game) => {
                         <p>${game.innovations}</p>
                     </div>
                     ${game.legendary ? `
-                    <div class="legendary-box mt-4">
+                    <div class="innovation-box mt-4">
                         <h6>Pokémon Legendario:</h6>
                         <p>${game.legendary}</p>
                     </div>
                     ` : ''}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary hover-grow" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

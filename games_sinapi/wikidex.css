@@ -1,3 +1,5 @@
+@import url('../global.css');
+
 /* Variables de color */
 :root {
     --primary-color: #FF0000;
@@ -24,431 +26,44 @@ body {
     color: var(--primary-color) !important;
 }
 
-/* Estilos de las tarjetas de juegos */
-.game-card {
-    border: 2px solid #e0e0e0;
-    border-radius: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-    cursor: pointer;
-    background-color: #ffffff;
-    animation: fadeIn 0.3s ease-out;
+/* Estilos generales de la página de juegos */
+.games-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.game-cover {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid #e0e0e0;
+/* Estilos del encabezado de juegos */
+.games-header {
+    margin-bottom: 30px;
+    text-align: center;
 }
 
-.game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px var(--card-shadow);
+.games-header h1 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.game-card .card-body {
-    padding: 1.5rem;
+/* Estilos de los filtros de juegos */
+.games-filters {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
-.game-card .card-title {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
-}
-
-.game-card .card-subtitle {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-.game-card .card-text {
-    color: #444;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    text-align: justify;
-}
-
-/* Estilos de los filtros */
-.filters-section {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 15px;
-    box-shadow: 0 2px 5px var(--card-shadow);
-    margin-bottom: 2rem;
-}
-
-.form-label {
-    color: var(--text-color);
-    font-weight: 500;
-}
-
-.form-select {
-    border-color: #e0e0e0;
+.games-filters select {
+    padding: 8px 15px;
+    border: 2px solid #ddd;
     border-radius: 8px;
+    font-size: 1em;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s;
 }
 
-.form-select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25);
+.games-filters select:hover {
+    border-color: #3498db;
 }
-
-/* Estilos del modal */
-.modal-content {
-    border-radius: 15px;
-    overflow: hidden;
-    max-height: 90vh;
-}
-
-.modal-header {
-    background-color: var(--primary-color);
-    color: white;
-    border-bottom: none;
-}
-
-.modal-header .btn-close {
-    filter: brightness(0) invert(1);
-}
-
-.modal-body {
-    padding: 2rem;
-    overflow-y: auto;
-}
-
-.modal-dialog {
-    max-width: 800px;
-    margin: 1.75rem auto;
-}
-
-.game-details-image {
-    width: 100%;
-    max-height: 400px;
-    object-fit: contain;
-    border-radius: 10px;
-    margin-bottom: 1.5rem;
-    background-color: var(--background-color);
-    padding: 1rem;
-}
-
-.game-description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-color);
-    margin-top: 1rem;
-}
-
-/* Estilos de carga y error */
-#loadingSpinner {
-    padding: 2rem;
-}
-
-#errorMessage {
-    margin-top: 1rem;
-}
-
-/* Estilos responsivos */
-@media (max-width: 768px) {
-    .game-card {
-        margin-bottom: 1rem;
-    }
-
-    .modal-dialog {
-        margin: 1rem;
-        max-width: calc(100% - 2rem);
-    }
-
-    .modal-body {
-        padding: 1rem;
-    }
-
-    .game-cover {
-        height: 150px;
-    }
-
-    .game-card .card-title {
-        font-size: 1.2rem;
-    }
-
-    .game-card .card-text {
-        font-size: 0.9rem;
-    }
-
-    .features-list, .innovation-box {
-        padding: 1rem;
-    }
-
-    .region-badge {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.8rem;
-    }
-
-    .game-details-image {
-        max-height: 300px;
-        padding: 0.5rem;
-    }
-}
-
-/* Estilos de las badges */
-.badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.badge {
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 0.8rem;
-}
-
-.badge-generation {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.badge-version {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-/* Estilos de la región */
-.region-badge {
-    display: inline-block;
-    padding: 0.25rem 0.5rem;
-    background-color: var(--secondary-color);
-    color: white;
-    border-radius: 5px;
-    font-size: 0.85rem;
-}
-
-/* Lista de características */
-.features-list {
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    padding: 1.2rem;
-    margin-top: 1rem;
-    border: 1px solid #e9ecef;
-}
-
-.features-list h6 {
-    color: var(--primary-color);
-    font-weight: bold;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.features-list ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.features-list li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.features-list li::before {
-    content: "•";
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    position: absolute;
-    left: 0;
-    top: -0.25rem;
-}
-
-.features-list li:last-child {
-    margin-bottom: 0;
-}
-
-/* Sección de innovaciones */
-.innovation-box {
-    background-color: var(--background-color);
-    padding: 1rem;
-    border-radius: 10px;
-}
-
-.innovation-box h6 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.innovation-box p {
-    color: #555;
-    font-size: 0.9rem;
-    margin-bottom: 0;
-    line-height: 1.6;
-}
-
-/* Estilos del spinner de carga */
-.spinner-border {
-    width: 3rem;
-    height: 3rem;
-    color: var(--secondary-color) !important;
-}
-
-/* Estilos del mensaje de error */
-.alert-danger {
-    background-color: #fff3f3;
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    border-radius: 12px;
-    font-weight: 500;
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Estilos para la información del juego en el modal */
-.game-info-list {
-    list-style: none;
-    padding: 0;
-}
-
-.game-info-list li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
-}
-
-.game-info-list li:last-child {
-    border-bottom: none;
-}
-
-/* Estilos para los botones */
-.btn-pokemon {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    transition: background-color 0.3s ease;
-}
-
-.btn-pokemon:hover {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-/* Estilos para el contenedor de detalles del juego */
-#gameDetails {
-    max-height: 70vh;
-    overflow-y: auto;
-    padding-right: 0.5rem;
-}
-
-#gameDetails::-webkit-scrollbar {
-    width: 8px;
-}
-
-#gameDetails::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-#gameDetails::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 4px;
-}
-
-#gameDetails::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary-color);
-}
-
-/* Estilos para la sección de legendarios */
-.legendary-box {
-    background-color: var(--background-color);
-    padding: 1.2rem;
-    border-radius: 12px;
-    border: 1px solid #e9ecef;
-    margin-top: 1.5rem;
-}
-
-.legendary-box h6 {
-    color: var(--primary-color);
-    font-weight: bold;
-    margin-bottom: 0.8rem;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.legendary-box p {
-    margin-bottom: 0;
-    color: var(--text-color);
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-/* Ajustes adicionales para el modal */
-.game-info {
-    margin-top: 1.5rem;
-}
-
-.badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.badge {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.badge-generation {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.badge-version {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.region-badge {
-    background-color: #4a90e2;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-/* Ajustes responsivos adicionales */
-@media (max-width: 768px) {
-    .badges {
-        gap: 0.3rem;
-    }
-
-    .badge, .region-badge {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-    }
-
-    .legendary-box {
-        padding: 1rem;
-        margin-top: 1rem;
-    }
-
-    .legendary-box h6 {
-        font-size: 0.9rem;
-    }
-
-    .legendary-box p {
-        font-size: 0.85rem;
-    }
-} 
