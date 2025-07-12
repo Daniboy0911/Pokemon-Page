@@ -408,37 +408,25 @@ async function loadRelatedCards(cardId) {
 
         // Ajustar el número de cartas mostradas según la cantidad disponible
         const totalCards = relatedCards.length;
-        const perPage = Math.min(3, totalCards); // Mostrar máximo 3 cartas o menos si hay menos disponibles
-        
+
+        // Configuración del carrusel
         window.relatedCardsSlider = new Splide('#relatedCardsCarousel', {
-            type: 'slide',
-            perPage: perPage,
-            perMove: 1,
-            gap: '4rem',
-            padding: { left: '4rem', right: '4rem' },
-            pagination: true,
-            arrows: relatedCards.length > perPage, // Mostrar flechas solo si hay más cartas que el perPage
-            drag: true,
-            snap: true,
-            speed: 400,
-            easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-            focus: 'center',
-            trimSpace: false,
+            perPage: 4,
+            gap: 10,
+            pagination: false,
+            arrows: true,
             breakpoints: {
                 992: {
-                    perPage: Math.min(2, totalCards),
-                    gap: '3rem',
-                    padding: { left: '3rem', right: '3rem' }
+                    perPage: 3,
+                    gap: 8
                 },
                 768: {
-                    perPage: Math.min(2, totalCards),
-                    gap: '2.5rem',
-                    padding: { left: '2.5rem', right: '2.5rem' }
+                    perPage: 2,
+                    gap: 6
                 },
                 576: {
-                    perPage: 1,
-                    gap: '2rem',
-                    padding: { left: '2rem', right: '2rem' }
+                    perPage: 2,
+                    gap: 4
                 }
             }
         }).mount();

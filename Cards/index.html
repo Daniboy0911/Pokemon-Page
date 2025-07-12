@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pokémon Trading Card Game - Explora y descubre cartas">
+    <title>Pokémon TCG - Cartas</title>
+    <!-- Preload important assets -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+        as="style">
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="../global.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <!-- Splide Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3">
+        <nav class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="../HomePage/index.html" aria-label="Pokemon TCG Home">
+                <img src="../assets/img/icons/pokemon-trading-card-game-seeklogo-2.svg" alt="Pokemon TCG Logo"
+                    width="150" height="50">
+            </a>
+
+            <!-- Hamburger menu for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation items -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav me-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../HomePage/index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" aria-current="page">Cartas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#expansions">Expansiones</a>
+                    </li>
+                </ul>
+                <!-- Profile Icon -->
+                <div class="profile-icon">
+                    <a href="#" class="text-light" aria-label="Perfil de usuario">
+                        <i class="bi bi-person-circle fs-3"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Cards Section -->
+        <section class="cards-section py-5">
+            <div class="container">
+                <!-- Filters and Search -->
+                <div class="cards-header mb-4">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar cartas...">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <div class="cards-filters">
+                        <select id="sortSelect" class="sort-select">
+                            <option value="name">Nombre</option>
+                            <option value="number">Número</option>
+                            <option value="rarity">Rareza</option>
+                            <option value="set">Expansión</option>
+                        </select>
+                        <button id="filterButton" class="btn btn-dark">
+                            <i class="bi bi-funnel"></i>
+                            Filtros
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cards Grid -->
+                <div id="cardsContainer" class="cards-grid">
+                    <!-- Cards will be loaded here -->
+                </div>
+
+                <!-- Load More -->
+                <div class="cards-pagination mt-4 text-center">
+                    <button id="loadMoreCards" class="btn btn-dark">
+                        Cargar más cartas
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Card Detail Modal -->
+    <div class="modal fade" id="cardDetailModal" tabindex="-1" aria-labelledby="cardDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-container">
+                        <div class="card-image-container">
+                            <div id="modalCardImage"></div>
+                        </div>
+                        <div class="info-container">
+                            <div class="name-section">
+                                <h2 id="modalCardName" class="card-title"></h2>
+                                <span id="modalCardId" class="card-number"></span>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-row">
+                                    <span class="info-label">Número</span>
+                                    <span id="modalCardNumber" class="info-value"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Rareza</span>
+                                    <span id="modalCardRarity" class="info-value"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Ilustrador</span>
+                                    <span id="modalCardArtist" class="info-value"></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Expansión</span>
+                                    <div id="modalSetInfo" class="info-value"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-section">
+                        <h3 class="related-cards-title">Otras versiones de esta carta</h3>
+                        <div class="splide">
+                            <div class="splide__track">
+                                <div class="splide__list">
+                                    <!-- Related cards will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
-/*========================================
-  1. Contenedores base
-========================================*/
+/*────────────────────────────────────────
+  1. BASE CONTAINERS
+────────────────────────────────────────*/
 .img-container,
 .card-image-container,
 .set-images,
@@ -11,14 +11,132 @@
     overflow: hidden;
 }
 
-/*========================================
-  2. Tarjetas de juegos
-========================================*/
+/*────────────────────────────────────────
+  2. UTILIDADES DE IMAGEN
+────────────────────────────────────────*/
+.img-fluid {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.img-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/*────────────────────────────────────────
+  3. UTILS: HOVER & SHADOWS
+────────────────────────────────────────*/
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.hover-grow {
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.hover-grow:hover {
+    transform: scale(1.02);
+}
+.hover-fade {
+    transition: opacity 0.3s ease;
+    opacity: 0.85;
+}
+.hover-fade:hover {
+    opacity: 1;
+}
+.hover-slide-up {
+    transition: transform 0.3s ease;
+}
+.hover-slide-up:hover {
+    transform: translateY(-8px);
+}
+.hover-shadow {
+    transition: box-shadow 0.3s ease;
+}
+.hover-shadow:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+.hover-rotate {
+    transition: transform 0.3s ease;
+}
+.hover-rotate:hover {
+    transform: rotate(5deg);
+}
+.hover-brightness {
+    transition: filter 0.3s ease;
+}
+.hover-brightness:hover {
+    filter: brightness(1.1);
+}
+
+.shadow-sm {
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+}
+.shadow-md {
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.15));
+}
+
+/*────────────────────────────────────────
+  4. GRID LAYOUTS
+────────────────────────────────────────*/
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 20px;
+}
+#featured-cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 1rem;
+}
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.modal-set-content .set-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+.expansion-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/*────────────────────────────────────────
+  5. CARD STYLES
+────────────────────────────────────────*/
+/* Game Cards */
 .game-card {
     background: #ffffff;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -26,12 +144,213 @@
 }
 .game-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/*========================================
-  3. Imágenes de juegos
-========================================*/
+/* Featured Cards */
+.featured-card {
+    position: relative;
+    cursor: pointer;
+    aspect-ratio: 3/4;
+}
+.featured-card:hover .card-info-overlay {
+    transform: translateY(0);
+}
+.card-info-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7) 50%, transparent);
+    padding: 2rem 1rem 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+.card-info-overlay h3 {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+.card-info-overlay p {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Cards Grid */
+.cards-grid .card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 3/4;
+}
+.cards-grid .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.cards-grid .card picture,
+.cards-grid .card img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.cards-grid .card:hover img {
+    transform: scale(1.05);
+}
+.cards-grid .card-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.5rem;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    font-size: 0.8rem;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+}
+.cards-grid .card:hover .card-info {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Random Games */
+.random-games-section {
+    background-color: #f8f9fa;
+}
+.random-game-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+.random-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.random-game-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.random-game-body {
+    padding: 1.5rem;
+}
+.random-game-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+.random-game-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+.random-game-region {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #e63946;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+/* No-image Card Wrapper */
+.card-image-wrapper.no-image {
+    background: linear-gradient(135deg, #2B3990 0%, #1B1464 100%);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    aspect-ratio: 3/4;
+}
+.card-image-wrapper.no-image::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    animation: rotate 20s linear infinite;
+}
+.card-image-wrapper.no-image::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+}
+.no-image-content {
+    position: relative; z-index: 2;
+    height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; color: white; text-align: center;
+}
+.pokeball-placeholder {
+    width: 120px; height: 120px;
+    background: linear-gradient(135deg, #ff1a1a 50%, #f0f0f0 50%);
+    border-radius: 50%; position: relative;
+    margin: 20px auto;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    animation: float 3s ease-in-out infinite;
+}
+.pokeball-placeholder::before {
+    content: '';
+    position: absolute;
+    width: 100%; height: 4px;
+    background: #333;
+    top: 50%; transform: translateY(-50%);
+}
+.pokeball-placeholder::after {
+    content: '';
+    position: absolute;
+    width: 30px; height: 30px;
+    background: #fff;
+    border: 4px solid #333;
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+.sparkle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: white;
+    animation: sparkle 1.5s ease-in-out infinite;
+    z-index: 3;
+}
+.sparkle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
+.sparkle:nth-child(2) { top: 30%; right: 20%; animation-delay: 0.3s; }
+.sparkle:nth-child(3) { bottom: 20%; left: 30%; animation-delay: 0.6s; }
+.sparkle:nth-child(4) { bottom: 30%; right: 30%; animation-delay: 0.9s; }
+.no-image-badge {
+    background: linear-gradient(135deg, #ff4b4b 0%, #ff0000 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+}
+.card-image-wrapper.no-image:hover .pokeball-placeholder {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+/*────────────────────────────────────────
+  6. IMÁGENES DE JUEGO
+────────────────────────────────────────*/
 .game-image {
     position: relative;
     width: 100%;
@@ -44,9 +363,9 @@
     object-fit: cover;
 }
 
-/*========================================
-  4. Detalles de juegos
-========================================*/
+/*────────────────────────────────────────
+  7. DETALLES DE JUEGO
+────────────────────────────────────────*/
 .game-details {
     padding: 16px;
     display: flex;
@@ -67,30 +386,200 @@
     -webkit-box-orient: vertical;
 }
 
-/*========================================
-  5. Metadatos de juegos
-========================================*/
-.game-metadata {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+/* Modal Card Detail */
+#cardDetailModal.modal {
+    background: rgba(0,0,0,0.85);
 }
-.metadata-item {
+#cardDetailModal .modal-dialog {
+    max-width: 90%;
+    margin: 1rem auto;
+    height: calc(100vh - 2rem);
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: #666;
-    font-size: 0.9rem;
 }
-.metadata-item i {
-    font-size: 1rem;
-    color: #888;
-    flex-shrink: 0;
+#cardDetailModal .modal-content {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+#cardDetailModal .modal-body {
+    display: flex;
+    gap: 2rem;
+    padding: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 575px;
+}
+#cardDetailModal .card-container {
+    flex: 0 0 35%;
+    max-width: 35%;
+    position: relative;
+}
+#cardDetailModal .info-container {
+    flex: 0 0 45%;
+    max-width: 45%;
+    min-height: 575px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 2.5rem;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.2),
+        inset 0 -4px 8px rgba(255,255,255,0.8),
+        inset 0 2px 4px rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+.info-container::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 100px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.05));
+    border-radius: 30px 30px 0 0;
+    z-index: 0;
 }
 
-/*========================================
-  6. Modal de detalles de juego
-========================================*/
+/* Card Detail Titles & Badges */
+.card-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(135deg, #2a2a2a, #444);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    letter-spacing: -0.5px;
+}
+.card-number {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.card-number::before {
+    content: '';
+    display: block;
+    width: 8px; height: 8px;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    border-radius: 50%;
+}
+.rarity-badge {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    color: #fff;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.5);
+    position: relative;
+    overflow: hidden;
+    align-self: flex-start;
+}
+.rarity-badge::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+    animation: shine 3s infinite linear;
+}
+
+/* Info Rows in Modal */
+.info-row {
+    display: flex; align-items: center;
+    padding: 0.8rem 1.2rem; border-radius: 16px;
+    margin-bottom: 0.8rem;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative; overflow: hidden;
+    transition: all 0.3s ease;
+}
+.info-row::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, #ffd700, #ffa500);
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.info-row:hover {
+    background: rgba(255,255,255,0.9);
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1);
+}
+.info-row:hover::before {
+    opacity: 1;
+}
+.info-label {
+    font-weight: 700; color: #333;
+    width: 110px; font-size: 1rem; padding-left: 1rem;
+    position: relative;
+}
+.info-value {
+    color: #555; flex: 1;
+    font-size: 1rem; font-weight: 500;
+}
+
+/* Spinner & Error Messages */
+.spinner-border {
+    width: 3rem; height: 3rem;
+    color: var(--secondary-color) !important;
+}
+.alert-danger {
+    background-color: #fff3f3;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+/* Loading / Error / Empty States */
+.loading-state,
+.error-message,
+.no-related-cards {
+    width: 100%; text-align: center;
+    padding: 2rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    margin: 1rem 0;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 1rem;
+}
+.loading-state {
+    color: #fff;
+}
+.loading-state .spinner {
+    width: 40px; height: 40px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-left-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+.error-message {
+    color: #ff6b6b;
+    background: rgba(255,107,107,0.1);
+}
+.error-message i {
+    font-size: 2rem;
+}
+.no-related-cards {
+    color: #aaa;
+}
+.no-related-cards i {
+    font-size: 2rem;
+}
+
+/*────────────────────────────────────────
+  8. MODALS
+────────────────────────────────────────*/
+/* Game Details Modal Scrollbar */
 #gameDetails {
     max-height: 70vh;
     overflow-y: auto;
@@ -110,8 +599,6 @@
 #gameDetails::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
 }
-
-/* Imagen principal en modal */
 .modal-game-image {
     width: 100%;
     max-height: 400px;
@@ -120,38 +607,319 @@
     margin-bottom: 1.5rem;
 }
 
-/*========================================
-  7. Contenedor de información sobre juego
-========================================*/
-.game-info-container {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    color: #fff;
-    max-width: 80%;
+/* Set Modal Content */
+.modal-set-content {
+    padding: 1.5rem;
 }
-.game-info-container .game-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.modal-set-content .set-details {
+    text-align: left;
 }
-.game-info-container .game-details {
+.modal-set-content h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333;
+}
+.modal-set-content .set-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+.modal-set-content .release-date {
     font-size: 1rem;
-    opacity: 0.8;
-    margin-bottom: 15px;
+    color: #666;
+    margin-bottom: 1rem;
 }
-.platform-tags {
+.modal-set-content .stat {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.modal-set-content .stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+.modal-set-content .stat-value {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 700;
+}
+.modal-set-content .serie-info {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.modal-set-content .info-label {
+    font-weight: 500;
+    color: #666;
+}
+.modal-set-content .info-value {
+    color: #333;
+    font-weight: 600;
 }
 
-/*========================================
-  8. Badges y región
-========================================*/
+/* Card Detail Modal Scrollbar */
+#cardDetailModal .info-container::-webkit-scrollbar {
+    width: 8px;
+}
+#cardDetailModal .info-container::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+#cardDetailModal .info-container::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+#cardDetailModal .info-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.3);
+}
+
+/* Expansion Modal */
+#expansionModal.modal {
+    background: rgba(0,0,0,0.85);
+}
+#expansionModal .modal-dialog {
+    max-width: 90%;
+    margin: 1.5rem auto;
+    height: calc(100vh - 3rem);
+    display: flex;
+    align-items: center;
+}
+#expansionModal .modal-content {
+    background: rgba(255,255,255,0.02);
+    border: none;
+    box-shadow: none;
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    overflow: hidden;
+    max-height: 100vh;
+}
+#expansionModal .modal-body {
+    display: flex;
+    gap: 2.5rem;
+    padding: 2rem;
+    align-items: stretch;
+    min-height: 600px;
+    position: relative;
+    overflow-y: auto;
+}
+#expansionModal .expansion-container {
+    flex: 0 0 35%;
+    max-width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Expansion Image Container */
+.expansion-image-container {
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.98);
+    padding: 2rem;
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.2),
+        inset 0 -4px 8px rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.expansion-image-container:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 25px 50px rgba(0,0,0,0.25),
+        inset 0 -4px 8px rgba(255,255,255,0.8);
+}
+
+/* Expansion Info Container */
+.expansion-info-container {
+    flex: 0 0 60%;
+    max-width: 60%;
+    background: rgba(255,255,255,0.98);
+    border-radius: 25px;
+    padding: 2.5rem;
+    position: relative;
+    overflow-y: auto;
+    max-height: calc(90vh - 4rem);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.2),
+        inset 0 -4px 8px rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.6);
+}
+.expansion-info-container::-webkit-scrollbar {
+    width: 8px;
+}
+.expansion-info-container::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+.expansion-info-container::-webkit-scrollbar-thumb {
+    background: rgba(43,57,144,0.3);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+.expansion-info-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(43,57,144,0.5);
+}
+
+/* Expansion Headers */
+.info-header {
+    position: relative;
+    margin-bottom: 2rem;
+}
+.expansion-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+    background: linear-gradient(135deg, #2B3990 0%, #1B1464 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+.expansion-series {
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 500;
+    margin-top: 0.75rem;
+}
+.expansion-date {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, #2B3990, #1B1464);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Expansion Stats Container */
+.expansion-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    background: rgba(255,255,255,0.98);
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.6);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    background: linear-gradient(135deg, #2B3990, #1B1464);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.25rem;
+}
+
+/* Media Queries para las estadísticas */
+@media (max-width: 992px) {
+    .expansion-stats {
+        padding: 1.2rem;
+        gap: 0.8rem;
+    }
+    
+    .stat-item {
+        padding: 0.8rem;
+    }
+    
+    .stat-value {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .expansion-stats {
+        padding: 1rem;
+        gap: 0.6rem;
+    }
+    
+    .stat-item {
+        padding: 0.6rem;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .expansion-stats {
+        grid-template-columns: 1fr;
+        padding: 0.8rem;
+    }
+    
+    .stat-item {
+        padding: 0.8rem;
+    }
+}
+
+/*────────────────────────────────────────
+  9. BADGES & METADATA
+────────────────────────────────────────*/
+.game-metadata {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.metadata-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.9rem;
+}
+.metadata-item i {
+    font-size: 1rem;
+    color: #888;
+    flex-shrink: 0;
+}
+
 .badges {
     display: flex;
     flex-wrap: wrap;
@@ -163,8 +931,14 @@
     font-weight: 500;
     font-size: 0.8rem;
 }
-.badge-generation { background-color: var(--primary-color); color: #fff; }
-.badge-version    { background-color: var(--secondary-color); color: #fff; }
+.badge-generation {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.badge-version {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
 
 .region-badge {
     display: inline-block;
@@ -175,9 +949,9 @@
     font-size: 0.85rem;
 }
 
-/*========================================
-  9. Listas de características
-========================================*/
+/*────────────────────────────────────────
+ 10. LISTAS & INNOVACIONES
+────────────────────────────────────────*/
 .features-list {
     background-color: #f8f9fa;
     border-radius: 12px;
@@ -210,17 +984,19 @@
     left: 0;
     top: -0.25rem;
 }
-.features-list li:last-child { margin-bottom: 0; }
+.features-list li:last-child {
+    margin-bottom: 0;
+}
 
-/*========================================
- 10. Innovaciones
-========================================*/
 .innovation-box {
     background-color: var(--background-color);
     padding: 1rem;
     border-radius: 10px;
 }
-.innovation-box h6 { color: var(--primary-color); margin-bottom: 0.5rem; }
+.innovation-box h6 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
 .innovation-box p {
     color: #555;
     font-size: 0.9rem;
@@ -228,356 +1004,31 @@
     line-height: 1.6;
 }
 
-/*========================================
- 11. Spinner y mensajes de error
-========================================*/
-.spinner-border {
-    width: 3rem;
-    height: 3rem;
-    color: var(--secondary-color) !important;
-}
-.alert-danger {
-    background-color: #fff3f3;
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    border-radius: 12px;
-    font-weight: 500;
-}
-
-/*========================================
- 12. Grid de juegos
-========================================*/
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    padding: 20px;
-}
-#loadingSpinner { padding: 2rem; }
-#errorMessage    { margin-top: 1rem; }
-
-/*========================================
- 13. Responsive general
-========================================*/
-@media (max-width: 768px) {
-    .game-card          { margin-bottom: 1rem; }
-    .modal-body         { padding: 1rem; }
-    .modal-game-image   { max-height: 300px; }
-    .game-cover         { height: 150px; }
-    .game-card .card-title { font-size: 1.2rem; }
-    .game-card .card-text  { font-size: 0.9rem; }
-    .features-list,
-    .innovation-box     { padding: 1rem; }
-    .region-badge       { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
-}
-
-/*========================================
- 14. Featured Cards (cartas destacadas)
-========================================*/
-#featured-cards-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    padding: 1rem;
-}
-.featured-card {
-    position: relative;
-    cursor: pointer;
-    aspect-ratio: 3/4;
-}
-.card-info-overlay {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7) 50%, transparent);
-    padding: 2rem 1rem 1rem;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-}
-.featured-card:hover .card-info-overlay { transform: translateY(0); }
-.card-info-overlay h3 {
-    color: #fff;
-    font-size: 1rem;
-    margin: 0 0 0.5rem;
-    font-weight: 600;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-.card-info-overlay p {
-    color: rgba(255,255,255,0.9);
-    font-size: 0.85rem;
-    margin: 0;
-}
-
-/* Responsive featured cards */
-@media (max-width: 992px) {
-    #featured-cards-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-        padding: 0.75rem;
-    }
-}
-@media (max-width: 576px) {
-    #featured-cards-container { grid-template-columns: repeat(2,1fr); gap:0.75rem; padding:0.5rem; }
-    .card-info-overlay { padding:1rem 0.75rem 0.75rem; }
-    .card-info-overlay h3 { font-size:0.875rem; margin-bottom:0.25rem; }
-    .card-info-overlay p  { font-size:0.75rem; }
-}
-@media (max-width: 360px) {
-    #featured-cards-container { gap:0.5rem; padding:0.375rem; }
-}
-
-/*========================================
- 15. Card Detail Modal Enhancements
-========================================*/
-#cardDetailModal.modal { background: rgba(0,0,0,0.85); }
-#cardDetailModal .modal-dialog {
-    max-width: 90%; margin:1rem auto;
-    height: calc(100vh - 2rem);
-    display: flex; align-items: center;
-}
-#cardDetailModal .modal-content {
-    background: transparent; border: none; box-shadow: none;
-}
-#cardDetailModal .modal-body {
-    display: flex; gap:2rem; padding:1.5rem;
-    align-items: center; justify-content: center;
-    min-height: 575px;
-}
-#cardDetailModal .card-container {
-    flex: 0 0 35%; max-width: 35%; position: relative;
-}
-#cardDetailModal .info-container {
-    flex: 0 0 45%; max-width: 45%; min-height: 575px;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 30px;
-    padding: 2.5rem;
-    position: relative;
-    max-height: 90vh; overflow-y: auto;
-    box-shadow:
-        0 20px 40px rgba(0,0,0,0.2),
-        inset 0 -4px 8px rgba(255,255,255,0.8),
-        inset 0 2px 4px rgba(255,255,255,0.9);
-    border: 1px solid rgba(255,255,255,0.4);
-}
-.info-container::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 100px;
-    background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.05));
-    border-radius: 30px 30px 0 0;
-    z-index: 0;
-}
-
-/*========================================
- 16. Detalles individuales en modal
-========================================*/
-.card-title {
-    font-size: 2.2rem; font-weight: 800; margin: 0;
-    background: linear-gradient(135deg, #2a2a2a, #444);
-    background-clip: text; -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    letter-spacing: -0.5px;
-}
-.card-number {
-    font-size: 0.95rem; color: #666; font-weight: 500;
-    letter-spacing: 1px; display: flex; align-items: center; gap:0.5rem;
-}
-.card-number::before {
-    content: '';
-    display: block; width:8px; height:8px;
-    background: linear-gradient(135deg, #ffd700, #ffa500);
-    border-radius:50%;
-}
-.rarity-badge {
-    display:inline-block; padding:0.5rem 1.2rem;
-    background:linear-gradient(135deg,#ffd700,#ffa500);
-    color:#fff; border-radius:25px; font-size:0.85rem;
-    font-weight:700; text-transform:uppercase; letter-spacing:2px;
-    box-shadow:0 2px 4px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.5);
-    position: relative; overflow: hidden; align-self: flex-start;
-}
-.rarity-badge::before {
-    content: '';
-    position: absolute; top:-50%; left:-50%; width:200%; height:200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
-    animation: shine 3s infinite linear;
-}
-
-/*========================================
- 17. Filas de información en modal
-========================================*/
-.info-row {
-    display:flex; align-items:center;
-    padding:0.8rem 1.2rem; border-radius:16px;
-    margin-bottom:0.8rem;
-    background: rgba(255,255,255,0.6);
-    border:1px solid rgba(0,0,0,0.05);
-    position: relative; overflow:hidden;
-    transition: all 0.3s ease;
-}
-.info-row::before {
-    content:''; position:absolute; top:0; left:0;
-    width:4px; height:100%;
-    background: linear-gradient(to bottom,#ffd700,#ffa500);
-    opacity:0; transition: opacity 0.3s ease;
-}
-.info-row:hover {
-    background: rgba(255,255,255,0.9);
-    transform: translateX(8px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1);
-}
-.info-row:hover::before { opacity:1; }
-.info-label {
-    font-weight:700; color:#333;
-    width:110px; font-size:1rem; padding-left:1rem;
-    position: relative;
-}
-.info-value {
-    color:#555; flex:1; font-size:1rem; font-weight:500;
-}
-
-/*========================================
- 18. Set Info Container
-========================================*/
+/*────────────────────────────────────────
+ 11. SET INFO & IMAGES
+────────────────────────────────────────*/
 .set-info-container {
-    display:flex; align-items:center; gap:1.5rem;
-    padding:0.5rem; border-radius:12px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 12px;
     transition: all 0.3s ease;
 }
 .set-logo-view {
-    flex-shrink:0; padding:0.5rem;
-    background:rgba(255,255,255,0.8);
-    border-radius:8px;
-    box-shadow:0 2px 4px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+    padding: 0.5rem;
+    background: rgba(255,255,255,0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 .set-logo-view img {
-    max-height:50px; object-fit:contain;
+    max-height: 50px;
+    object-fit: contain;
     filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
 }
 
-/*========================================
- 19. Carrusel Splide (estructura)
-========================================*/
-.carousel-section {
-    margin-top:2rem; padding:2rem; position:relative; z-index:1;
-    background:rgba(255,255,255,0.6);
-    backdrop-filter: blur(10px);
-    border-radius:20px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.7);
-    border:1px solid rgba(255,255,255,0.2);
-}
-.carousel-section::before {
-    content:''; position:absolute; top:0; left:0; right:0; height:4px;
-    background: linear-gradient(to right, transparent, #ffd700 20%, #ffa500 80%, transparent);
-    border-radius:4px; opacity:0.5;
-}
-
-/* Splide slides y controles */
-.splide { padding:1.5rem 0; }
-.splide__track { overflow: visible; }
-.splide__slide {
-    padding:1rem; opacity:0.7; transform: scale(0.95);
-}
-.splide__slide.is-active { opacity:1; transform: scale(1); }
-.splide__slide:hover { transform: translateY(-8px) scale(1.02); }
-
-/* Flechas de Splide */
-.splide__arrow {
-    background: rgba(255,255,255,0.95) !important;
-    width:3rem !important; height:3rem !important; border-radius:50% !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.5) !important;
-    opacity:0.9 !important;
-}
-.splide__arrow:hover {
-    background: #fff !important; opacity:1 !important;
-    transform: scale(1.1) !important;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.5) !important;
-}
-.splide__arrow svg { width:1.4rem !important; fill:#333 !important; transition: fill 0.3s ease !important; }
-.splide__arrow:hover svg { fill:#ffa500 !important; }
-
-/* Paginación Splide */
-.splide__pagination { bottom: -2rem !important; }
-.splide__pagination__page {
-    background: rgba(0,0,0,0.15) !important;
-    width:30px !important; height:4px !important;
-    margin:0 4px !important; border-radius:2px !important;
-    transition: all 0.3s ease !important;
-}
-.splide__pagination__page.is-active {
-    background: linear-gradient(to right,#ffd700,#ffa500) !important;
-    transform: scaleY(1.5) !important;
-    box-shadow: 0 2px 4px rgba(255,165,0,0.3) !important;
-}
-
-/*========================================
- 20. Efectos de sombra en Slides del carrusel
-========================================*/
-.splide__slide .card-image-container {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1);
-    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-.splide__slide:hover .card-image-container {
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.1);
-}
-
-/*========================================
- 21. Botón cerrar modal
-========================================*/
-.btn-close {
-    position: absolute; top:1.5rem; right:1.5rem;
-    background-color: rgba(255,255,255,0.9);
-    border-radius:50%; width:32px; height:32px; padding:0.5rem;
-    box-shadow:0 2px 4px rgba(0,0,0,0.1), inset 0 1px 2px rgba(255,255,255,0.5);
-    border:1px solid rgba(0,0,0,0.05); opacity:0.8;
-    transition: all 0.3s ease; z-index:10;
-}
-.btn-close:hover {
-    background-color:#ff3b3b;
-    box-shadow:0 4px 8px rgba(255,59,59,0.3), inset 0 2px 4px rgba(255,255,255,0.2);
-    opacity:1; border-color:rgba(255,59,59,0.2);
-}
-
-/*========================================
- 22. Utilidades de imagen
-========================================*/
-.img-fluid { width:100%; height:auto; display:block; }
-.img-cover { width:100%; height:100%; object-fit:cover; }
-.img-contain { width:100%; height:100%; object-fit:contain; }
-
-/*========================================
- 23. Efectos hover
-========================================*/
-.hover-scale  { transition: transform 0.3s ease; }
-.hover-scale:hover { transform: scale(1.05); }
-
-.hover-lift   { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.hover-lift:hover { transform: translateY(-4px); box-shadow:0 4px 12px rgba(0,0,0,0.2); }
-
-.hover-grow   { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-.hover-grow:hover { transform: scale(1.02); }
-
-.hover-fade   { transition: opacity 0.3s ease; opacity:0.85; }
-.hover-fade:hover { opacity:1; }
-
-.hover-slide-up { transition: transform 0.3s ease; }
-.hover-slide-up:hover { transform: translateY(-8px); }
-
-.hover-shadow { transition: box-shadow 0.3s ease; }
-.hover-shadow:hover { box-shadow:0 8px 16px rgba(0,0,0,0.1); }
-
-.hover-rotate { transition: transform 0.3s ease; }
-.hover-rotate:hover { transform: rotate(5deg); }
-
-.hover-brightness { transition: filter 0.3s ease; }
-.hover-brightness:hover { filter: brightness(1.1); }
-
-/*========================================
- 24. Utilidades de sombra
-========================================*/
-.shadow-sm { filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); }
-.shadow-md { filter: drop-shadow(0 4px 4px rgba(0,0,0,0.15)); }
-
+/* Set Images Section */
 .set-images {
     display: flex;
     flex-direction: column;
@@ -589,297 +1040,491 @@
     border-radius: 10px;
     margin-bottom: 2rem;
 }
-
 .set-images .logo-image {
     width: 100%;
     max-width: 300px;
-    height: auto;
     display: flex;
     justify-content: center;
 }
-
 .set-images .logo-image img {
     width: 100%;
     height: auto;
     object-fit: contain;
 }
-
 .set-images .symbol-image {
     width: 80px;
     height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
     border-radius: 50%;
     padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-
 .set-images .symbol-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
-
 .set-images.symbol-only {
     padding: 2rem;
     justify-content: center;
     min-height: 200px;
 }
-
 .set-images.symbol-only .symbol-image {
     width: 120px;
     height: 120px;
 }
 
-/* Responsive adjustments for set images */
+/* Additional Symbol Containers */
+.symbol-container {
+    position: relative;
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem auto;
+}
+.symbol-container::before,
+.symbol-container::after {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(43,57,144,0.2) 20%,
+        rgba(43,57,144,0.2) 80%,
+        transparent 100%);
+}
+.symbol-container::before { top: -1rem; }
+.symbol-container::after  { bottom: -1rem; }
+.symbol-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 3s ease-in-out infinite;
+}
+.symbol-image.large {
+    width: 150px;
+    height: 150px;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+}
+.symbol-image.large img {
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
+}
+.symbol-image.large:hover img {
+    transform: scale(1.1) rotate(15deg);
+}
+
+/*────────────────────────────────────────
+ 12. CAROUSEL (Splide)
+────────────────────────────────────────*/
+.carousel-section {
+    margin-top: 2rem;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 -2px 4px rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Ajustes específicos para el carrusel dentro del modal */
+#cardDetailModal .carousel-section {
+    margin-top: 1rem;
+    padding: 0.8rem 0.5rem;
+    border-radius: 15px;
+}
+
+/* Ajustes para slides dentro del modal */
+#cardDetailModal .splide__slide {
+    padding: 0.3rem;
+    transform: scale(0.95);
+}
+
+/* Ajustes para slides activos dentro del modal */
+#cardDetailModal .splide__slide.is-active {
+    transform: scale(1);
+}
+
+#cardDetailModal .splide__slide:hover {
+    transform: translateY(-4px) scale(1);
+}
+
+/* Ajustes para el contenedor de imagen en el carrusel modal */
+#cardDetailModal .splide__slide .card-image-container {
+    aspect-ratio: 3/4;
+    max-width: 200px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+    #cardDetailModal .carousel-section {
+        margin-top: 0.8rem;
+        padding: 0.6rem 0.4rem;
+    }
+    
+    #cardDetailModal .splide__slide .card-image-container {
+        max-width: 180px;
+    }
+}
+
 @media (max-width: 768px) {
-    .set-images {
-        gap: 1.5rem;
-        flex-direction: column;
+    #cardDetailModal .carousel-section {
+        margin-top: 0.6rem;
+        padding: 0.5rem 0.3rem;
     }
-
-    .set-images .logo-image {
-        max-width: 250px;
-    }
-
-    .set-images .symbol-image {
-        width: 60px;
-        height: 60px;
-    }
-
-    .set-images.symbol-only .symbol-image {
-        width: 100px;
-        height: 100px;
+    
+    #cardDetailModal .splide__slide .card-image-container {
+        max-width: 160px;
     }
 }
 
 @media (max-width: 576px) {
-    .set-images {
-        gap: 1rem;
-        padding: 1rem;
-    }
-
-    .set-images .logo-image {
-        max-width: 200px;
-    }
-
-    .set-images .symbol-image {
-        width: 50px;
-        height: 50px;
-        padding: 8px;
-    }
-
-    .set-images.symbol-only .symbol-image {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-/* Modal Set Content - Removing duplicated styles */
-.modal-set-content {
-    padding: 1.5rem;
-}
-
-.modal-set-content .set-details {
-    text-align: left;
-}
-
-.modal-set-content h3 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #333;
-}
-
-.modal-set-content .set-description {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #666;
-    margin-bottom: 1.5rem;
-}
-
-.modal-set-content .release-date {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 1rem;
-}
-
-.modal-set-content .set-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin: 1.5rem 0;
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 10px;
-}
-
-.modal-set-content .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.modal-set-content .stat-label {
-    font-size: 0.9rem;
-    color: #666;
-    font-weight: 500;
-}
-
-.modal-set-content .stat-value {
-    font-size: 1.25rem;
-    color: #333;
-    font-weight: 700;
-}
-
-.modal-set-content .serie-info {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.modal-set-content .info-label {
-    font-weight: 500;
-    color: #666;
-}
-
-.modal-set-content .info-value {
-    color: #333;
-    font-weight: 600;
-}
-
-/* Responsive adjustments for modal */
-@media (max-width: 768px) {
-    .modal-set-content .set-images {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .modal-set-content .logo-image {
-        max-width: 250px;
-    }
-
-    .modal-set-content .set-stats {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Estilos para cartas sin imagen */
-.card-image-wrapper.no-image {
-    background: linear-gradient(135deg, #2B3990 0%, #1B1464 100%);
-    border: none;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    aspect-ratio: 3/4;
-}
-
-.card-image-wrapper.no-image::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-    animation: rotate 20s linear infinite;
-}
-
-.card-image-wrapper.no-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
-.no-image-content {
-    position: relative;
-    z-index: 2;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    color: white;
-        text-align: center;
+    #cardDetailModal .carousel-section {
+        margin-top: 0.5rem;
+        padding: 0.4rem 0.2rem;
     }
     
-.pokeball-placeholder {
-    width: 120px;
-    height: 120px;
-    background: linear-gradient(135deg, #ff1a1a 50%, #f0f0f0 50%);
-    border-radius: 50%;
-    position: relative;
-    margin: 20px auto;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    animation: float 3s ease-in-out infinite;
+    #cardDetailModal .splide__slide .card-image-container {
+        max-width: 140px;
+    }
+    
+    #cardDetailModal .splide__slide {
+        padding: 0.2rem;
+    }
 }
 
-.pokeball-placeholder::before {
+.splide {
+    padding: 1rem 0;
+}
+
+.splide__track {
+    overflow: visible;
+}
+
+.splide__slide {
+    padding: 1rem;
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+/* Ajustes para slides dentro del modal */
+#cardDetailModal .splide__slide {
+    padding: 0.5rem;
+    transform: scale(0.9);
+}
+
+.splide__slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.splide__slide:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* Ajustes para slides activos dentro del modal */
+#cardDetailModal .splide__slide.is-active {
+    transform: scale(0.95);
+}
+
+#cardDetailModal .splide__slide:hover {
+    transform: translateY(-4px) scale(0.98);
+}
+
+/* Ajustes para el contenedor de imagen en el carrusel modal */
+#cardDetailModal .splide__slide .card-image-container {
+    aspect-ratio: 3/4;
+    max-width: 180px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#cardDetailModal .splide__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Splide Arrows */
+.splide__arrow {
+    background: rgba(255,255,255,0.95) !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    border-radius: 50% !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.5) !important;
+    opacity: 0.9 !important;
+}
+.splide__arrow:hover {
+    background: #fff !important;
+    opacity: 1 !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.5) !important;
+}
+.splide__arrow svg {
+    width: 1.4rem !important;
+    fill: #333 !important;
+    transition: fill 0.3s ease !important;
+}
+.splide__arrow:hover svg {
+    fill: #ffa500 !important;
+}
+
+/* Splide Pagination */
+.splide__pagination {
+    bottom: -2rem !important;
+}
+.splide__pagination__page {
+    background: rgba(0,0,0,0.15) !important;
+    width: 30px !important;
+    height: 4px !important;
+    margin: 0 4px !important;
+    border-radius: 2px !important;
+    transition: all 0.3s ease !important;
+}
+.splide__pagination__page.is-active {
+    background: linear-gradient(to right, #ffd700, #ffa500) !important;
+    transform: scaleY(1.5) !important;
+    box-shadow: 0 2px 4px rgba(255,165,0,0.3) !important;
+}
+
+/* Carousel Slide Shadows */
+.splide__slide .card-image-container {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.splide__slide:hover .card-image-container {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.1);
+}
+
+/*────────────────────────────────────────
+ 13. BANNERS
+────────────────────────────────────────*/
+.generated-banner {
+    position: relative;
+    width: 100%;
+    min-height: 200px;
+    background: linear-gradient(135deg, #2B3990, #1B1464);
+    border-radius: 20px;
+    padding: 2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 10px 20px rgba(0,0,0,0.2),
+        inset 0 2px 4px rgba(255,255,255,0.3);
+}
+.generated-banner::before,
+.generated-banner::after {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 4px;
-    background: #333;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+.generated-banner::before {
+    width: 300px; height: 300px;
+    top: -150px; right: -150px;
+}
+.generated-banner::after {
+    width: 200px; height: 200px;
+    bottom: -100px; left: -100px;
+}
+.banner-content {
+    position: relative; z-index: 1;
+    text-align: center; padding: 2rem;
+}
+.banner-title {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+.banner-decoration {
+    width: 80%; height: 2px;
+    background: rgba(255,255,255,0.3);
+    margin: 1rem auto;
+    position: relative;
+}
+.banner-decoration::before,
+.banner-decoration::after {
+    content: '';
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: white;
     top: 50%;
     transform: translateY(-50%);
 }
-
-.pokeball-placeholder::after {
+.banner-decoration::before { left: 0; }
+.banner-decoration::after  { right: 0; }
+.banner-pokeball {
+    position: absolute;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    animation: rotate 10s linear infinite;
+}
+.banner-pokeball::before {
     content: '';
     position: absolute;
-    width: 30px;
-    height: 30px;
-    background: #fff;
-    border: 4px solid #333;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 100%; height: 2px;
+    background: rgba(255,255,255,0.3);
+    top: 50%; transform: translateY(-50%);
 }
-
-.sparkle {
+.banner-pokeball::after {
+    content: '';
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 16px; height: 16px;
+    background: rgba(255,255,255,0.3);
     border-radius: 50%;
-    background: white;
-    animation: sparkle 1.5s ease-in-out infinite;
-    z-index: 3;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+.banner-pokeball.top-left {
+    top: 1rem; left: 1rem;
+    animation-direction: normal;
+}
+.banner-pokeball.bottom-right {
+    bottom: 1rem; right: 1rem;
+    animation-direction: reverse;
 }
 
-.sparkle:nth-child(1) {
-    top: 20%;
-    left: 20%;
-    animation-delay: 0s;
+/*────────────────────────────────────────
+ 14. NAVIGATION & FILTERS
+────────────────────────────────────────*/
+.cards-section {
+    margin-top: 2rem;
+}
+.cards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.cards-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #2B3990;
+}
+.cards-filters {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.search-box {
+    position: relative;
+    width: 250px;
+}
+.search-box i {
+    position: absolute;
+    left: 1rem; top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+.search-box input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 25px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+.search-box input:focus {
+    outline: none;
+    border-color: #2B3990;
+    box-shadow: 0 0 0 2px rgba(43,57,144,0.1);
+}
+.sort-select {
+    padding: 0.75rem 2rem 0.75rem 1rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 25px;
+    font-size: 0.9rem;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+}
+.sort-select:focus {
+    outline: none;
+    border-color: #2B3990;
+    box-shadow: 0 0 0 2px rgba(43,57,144,0.1);
 }
 
-.sparkle:nth-child(2) {
-    top: 30%;
-    right: 20%;
-    animation-delay: 0.3s;
+/*────────────────────────────────────────
+ 15. PAGINATIONS & BUTTONS
+────────────────────────────────────────*/
+.cards-pagination {
+    text-align: center;
+}
+#loadMoreCards {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+#loadMoreCards:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+#loadingSpinner {
+    padding: 2rem;
+}
+#errorMessage {
+    margin-top: 1rem;
 }
 
-.sparkle:nth-child(3) {
-    bottom: 20%;
-    left: 30%;
-    animation-delay: 0.6s;
+/*────────────────────────────────────────
+ 16. BOTÓN CERRAR MODAL
+────────────────────────────────────────*/
+.btn-close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 2px rgba(255,255,255,0.5);
+    border: 1px solid rgba(0,0,0,0.05);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+.btn-close:hover {
+    background-color: #ff3b3b;
+    box-shadow: 0 4px 8px rgba(255,59,59,0.3), inset 0 2px 4px rgba(255,255,255,0.2);
+    opacity: 1;
+    border-color: rgba(255,59,59,0.2);
 }
 
-.sparkle:nth-child(4) {
-    bottom: 30%;
-    right: 30%;
-    animation-delay: 0.9s;
-}
-
+/*────────────────────────────────────────
+ 17. ANIMATIONS KEYFRAMES
+────────────────────────────────────────*/
 @keyframes sparkle {
     0%, 100% {
         transform: scale(1);
@@ -890,7 +1535,6 @@
         opacity: 1;
     }
 }
-
 @keyframes rotate {
     from {
         transform: rotate(0deg);
@@ -899,7 +1543,6 @@
         transform: rotate(360deg);
     }
 }
-
 @keyframes float {
     0%, 100% {
         transform: translateY(0);
@@ -909,23 +1552,339 @@
     }
 }
 
-.no-image-badge {
-    background: linear-gradient(135deg, #ff4b4b 0%, #ff0000 100%);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    margin-top: 0.5rem;
-    display: inline-block;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: opacity 0.3s ease;
+/*────────────────────────────────────────
+ 18. RESPONSIVE GENERAL
+────────────────────────────────────────*/
+/* ≤ 1200px */
+@media (max-width: 1200px) {
+    #expansionModal .modal-body {
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+    .expansion-info-container {
+        padding: 2rem;
+    }
+    .expansion-title {
+        font-size: 2rem;
+    }
 }
+/* ≤ 992px */
+@media (max-width: 992px) {
+    #featured-cards-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        padding: 0.75rem;
+    }
+    #cardDetailModal .modal-body {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 2rem;
+        min-height: auto;
+    }
+    #cardDetailModal .card-container {
+        max-width: 60%;
+    }
+    #cardDetailModal .info-container {
+        max-width: 85%;
+        min-height: 600px;
+        padding: 2rem;
+        border-radius: 25px;
+    }
+    .card-title {
+        font-size: 1.8rem;
+    }
+    .info-row {
+        padding: 1rem;
+    }
+    .info-label {
+        width: 100px;
+    }
+    .carousel-section {
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+    }
+    .related-cards-title {
+        font-size: 1.2rem;
+        padding-left: 1.2rem;
+    }
+    .related-cards-title::before {
+        height: 20px;
+    }
+    .info-container::before {
+        height: 80px;
+    }
+    .name-section {
+        padding-bottom: 0.8rem;
+    }
+    .info-content {
+        margin-bottom: 1.2rem;
+    }
+    .rarity-badge {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+    /* Splide Arrows & Pagination respond */
+    .symbol-container {
+        max-width: 150px;
+    }
+    .symbol-image.large {
+        width: 120px;
+        height: 120px;
+    }
+    .banner-title {
+        font-size: 1.5rem;
+    }
+    /* Cards Filters */
+    .cards-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .cards-filters {
+        flex-direction: column;
+        width: 100%;
+    }
+    .search-box,
+    .sort-select {
+        width: 100%;
+    }
 
-.card-image-wrapper.no-image:hover .pokeball-placeholder {
-    opacity: 0.3;
-    transition: opacity 0.3s ease;
+    #cardDetailModal .splide__slide .card-image-container {
+        max-width: 160px;
+    }
+}
+/* ≤ 768px */
+@media (max-width: 768px) {
+    .game-card {
+        margin-bottom: 1rem;
+    }
+    .modal-body {
+        padding: 1rem;
+    }
+    .modal-game-image {
+        max-height: 300px;
+    }
+    .game-cover {
+        height: 150px;
+    }
+    .game-card .card-title {
+        font-size: 1.2rem;
+    }
+    .game-card .card-text {
+        font-size: 0.9rem;
+    }
+    .features-list,
+    .innovation-box {
+        padding: 1rem;
+    }
+    .region-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    .cards-grid .card-info {
+        opacity: 1;
+        transform: translateY(0);
+        padding: 0.4rem;
+        font-size: 0.7rem;
+    }
+    .modal-set-content .set-images {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .modal-set-content .logo-image {
+        max-width: 250px;
+    }
+    .modal-set-content .set-stats {
+        grid-template-columns: 1fr;
+    }
+    .set-images {
+        gap: 1.5rem;
+    }
+    .set-images .logo-image {
+        max-width: 250px;
+    }
+    .set-images .symbol-image {
+        width: 60px;
+        height: 60px;
+    }
+    .set-images.symbol-only .symbol-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    #cardDetailModal .carousel-section {
+        margin-top: 0.6rem;
+        padding: 0.6rem;
+    }
+
+    #cardDetailModal .splide__slide .card-image-container {
+        max-width: 140px;
+    }
+}
+/* ≤ 576px */
+@media (max-width: 576px) {
+    #featured-cards-container {
+        grid-template-columns: repeat(2,1fr);
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+    .card-info-overlay {
+        padding: 1rem 0.75rem 0.75rem;
+    }
+    .card-info-overlay h3 {
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+    }
+    .card-info-overlay p {
+        font-size: 0.75rem;
+    }
+    .btn-close {
+        top: 1rem;
+        right: 1rem;
+        width: 28px;
+        height: 28px;
+    }
+    #cardDetailModal .card-container {
+        max-width: 75%;
+    }
+    #cardDetailModal .info-container {
+        max-width: 95%;
+        min-height: 500px;
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+    .card-title {
+        font-size: 1.5rem;
+    }
+    .info-row {
+        padding: 0.6rem 0.8rem;
+        margin-bottom: 0.6rem;
+    }
+    .info-label {
+        width: 90px;
+        font-size: 0.9rem;
+    }
+    .info-value {
+        font-size: 0.9rem;
+    }
+    .carousel-section {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+    }
+    .related-cards-title {
+        font-size: 1.1rem;
+        padding-left: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .related-cards-title::before {
+        height: 16px;
+        width: 4px;
+    }
+    .info-container::before {
+        height: 60px;
+    }
+    .rarity-badge {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+    .set-info-container {
+        gap: 1rem;
+    }
+    .set-logo-view img {
+        max-height: 30px;
+    }
+    .modal-set-content .set-images {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .modal-set-content .logo-image {
+        max-width: 250px;
+    }
+    .modal-set-content .set-stats {
+        grid-template-columns: 1fr;
+    }
+    .set-images .logo-image {
+        max-width: 200px;
+    }
+    .set-images .symbol-image {
+        width: 50px;
+        height: 50px;
+        padding: 8px;
+    }
+    .set-images.symbol-only .symbol-image {
+        width: 80px;
+        height: 80px;
+    }
+    /* Keep pokeball opacity on small mobiles */
+    .card-image-wrapper.no-image .pokeball-placeholder {
+        opacity: 0.3;
+    }
+
+    #cardDetailModal .splide__slide {
+        padding: 0.3rem;
+    }
+}
+/* ≤ 400px */
+@media (max-width: 400px) {
+    #cardDetailModal .card-container {
+        max-width: 85%;
+    }
+    #cardDetailModal .info-container {
+        max-width: 100%;
+        padding: 1.2rem;
+        border-radius: 15px;
+    }
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .info-label {
+        width: 100%;
+    }
+    .set-info-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .generated-banner .banner-pokeball {
+        width: 40px;
+        height: 40px;
+    }
+}
+/* ≤ 360px */
+@media (max-width: 360px) {
+    #featured-cards-container {
+        gap: 0.5rem;
+        padding: 0.375rem;
+    }
+}
+/* ≤ 320px */
+@media (max-width: 320px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, minmax(80px, 1fr));
+        gap: 0.25rem;
+        margin: 0.3rem;
+    }
+}
+/* ≤ height 600px */
+@media (max-height: 600px) {
+    #expansionModal .modal-dialog {
+        margin: 0;
+        height: 100vh;
+    }
+    #expansionModal .modal-content {
+        height: 100vh;
+    }
+    #expansionModal .modal-body {
+        min-height: auto;
+        max-height: 100vh;
+        padding: 1rem;
+    }
+    .expansion-image-container {
+        min-height: auto;
+    }
 }

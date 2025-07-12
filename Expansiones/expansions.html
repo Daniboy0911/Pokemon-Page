@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pokémon Trading Card Game - Explora todas las expansiones">
+    <title>Expansiones - Pokémon TCG</title>
+    <!-- Preload important assets -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" as="style">
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="../global.css" rel="stylesheet">
+    <link href="expansions.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3">
+        <nav class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="../HomePage/index.html" aria-label="Pokemon TCG Home">
+                <img src="../assets/img/icons/pokemon-trading-card-game-seeklogo-2.svg" alt="Pokemon TCG Logo" width="150" height="70">
+            </a>
+
+            <!-- Hamburger menu for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation items -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav me-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../HomePage/index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../HomePage/index.html#featured-cards">Cartas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" aria-current="page">Expansiones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Rules/rules.html">Reglas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../aboutus/aboutus.html">Sobre Nosotros</a>
+                    </li>
+                </ul>
+                <!-- Profile Icon -->
+                <div class="profile-icon">
+                    <a href="#" class="text-light" aria-label="Perfil de usuario">
+                        <i class="bi bi-person-circle fs-3"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">EXPANSIONES POKÉMON TCG</h1>
+                    <p class="hero-description">
+                        Explora todas las expansiones del Pokémon Trading Card Game. Desde las clásicas hasta las más recientes, 
+                        descubre la historia completa del juego de cartas coleccionables más popular del mundo.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalExpansions">0</span>
+                            <span class="stat-label">Expansiones</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalCards">0</span>
+                            <span class="stat-label">Cartas Totales</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="container">
+                <div class="filters-content">
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar expansiones...">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="sortFilter" class="filter-select">
+                            <option value="name">Ordenar por nombre</option>
+                            <option value="date">Ordenar por fecha</option>
+                            <option value="cards">Ordenar por cartas</option>
+                        </select>
+                        <button id="refreshBtn" class="btn btn-dark">
+                            <i class="bi bi-shuffle me-2"></i>Actualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expansions Grid -->
+        <section class="expansions-section">
+            <div class="container">
+                <div class="grid" id="expansionsGrid">
+                    <!-- Expansions will be loaded here -->
+                </div>
+                <div id="loadingSpinner" class="loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+                <div id="errorMessage" class="error-message" style="display: none;">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <p>Error al cargar las expansiones. Por favor, intenta de nuevo.</p>
+                    <button class="btn btn-outline-danger" onclick="loadExpansions()">Reintentar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Expansion Modal -->
+    <div class="modal fade" id="expansionModal" tabindex="-1" aria-labelledby="expansionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="expansion-container">
+                        <div id="modalExpansionImage" class="expansion-image-container">
+                            <!-- Expansion logo and symbol will be loaded here -->
+                        </div>
+                        <div class="expansion-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Cartas Oficiales</div>
+                                <div id="modalExpansionCardCount" class="stat-value"></div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Cartas Totales</div>
+                                <div id="modalExpansionTotalCount" class="stat-value"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expansion-info-container">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        <div class="info-header">
+                            <div class="name-section">
+                                <h3 id="modalExpansionName" class="expansion-title"></h3>
+                                <div class="expansion-series" id="modalExpansionSeries"></div>
+                                <div class="expansion-date" id="modalExpansionReleaseDate"></div>
+                            </div>
+                        </div>
+
+                        <div class="info-content">
+                            <div class="info-row">
+                                <div class="info-label">Descripción</div>
+                                <div id="modalExpansionDescription" class="info-value"></div>
+                            </div>
+                        </div>
+
+                        <div class="cards-section">
+                            <div class="cards-header">
+                                <h4 class="cards-title">Cartas de la Expansión</h4>
+                                <div class="cards-filters">
+                                    <div class="search-box">
+                                        <i class="bi bi-search"></i>
+                                        <input type="text" id="cardSearchInput" placeholder="Buscar cartas...">
+                                    </div>
+                                    <select id="cardSortSelect" class="sort-select">
+                                        <option value="number">Por Número</option>
+                                        <option value="name">Por Nombre</option>
+                                        <option value="rarity">Por Rareza</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="expansionCardsList" class="cards-grid">
+                                <!-- Cards will be loaded here -->
+                            </div>
+                            <div class="cards-pagination">
+                                <button id="loadMoreCards" class="btn btn-outline-dark">
+                                    Cargar más cartas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="../assets/img/icons/pokemon-trading-card-game-seeklogo-2.svg" 
+                         alt="Pokemon TCG Logo" class="footer-logo">
+                    <p class="footer-description">
+                        Explora el mundo del Pokémon Trading Card Game. Descubre cartas, expansiones y todo lo relacionado con el juego de cartas coleccionables más popular del mundo.
+                    </p>
+                </div>
+                
+                <div class="footer-social">
+                    <h4>Síguenos en redes sociales</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/PokemonTCG" target="_blank" rel="noopener" class="social-link facebook">
+                            <i class="bi bi-facebook"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://twitter.com/PokemonTCG" target="_blank" rel="noopener" class="social-link twitter">
+                            <i class="bi bi-twitter-x"></i>
+                            <span>Twitter/X</span>
+                        </a>
+                        <a href="https://www.instagram.com/pokemontcg/" target="_blank" rel="noopener" class="social-link instagram">
+                            <i class="bi bi-instagram"></i> 
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.youtube.com/c/PokemonTCG" target="_blank" rel="noopener" class="social-link youtube">
+                            <i class="bi bi-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                        <a href="https://www.twitch.tv/pokemon" target="_blank" rel="noopener" class="social-link twitch">
+                            <i class="bi bi-twitch"></i>
+                            <span>Twitch</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@pokemontcg" target="_blank" rel="noopener" class="social-link tiktok">
+                            <i class="bi bi-tiktok"></i>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Enlaces útiles</h4>
+                    <ul class="footer-menu">
+                        <li><a href="https://www.pokemon.com/es/tcg/" target="_blank" rel="noopener">Sitio oficial TCG</a></li>
+                        <li><a href="https://www.pokemon.com/es/tcg/play-online/" target="_blank" rel="noopener">Jugar online</a></li>
+                        <li><a href="https://www.pokemon.com/es/play-pokemon" target="_blank" rel="noopener">Eventos</a></li>
+                        <li><a href="https://www.pokemon.com/es" target="_blank" rel="noopener">Reglas del juego</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2025 Pokémon. Pokémon, Pokémon TCG y todos los nombres relacionados son marcas registradas de Nintendo y Game Freak Inc.</p>
+                </div>
+                <div class="footer-credits">
+                    <p>Desarrollado con ❤️ para la comunidad Pokémon</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="expansions.js"></script>
+</body>
+
+</html>

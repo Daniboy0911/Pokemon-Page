@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reglas completas del Pokémon Trading Card Game">
+    <title>Reglas - Pokémon TCG</title>
+    <!-- Preload important assets -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" as="style">
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="rules.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3">
+        <nav class="container-fluid">
+            <a class="navbar-brand" href="../HomePage/index.html" aria-label="Pokemon TCG Home">
+                <img src="/assets/img/icons/pokemon-trading-card-game-seeklogo-2.svg" alt="Pokemon TCG Logo" width="150" height="70">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav me-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../HomePage/index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../HomePage/index.html#featured-cards">Cartas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../HomePage/index.html#expansions">Expansiones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" aria-current="page">Reglas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../aboutus/aboutus.html">Sobre Nosotros</a>
+                    </li>
+                </ul>
+                <div class="profile-icon">
+                    <a href="#" class="text-light" aria-label="Perfil de usuario">
+                        <i class="bi bi-person-circle fs-3"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section" style="padding: 3rem 0 2rem 0;">
+            <div class="container">
+                <div class="hero-content" style="max-width: 900px; margin: 0 auto;">
+                    <h1 class="hero-title">REGLAS COMPLETAS DEL JUEGO DE CARTAS POKÉMON TCG</h1>
+                    <p class="hero-description">
+                        Aprende a jugar al Pokémon Trading Card Game (TCG) con esta guía completa de reglas. Desde lo más básico hasta estrategias avanzadas, ¡conviértete en un Maestro Pokémon!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="rules-main-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="rules-section p-4 rounded-4 shadow-sm bg-white">
+                            <h2 class="mb-4 section-title">¿Cómo se juega?</h2>
+                            <ol class="mb-4 rules-list">
+                                <li><strong>Preparación:</strong> Cada jugador necesita una baraja de 60 cartas. Baraja tu mazo y roba 7 cartas. Coloca 1 Pokémon Básico como tu Pokémon Activo y hasta 5 en la Banca. Pon 6 cartas boca abajo como tus Premios.</li>
+                                <li><strong>Turnos:</strong> Los jugadores se turnan. Cada turno tiene fases: Robar carta, Fase de Banca, Fase de Ataque y Fin de turno.</li>
+                                <li><strong>Jugar cartas:</strong> Puedes bajar Pokémon a la Banca, unir cartas de Energía, evolucionar Pokémon, jugar cartas de Entrenador y usar habilidades.</li>
+                                <li><strong>Atacar:</strong> El Pokémon Activo puede atacar si tiene la Energía necesaria. Elige un ataque, resuelve el daño y efectos, y termina tu turno.</li>
+                                <li><strong>Ganar el juego:</strong> Ganas si tomas tus 6 cartas Premio, si el rival no tiene Pokémon en juego, o si tu oponente no puede robar carta al inicio de su turno.</li>
+                            </ol>
+                            <h3 class="mt-4 mb-3">Tipos de cartas</h3>
+                            <ul class="rules-list">
+                                <li><strong>Pokémon:</strong> Los protagonistas del juego. Pueden evolucionar y atacar.</li>
+                                <li><strong>Energía:</strong> Necesarias para que los Pokémon puedan atacar.</li>
+                                <li><strong>Entrenador:</strong> Cartas de apoyo, objetos, partidarios y estadios que ayudan en la estrategia.</li>
+                            </ul>
+                            <h3 class="mt-4 mb-3">Fases del turno</h3>
+                            <ul class="rules-list">
+                                <li><strong>Roba una carta</strong> al inicio de tu turno.</li>
+                                <li><strong>Juega Pokémon</strong> en la Banca (máximo 5).</li>
+                                <li><strong>Une Energía</strong> (una por turno, salvo efectos).</li>
+                                <li><strong>Evoluciona Pokémon</strong> si tienes la carta correspondiente.</li>
+                                <li><strong>Juega cartas de Entrenador</strong> y usa habilidades.</li>
+                                <li><strong>Ataca</strong> con tu Pokémon Activo.</li>
+                            </ul>
+                            <h3 class="mt-4 mb-3">Condiciones de victoria</h3>
+                            <ul class="rules-list">
+                                <li>Robar tus 6 cartas Premio.</li>
+                                <li>Dejar al rival sin Pokémon en juego.</li>
+                                <li>Que el rival no pueda robar carta al inicio de su turno.</li>
+                            </ul>
+                            <h3 class="mt-4 mb-3">Reglas avanzadas y consejos</h3>
+                            <ul class="rules-list">
+                                <li><strong>Efectos especiales:</strong> Algunas cartas pueden dormir, paralizar, envenenar o quemar a los Pokémon. Consulta la carta para ver el efecto y cómo resolverlo.</li>
+                                <li><strong>Retirada:</strong> Puedes retirar a tu Pokémon Activo pagando el coste de retirada con Energías unidas.</li>
+                                <li><strong>Debilidad y Resistencia:</strong> Algunos Pokémon reciben más o menos daño de ciertos tipos. Consulta la carta para ver debilidades y resistencias.</li>
+                                <li><strong>Cartas GX, V, EX, etc.:</strong> Estas cartas tienen reglas especiales, como dar más Premios al ser derrotadas.</li>
+                                <li><strong>Entre turnos:</strong> Aplica efectos de estados especiales y otros efectos continuos.</li>
+                                <li><strong>Baraja agotada:</strong> Si no puedes robar carta al inicio de tu turno, pierdes la partida.</li>
+                            </ul>
+                            <div class="mt-5 text-center">
+                                <a href="https://www.pokemon.com/es/tcg/rules/" target="_blank" class="btn btn-dark btn-lg">
+                                    Ver reglas oficiales completas <i class="bi bi-box-arrow-up-right ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/assets/img/icons/pokemon-trading-card-game-seeklogo-2.svg" 
+                         alt="Pokemon TCG Logo" class="footer-logo">
+                    <p class="footer-description">
+                        Explora el mundo del Pokémon Trading Card Game. Descubre cartas, expansiones y todo lo relacionado con el juego de cartas coleccionables más popular del mundo.
+                    </p>
+                </div>
+                <div class="footer-social">
+                    <h4>Síguenos en redes sociales</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/PokemonTCG" target="_blank" rel="noopener" class="social-link facebook">
+                            <i class="bi bi-facebook"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://twitter.com/PokemonTCG" target="_blank" rel="noopener" class="social-link twitter">
+                            <i class="bi bi-twitter-x"></i>
+                            <span>Twitter/X</span>
+                        </a>
+                        <a href="https://www.instagram.com/pokemontcg/" target="_blank" rel="noopener" class="social-link instagram">
+                            <i class="bi bi-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.youtube.com/c/PokemonTCG" target="_blank" rel="noopener" class="social-link youtube">
+                            <i class="bi bi-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                        <a href="https://www.twitch.tv/pokemon" target="_blank" rel="noopener" class="social-link twitch">
+                            <i class="bi bi-twitch"></i>
+                            <span>Twitch</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@pokemontcg" target="_blank" rel="noopener" class="social-link tiktok">
+                            <i class="bi bi-tiktok"></i>
+                            <span>TikTok</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Enlaces útiles</h4>
+                    <ul class="footer-menu">
+                        <li><a href="https://www.pokemon.com/es/tcg/" target="_blank" rel="noopener">Sitio oficial TCG</a></li>
+                        <li><a href="https://www.pokemon.com/es/tcg/play-online/" target="_blank" rel="noopener">Jugar online</a></li>
+                        <li><a href="https://www.pokemon.com/es/play-pokemon" target="_blank" rel="noopener">Eventos</a></li>
+                        <li><a href="https://www.pokemon.com/es" target="_blank" rel="noopener">Reglas del juego</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2024 Pokémon. Pokémon, Pokémon TCG y todos los nombres relacionados son marcas registradas de Nintendo y Game Freak Inc.</p>
+                </div>
+                <div class="footer-credits">
+                    <p>Desarrollado con ❤️ para la comunidad Pokémon</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
