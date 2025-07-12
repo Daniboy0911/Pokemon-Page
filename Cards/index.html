@@ -65,23 +65,42 @@
         <!-- Cards Section -->
         <section class="cards-section py-5">
             <div class="container">
-                <!-- Filters and Search -->
-                <div class="cards-header mb-4">
+                <!-- Filter Section -->
+                <div class="cards-header container">
                     <div class="search-box">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar cartas...">
-                        <i class="bi bi-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar cartas...">
+                        <i class="fas fa-search"></i>
                     </div>
-                    <div class="cards-filters">
-                        <select id="sortSelect" class="sort-select">
-                            <option value="name">Nombre</option>
-                            <option value="number">Número</option>
-                            <option value="rarity">Rareza</option>
-                            <option value="set">Expansión</option>
+                    <div class="filters">
+                        <select id="nameSort" class="form-select">
+                            <option value="">Ordenar por nombre</option>
+                            <option value="asc">A-Z</option>
+                            <option value="desc">Z-A</option>
                         </select>
-                        <button id="filterButton" class="btn btn-dark">
-                            <i class="bi bi-funnel"></i>
-                            Filtros
-                        </button>
+                        <select id="rarityFilter" class="form-select">
+                            <option value="">Todas las rarezas</option>
+                            <option value="Common">Común</option>
+                            <option value="Uncommon">Poco común</option>
+                            <option value="Rare">Rara</option>
+                            <option value="Rare Holo">Rara Holo</option>
+                            <option value="Rare Ultra">Ultra Rara</option>
+                            <option value="Rare Secret">Secreta Rara</option>
+                            <option value="Promo">Promo</option>
+                        </select>
+                        <select id="typeFilter" class="form-select">
+                            <option value="">Todos los tipos</option>
+                            <option value="Colorless">Incoloro</option>
+                            <option value="Darkness">Siniestro</option>
+                            <option value="Dragon">Dragón</option>
+                            <option value="Fairy">Hada</option>
+                            <option value="Fighting">Lucha</option>
+                            <option value="Fire">Fuego</option>
+                            <option value="Grass">Planta</option>
+                            <option value="Lightning">Eléctrico</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Psychic">Psíquico</option>
+                            <option value="Water">Agua</option>
+                        </select>
                     </div>
                 </div>
 
@@ -105,45 +124,44 @@
         aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <div class="modal-body">
                     <div class="card-container">
-                        <div class="card-image-container">
-                            <div id="modalCardImage"></div>
-                        </div>
-                        <div class="info-container">
-                            <div class="name-section">
-                                <h2 id="modalCardName" class="card-title"></h2>
-                                <span id="modalCardId" class="card-number"></span>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-row">
-                                    <span class="info-label">Número</span>
-                                    <span id="modalCardNumber" class="info-value"></span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-label">Rareza</span>
-                                    <span id="modalCardRarity" class="info-value"></span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-label">Ilustrador</span>
-                                    <span id="modalCardArtist" class="info-value"></span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-label">Expansión</span>
-                                    <div id="modalSetInfo" class="info-value"></div>
-                                </div>
-                            </div>
+                        <div id="modalCardImage" class="card-image-container">
+                            <!-- Card image will be loaded here -->
                         </div>
                     </div>
-                    <div class="carousel-section">
-                        <h3 class="related-cards-title">Otras versiones de esta carta</h3>
-                        <div class="splide">
-                            <div class="splide__track">
-                                <div class="splide__list">
-                                    <!-- Related cards will be loaded here -->
+                    <div class="info-container">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        <div class="info-header">
+                            <div class="name-section">
+                                <h3 id="modalCardName" class="card-title"></h3>
+                                <div class="card-number">Carta <span id="modalCardNumber"></span></div>
+                                <span id="modalCardRarity" class="rarity-badge"></span>
+                            </div>
+                        </div>
+
+                        <div class="info-content">
+                            <div class="info-row">
+                                <div class="info-label">Ilustrador</div>
+                                <div id="modalCardArtist" class="info-value"></div>
+                            </div>
+
+                            <div class="info-row">
+                                <div class="info-label">Expansión</div>
+                                <div id="modalSetInfo" class="info-value set-info-container">
+                                    <!-- Set info will be dynamically loaded here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-section">
+                            <h4 class="related-cards-title">Cartas relacionadas</h4>
+                            <div class="splide" id="relatedCardsCarousel">
+                                <div class="splide__track">
+                                    <div class="splide__list">
+                                        <!-- Related cards will be loaded here -->
+                                    </div>
                                 </div>
                             </div>
                         </div>

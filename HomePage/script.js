@@ -408,7 +408,7 @@ async function loadRelatedCards(cardId) {
 
         // Ajustar el número de cartas mostradas según la cantidad disponible
         const totalCards = relatedCards.length;
-
+        
         // Configuración del carrusel
         window.relatedCardsSlider = new Splide('#relatedCardsCarousel', {
             perPage: 4,
